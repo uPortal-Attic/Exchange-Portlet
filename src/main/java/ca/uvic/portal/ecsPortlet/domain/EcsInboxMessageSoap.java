@@ -5,7 +5,7 @@ package ca.uvic.portal.ecsPortlet.domain;
 
 /**
  * @author Charles Frank
- * @version $svn:Id$
+ * @version svn:$Id$
  *
  */
 public final class EcsInboxMessageSoap extends EcsRemoteSoapCall {

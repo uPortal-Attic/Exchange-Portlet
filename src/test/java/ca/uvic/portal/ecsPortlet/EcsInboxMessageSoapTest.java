@@ -8,7 +8,7 @@ import ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap;
 
 /**
  * @author Charles Frank
- * @version $svn:Id$
+ * @version svn:$Id$
  *
  */
 public class EcsInboxMessageSoapTest extends TestCase {

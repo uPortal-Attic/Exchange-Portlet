@@ -1,0 +1,205 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ca.uvic.portal</groupId>
+  <artifactId>ecsPortlet</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>${pom.artifactId}</name>
+  <description>This is a starter spring portlet mvc shell for JSR-168 Portlets, developed at the University of Victoria.</description>
+  <!-- Dependency Version Properties -->
+  <properties>
+        <portlet-api-version>1.0</portlet-api-version>
+        <servlet-api-version>2.4</servlet-api-version>
+        <spring-version>2.5.5</spring-version>
+        <pluto-version>1.1.5</pluto-version>
+        <jstl-version>1.1.2</jstl-version>
+        <commons-io-version>1.4</commons-io-version>
+        <commons-fileupload-version>1.2.1</commons-fileupload-version>
+        <log4j-version>1.2.14</log4j-version>
+        <junit-version>3.8.1</junit-version>
+        <commons-logging-version>1.1</commons-logging-version>
+        <commons-codec-version>1.2</commons-codec-version>
+        <commons-httpclient-version>3.1</commons-httpclient-version>
+        <commons-digester-version>1.8.1</commons-digester-version>
+
+  </properties>
+  <dependencies>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec-version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>${commons-httpclient-version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>portlet-api</groupId>
+            <artifactId>portlet-api</artifactId>
+            <version>${portlet-api-version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${servlet-api-version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pluto</groupId>
+            <artifactId>pluto-util</artifactId>
+            <version>${pluto-version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>${jstl-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>${commons-logging-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons-fileupload-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc-portlet</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+        	<groupId>commons-digester</groupId>
+        	<artifactId>commons-digester</artifactId>
+        	<version>${commons-digester-version}</version>
+        </dependency>
+
+  </dependencies>
+
+  <!-- produce javadoc and provide coding standard -->
+  <reporting>
+      <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-checkstyle-plugin</artifactId>
+          </plugin>
+      </plugins>
+  </reporting>
+
+  <build>
+        <finalName>${pom.name}</finalName>
+
+        <plugins>
+
+            <!-- configure to use Java 5 to compile -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+
+            <!-- for testing purposes, runs unit tests -->
+            <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-surefire-plugin</artifactId>
+                 <configuration>
+                     <workingDirectory>src/main/webapp</workingDirectory>
+                 </configuration>
+            </plugin>
+
+            <!-- configure maven-war-plugin to use updated web.xml -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+            </plugin>
+
+            <!-- configure cargo to config_for/deploy_to/start tomcat5 -->
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <configuration>
+                    <container>
+                        <containerId>tomcat5x</containerId>
+                        <type>remote</type>
+                    </container>
+                    <configuration>
+                        <type>runtime</type>
+                        <properties>
+                            <cargo.tomcat.manager.url>http://localhost:8080/manager</cargo.tomcat.manager.url>
+                            <cargo.remote.username>pluto</cargo.remote.username>
+                            <cargo.remote.password>pluto</cargo.remote.password>
+                        </properties>
+                    </configuration>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+
+  </build>
+
+</project>

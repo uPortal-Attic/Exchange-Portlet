@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+    <!-- Reused Portlet -->
+    <bean id="ecsPortlet" class="org.springframework.web.portlet.mvc.PortletWrappingController">
+        <property name="portletClass">
+            <value>ca.uvic.portal.ecsPortlet.portlet.EcsPortlet</value>
+        </property>
+        <property name="useSharedPortletConfig">
+            <value>false</value>
+        </property>
+        <property name="portletName">
+            <value>ecsPortlet</value>
+        </property>
+        <property name="initParameters">
+            <props>
+                <prop key="HarryPotter">The magic property</prop>
+                <prop key="JerrySeinfeld">The funny property</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Alternate method to reuse portlet - simpler, but no ability to rename or set init parameters
+    <bean id="simplePortletHandlerAdapter" class="org.springframework.web.portlet.handler.SimplePortletHandlerAdapter"/>
+    <bean id="simplePortletPostProcessor" class="org.springframework.web.portlet.handler.SimplePortletPostProcessor"/>
+    <bean id="helloWorldPortlet" class="org.springframework.web.portlet.sample.HelloWorldPortlet"/>
+    -->
+
+    <!-- Handler Mapping -->
+    <bean id="portletModeHandlerMapping" class="org.springframework.web.portlet.handler.PortletModeHandlerMapping">
+        <property name="portletModeMap">
+            <map>
+                <entry key="view"><ref bean="ecsPortlet"/></entry>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Exceptions Handler -->
+    <bean id="defaultExceptionHandler" parent="defaultExceptionHandlerTemplate"/>
+
+    <bean id="ecsSoap" class="ca.uvic.portal.ecsPortlet.portlet.domain.EcsSoap">
+        <property name="exchangeURL" value="https://mail.uvic.ca/ews/Exchange.asmx"/>
+    </bean>
+</beans>

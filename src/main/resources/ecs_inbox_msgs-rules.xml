@@ -1,0 +1,21 @@
+<digester-rules>
+  <pattern value="*/RootFolder/Items/Message">
+    <object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.InboxMessage"/>
+    <set-next-rule methodname="addExchangeObject"/>
+    <pattern value="ItemId">
+       <set-properties-rule>
+          <alias attr-name="Id" prop-name="id" />
+       </set-properties-rule>
+	 </pattern>
+    <bean-property-setter-rule pattern="Subject" propertyname="subject"/>
+    <bean-property-setter-rule pattern="Sensitivity" propertyname="sensitivity"/>
+    <bean-property-setter-rule pattern="Size" propertyname="size"/>
+    <bean-property-setter-rule pattern="HasAttachments" propertyname="hasAttachments"/>
+    <bean-property-setter-rule pattern="IsRead" propertyname="isRead"/>
+    <bean-property-setter-rule pattern="DateTimeSent" propertyname="dateTimeSent"/>
+    <bean-property-setter-rule pattern="DateTimeCreated" propertyname="dateTimeCreated"/>
+    <pattern value="From/Mailbox">
+        <bean-property-setter-rule pattern="Name" propertyname="fromMailboxName"/>
+    </pattern>
+  </pattern>
+</digester-rules>

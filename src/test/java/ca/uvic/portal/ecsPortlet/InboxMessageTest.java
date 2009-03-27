@@ -14,41 +14,39 @@ import java.util.Properties;
 import java.io.IOException;
 
 /**
- * Unit test for simple App.
+ * Unit testing for InboxMessage.
  */
-public class InboxMessageTest
-    extends TestCase
-{
+public class InboxMessageTest extends TestCase {
+
     /**
-     * Create the test case
-     *
+     * private Set the messageLimit.
+     */
+    private static final int MSGLIMIT = 10;
+    /**
+     * Create the test case.
      * @param testName name of the test case
      */
-    public InboxMessageTest( String testName )
-    {
-        super( testName );
+    public InboxMessageTest(final String testName) {
+        super(testName);
     }
 
     /**
      * @return the suite of tests being tested
      */
-    public static Test suite()
-    {
-        return new TestSuite( InboxMessageTest.class );
+    public static Test suite() {
+        return new TestSuite(InboxMessageTest.class);
     }
-    
 
     /**
-     * Rigourous Test :-)
+     * Test the getter methods for the domain class.
      */
-    public void testInboxMessage()
-    {
+    public final void testInboxMessage() {
 
         Properties prop = new Properties();
         try {
             prop.load(getClass().getResourceAsStream("/ecs.test.properties"));
         } catch (IOException e) {
-           e.printStackTrace(); 
+           e.printStackTrace();
         }
 
         String user   = prop.getProperty("ecs.test.user");
@@ -56,22 +54,22 @@ public class InboxMessageTest
         String domain = prop.getProperty("ecs.test.domain");
         String url    = prop.getProperty("ecs.test.url");
 
-        //For injection - with message limit 10 
-        EcsInboxMessageSoap inboxSoap = new EcsInboxMessageSoap(10);
+        //For injection - with message limit 10
+        EcsInboxMessageSoap inboxSoap = new EcsInboxMessageSoap(MSGLIMIT);
 
         //Handle properties usually injected via Spring
         //Exchange url, soap file for call to soap server/user/pass/domain,
         //EcsRemoteSoapCall type, digester rules in this constructor.
-        EcsSoap soap = new EcsSoap( url, user, pass, domain, inboxSoap,
+        EcsSoap soap = new EcsSoap(url, user, pass, domain, inboxSoap,
             "/ecs_inbox_msgs-rules.xml");
         try {
             soap.queryExchange();
-        } catch(Exception e){
+        } catch (Exception e) {
             assertNull("Got error " + e, e);
         }
-        ConcurrentLinkedQueue <Object> messages = soap.getExchangeObjects();
-        Iterator <Object> exchangeIterator = messages.iterator();
-        assertNotNull("received messages back", exchangeIterator.hasNext()); 
+        ConcurrentLinkedQueue < Object > messages = soap.getExchangeObjects();
+        Iterator < Object > exchangeIterator = messages.iterator();
+        assertNotNull("received messages back", exchangeIterator.hasNext());
         InboxMessage message = (InboxMessage) messages.iterator().next();
         System.out.println(message.getSubject());
         System.out.println(message.getDateTimeCreated("yyyy-MM-dd"));
@@ -82,8 +80,10 @@ public class InboxMessageTest
         assertNotNull("got hasAttachments", message.getHasAttachments());
         assertNotNull("got isRead", message.getIsRead());
         assertNotNull("got fromMailboxName", message.getFromMailboxName());
-        assertNotNull("got dateTimeSent", message.getDateTimeSent("yyyy-MM-dd"));
-        assertNotNull("got dateTimeSent", message.getDateTimeCreated("yyyy-MM-dd"));
+        assertNotNull("got dateTimeSent",
+                message.getDateTimeSent("yyyy-MM-dd"));
+        assertNotNull("got dateTimeSent",
+                message.getDateTimeCreated("yyyy-MM-dd"));
     }
 
 }

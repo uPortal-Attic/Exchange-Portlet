@@ -1,49 +1,56 @@
-/**
- * 
- */
 package ca.uvic.portal.ecsPortlet;
 
 import junit.framework.TestCase;
 import ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap;
 
 /**
+ * Unit test for EcsInboxMessageSoap.
  * @author Charles Frank
  * @version svn:$Id$
- *
  */
 public class EcsInboxMessageSoapTest extends TestCase {
-    
 
     /**
-     * @param name
+     * private messageSoap hold the object.
      */
-    public EcsInboxMessageSoapTest(String name) {
+    private EcsInboxMessageSoap messageSoap;
+
+    /**
+     * Create the test case.
+     * @param name the name of the test to run.
+     */
+    public EcsInboxMessageSoapTest(final String name) {
         super(name);
     }
 
-    protected EcsInboxMessageSoap messageSoap;
-    protected String lineEnding;
     /* (non-Javadoc)
      * @see junit.framework.TestCase#setUp()
      */
-    protected void setUp() throws Exception {
+    protected final void setUp() throws Exception {
         super.setUp();
         messageSoap = new EcsInboxMessageSoap(10);
-        lineEnding  = messageSoap.getLineEnding();
     }
 
     /* (non-Javadoc)
      * @see junit.framework.TestCase#tearDown()
      */
-    protected void tearDown() throws Exception {
+    protected final void tearDown() throws Exception {
         super.tearDown();
     }
 
     /**
-     * Test method for {@link ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap#getSoapCall()}.
+     * Test method
+     * {@link ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap#getSoapCall()}.
      */
-    public void testGetSoapCall() {
+    public final void testGetSoapCall() {
         assertNotNull("getSoapCall()", messageSoap.getSoapCall());
+    }
+    /**
+     * Test method
+     * {@link ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap#getLineEnding()}.
+     */
+    public final void testGetLineEnding() {
+        assertEquals("\r\n", messageSoap.getLineEnding());
     }
 
 }

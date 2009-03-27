@@ -64,8 +64,8 @@ public class EcsSoap {
      * @param password the exchange user password
      * @param domain the exchange domain
      * @param soapCall the EcsRemoteCall soapCall type
-     * @param digesterFile the Digester rule file for mapping soap response to
-     *  an object
+     * @param digesterFile the Digester rule file for mapping the soap response
+     * to an object
      */
     public EcsSoap(final String url,
                    final String user,

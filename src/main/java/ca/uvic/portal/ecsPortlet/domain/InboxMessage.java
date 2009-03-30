@@ -1,6 +1,3 @@
-/**
- * A domain class for Exchange Channel Inbox Messages
- */
 package ca.uvic.portal.ecsPortlet.domain;
 
 import java.util.Date;
@@ -8,145 +5,186 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 /**
+ * A Domain class for Exchange Channel Inbox Messages. This class works closely
+ * with a Digester file that parses a soap response envelope into this 
+ * domain object.
  * @author Charles Frank
- * @version $svn:Id$
+ * @version svn:$Id$
  *
  */
 public class InboxMessage {
 
-    public String id;
-    public String subject;
-    public String sensitivity;
-    public int size;
-    public Date dateTimeCreated;
-    public Date dateTimeSent;
-    public Boolean hasAttachments;
-    public String fromMailboxName;
-    public Boolean isRead;
-    public static final String SOAPDATEFORMAT = "yyyy-MM-dd'T'HH:mm:ss";
-    
-    
-    public InboxMessage() {}
-    
-    public String toString() {
+    /**
+     * private message id.
+     */
+    private String id;
+    /**
+     * private message subject.
+     */
+    private String subject;
+    /**
+     * private message sensitivity.
+     */
+    private String sensitivity;
+    /**
+     * private message size.
+     */
+    private int size;
+    /**
+     * private message date time created.
+     */
+    private Date dateTimeCreated;
+    /**
+     * private message date time sent.
+     */
+    private Date dateTimeSent;
+    /**
+     * private message has attachments.
+     */
+    private Boolean hasAttachments;
+    /**
+     * private message from has attachments flag.
+     */
+    private String fromMailboxName;
+    /**
+     * private message is read flag.
+     */
+    private Boolean isRead;
+    /**
+     * private soap date format receiving from exchange server.
+     */
+    private static final String SOAPDATEFORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+
+    /**
+     * Constructor default.
+     */
+    public InboxMessage() { }
+
+    /*
+     * @return Subject as default toString output.
+    public final String toString() {
         return "Subject: " + subject;
     }
-    
+     */
     /**
      * @return the id
      */
-    public String getId() {
+    public final String getId() {
         return id;
     }
     /**
-     * @param id the id to set
+     * @param msgId the id to set
      */
-    public void setId(String id) {
-        this.id = id;
+    public final void setId(final String msgId) {
+        this.id = msgId;
     }
     /**
      * @return the subject
      */
-    public String getSubject() {
+    public final String getSubject() {
         return subject;
     }
     /**
-     * @param subject the subject to set
+     * @param msgSubject the subject to set
      */
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public final void setSubject(final String msgSubject) {
+        this.subject = msgSubject;
     }
     /**
      * @return the sensitivity
      */
-    public String getSensitivity() {
+    public final String getSensitivity() {
         return sensitivity;
     }
     /**
-     * @param sensitivity the sensitivity to set
+     * @param msgSensitivity the sensitivity to set
      */
-    public void setSensitivity(String sensitivity) {
-        this.sensitivity = sensitivity;
+    public final void setSensitivity(final String msgSensitivity) {
+        this.sensitivity = msgSensitivity;
     }
     /**
      * @return the size
      */
-    public int getSize() {
+    public final int getSize() {
         return size;
     }
     /**
-     * @param size the size to set
+     * @param msgSize the size to set
      */
-    public void setSize(int size) {
-        this.size = size;
+    public final void setSize(final int msgSize) {
+        this.size = msgSize;
     }
     /**
-     * @param A string in the format required by SimpleDateFormat
+     * @param format a string in the format required by SimpleDateFormat
      * @return the SimpleDateFormat manipulated string
      */
-    public String getDateTimeSent(String format) {
+    public final String getDateTimeSent(final String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(this.dateTimeSent);
     }
     /**
-     * @param dateTimeSent string to create a Date object with 
+     * @param timeSent string to create a Date object with
+     * @throws ParseException a parse exception
      */
-    public void setDateTimeSent(String timeSent) throws ParseException {
+    public final void setDateTimeSent(final String timeSent)
+        throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(SOAPDATEFORMAT);
         Date messageDate = sdf.parse(timeSent);
         this.dateTimeSent = messageDate;
     }
     /**
-     * @param A string in the format required by SimpleDateFormat
+     * @param format a string in the format required by SimpleDateFormat
      * @return the SimpleDateFormat manipulated string
      */
-    public String getDateTimeCreated(String format) {
+    public final String getDateTimeCreated(final String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(this.dateTimeCreated);
     }
     /**
-     * @param dateTimeCreated string to create Date object with
+     * @param timeCreated string to create Date object with
+     * @throws ParseException a parse exception
      */
-    public void setDateTimeCreated(String timeCreated) throws ParseException {
+    public final void setDateTimeCreated(final String timeCreated)
+        throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(SOAPDATEFORMAT);
         Date createdDate = sdf.parse(timeCreated);
         this.dateTimeCreated = createdDate;
     }
     /**
-     * @return the hasAttachements
+     * @return the attachements flag
      */
-    public Boolean getHasAttachments() {
+    public final Boolean getHasAttachments() {
         return hasAttachments;
     }
     /**
-     * @param hasAttachements the hasAttachements to set
+     * @param attachments the attachements flag to set
      */
-    public void setHasAttachments(Boolean hasAttachments) {
-        this.hasAttachments = hasAttachments;
+    public final void setHasAttachments(final Boolean attachments) {
+        this.hasAttachments = attachments;
     }
     /**
      * @return the fromMailboxName
      */
-    public String getFromMailboxName() {
+    public final String getFromMailboxName() {
         return fromMailboxName;
     }
     /**
-     * @param fromMailboxName the fromMailboxName to set
+     * @param fromMboxName the fromMailboxName to set
      */
-    public void setFromMailboxName(String fromMailboxName) {
-        this.fromMailboxName = fromMailboxName;
+    public final void setFromMailboxName(final String fromMboxName) {
+        this.fromMailboxName = fromMboxName;
     }
     /**
      * @return the isRead
      */
-    public Boolean getIsRead() {
+    public final Boolean getIsRead() {
         return isRead;
     }
     /**
-     * @param isRead the isRead to set
+     * @param read the has been read flag to set
      */
-    public void setIsRead(Boolean isRead) {
-        this.isRead = isRead;
+    public final void setIsRead(final Boolean read) {
+        this.isRead = read;
     }
 
 }

@@ -114,10 +114,12 @@ public class EcsSoap {
             client.executeMethod(method);
             response = method.getResponseBodyAsStream();
 
-            //String responseString = method.getResponseBodyAsString();
-            //if(logger.isDebugEnabled()) {
-            //  logger.debug("String response is: " + responseString);
-            //}
+            /*
+            String responseString = method.getResponseBodyAsString();
+            if(logger.isDebugEnabled()) {
+              logger.debug("String response is: " + responseString);
+            }
+            */
 
             try {
                 URL rules = getClass().getResource(digesterRuleFile);

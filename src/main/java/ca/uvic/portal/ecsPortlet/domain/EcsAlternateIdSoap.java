@@ -6,16 +6,16 @@ public final class EcsAlternateIdSoap extends EcsRemoteSoapCall {
     
     private static String fromIdType;
     private static String toIdType;
-    private static String userMailBox;
     private static String referenceId; 
+    private static String userMailBox;
 
     //Constructor Injection
     public EcsAlternateIdSoap(String fromType, String toType, String refId, String mailBox) {
         super();
         fromIdType  = fromType;
         toIdType    = toType;
-        userMailBox = mailBox;
         referenceId = refId;
+        userMailBox = mailBox;
         this.setXMLBody();
     }
 

@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import ca.uvic.portal.ecsPortlet.domain.EcsSoap;
 import ca.uvic.portal.ecsPortlet.domain.AlternateId;
 import ca.uvic.portal.ecsPortlet.domain.EcsAlternateIdSoap;
+import ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap;
 import java.util.Properties;
 import java.io.IOException;
 
@@ -19,23 +20,27 @@ import java.io.IOException;
 public class AlternateIdTest extends TestCase {
 
     /**
-     * private Set the FROMIDTYPE constant.
+     * private Set the FROMIDTYPE constant, in test environment this is EwsId
+     * in production it is EwsLegacyId.
      */
-    private static final String FROMIDTYPE = "EwsLegacyId";
+    private static final String FROMIDTYPE = "EwsId";
     /**
      * private Set the TOIDTYPE constant.
      */
     private static final String TOIDTYPE = "OwaId";
-    /**
-     * private Set the REFID constant.
-     */
-    private static final String REFID =
-        "AAAVAGNwZnJhbmtAZGV2YWQudXZpYy5jYQBGAAAAAABdzdUlySKYR7cfsFfqRBrYBwA2F2fSOmT1Sp6451umElC1AAAA8DtdAAA2F2fSOmT1Sp6451umElC1AAAA8ESQAAA=";
-    
      /**
-      * private Set the Digester RULESFILE constant.
+      * private Set the Digester ALTIDRULESFILE constant.
       */
-    private static final String RULESFILE = "/ecs_alternate_id-rules.xml";
+    private static final String ALTIDRULESFILE = "/ecs_alternate_id-rules.xml";
+     /**
+      * private Set the Digester MSGRULESFILE constant.
+      */
+    private static final String MSGRULESFILE = "/ecs_inbox_msgs-rules.xml";
+    /**
+     * private Set the messageLimit.
+     */
+    private static final int MSGLIMIT = 10;
+
     /**
      * Create the test case.
      * @param testName name of the test case
@@ -70,14 +75,24 @@ public class AlternateIdTest extends TestCase {
         String mailbox = prop.getProperty("ecs.test.mailbox");
 
         //For injection - with message limit 10
+        EcsInboxMessageSoap inboxSoap = new EcsInboxMessageSoap(MSGLIMIT);
+        EcsSoap msgSoap =
+            new EcsSoap(url, user, pass, domain, inboxSoap, MSGRULESFILE);
+        try {
+            msgSoap.queryExchange();
+        } catch (Exception e) {
+            assertNull("Got error " + e, e);
+        }
+        ConcurrentLinkedQueue < Object > msgs = msgSoap.getExchangeObjects();
+
         EcsAlternateIdSoap altIdSoap =
-            new EcsAlternateIdSoap(FROMIDTYPE, TOIDTYPE, REFID, mailbox);
+            new EcsAlternateIdSoap(FROMIDTYPE, TOIDTYPE, mailbox, msgs);
 
         //Handle properties usually injected via Spring
         //Exchange url, soap file for call to soap server/user/pass/domain,
         //EcsRemoteSoapCall type, digester rules in this constructor.
         EcsSoap soap =
-            new EcsSoap(url, user, pass, domain, altIdSoap, RULESFILE);
+            new EcsSoap(url, user, pass, domain, altIdSoap, ALTIDRULESFILE);
         try {
             soap.queryExchange();
         } catch (Exception e) {

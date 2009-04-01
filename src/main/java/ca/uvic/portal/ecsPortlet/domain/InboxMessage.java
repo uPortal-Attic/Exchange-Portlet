@@ -19,6 +19,10 @@ public class InboxMessage {
      */
     private String id;
     /**
+     * private message owaId.
+     */
+    private String owaId;
+    /**
      * private message subject.
      */
     private String subject;
@@ -78,6 +82,19 @@ public class InboxMessage {
     public final void setId(final String msgId) {
         this.id = msgId;
     }
+    /**
+     * @return the owaId
+     */
+    public final String getOwaId() {
+        return owaId;
+    }
+    /**
+     * @param id owaId to set
+     */
+    public final void setOwaId(final String id) {
+        this.owaId = id;
+    }
+
     /**
      * @return the subject
      */

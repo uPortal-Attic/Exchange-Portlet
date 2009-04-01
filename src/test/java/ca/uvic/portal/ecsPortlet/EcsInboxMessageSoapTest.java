@@ -14,6 +14,10 @@ public class EcsInboxMessageSoapTest extends TestCase {
      * private messageSoap hold the object.
      */
     private EcsInboxMessageSoap messageSoap;
+    /**
+     * private Set the messageLimit.
+     */
+    private static final int MSGLIMIT = 10;
 
     /**
      * Create the test case.
@@ -28,7 +32,7 @@ public class EcsInboxMessageSoapTest extends TestCase {
      */
     protected final void setUp() throws Exception {
         super.setUp();
-        messageSoap = new EcsInboxMessageSoap(10);
+        messageSoap = new EcsInboxMessageSoap(MSGLIMIT);
     }
 
     /* (non-Javadoc)

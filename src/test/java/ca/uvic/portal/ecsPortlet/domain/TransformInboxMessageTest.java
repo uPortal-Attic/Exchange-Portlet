@@ -18,10 +18,11 @@ import java.io.IOException;
  *
  */
 public class TransformInboxMessageTest extends TestCase {
+
     /**
-     * private Set the messageLimit.
+     * private Set the TESTPROPFILE constant for testing.
      */
-    private static final int MSGLIMIT = 10;
+    private static final String TESTPROPFILE = "/ecs.test.properties";
     /**
      * private Set the FROMIDTYPE constant, in test environment this is EwsId
      * in production it is EwsLegacyId.
@@ -31,15 +32,6 @@ public class TransformInboxMessageTest extends TestCase {
      * private Set the TOIDTYPE constant.
      */
     private static final String TOIDTYPE = "OwaId";
-     /**
-      * private Set the Digester ALTIDRULESFILE constant.
-      */
-    private static final String ALTIDRULESFILE = "/ecs_alternate_id-rules.xml";
-     /**
-      * private Set the Digester MSGRULESFILE constant.
-      */
-    private static final String MSGRULESFILE = "/ecs_inbox_msgs-rules.xml";
-
     /**
      * private messages Queue of InboxMessages.
      */
@@ -57,28 +49,35 @@ public class TransformInboxMessageTest extends TestCase {
         super(name);
     }
 
-    /* (non-Javadoc)
-     * @see junit.framework.TestCase#setUp()
+    /**
+     * Setup for testing.
+     * @throws Exception Standard JUnit exception.
      */
-    protected void setUp() throws Exception {
+    @Override
+    protected final void setUp() throws Exception {
         super.setUp();
         Properties prop = new Properties();
         try {
-            prop.load(getClass().getResourceAsStream("/ecs.test.properties"));
+            prop.load(getClass().getResourceAsStream(TESTPROPFILE));
         } catch (IOException e) {
            e.printStackTrace();
         }
 
-        String user    = prop.getProperty("ecs.test.user");
-        String pass    = prop.getProperty("ecs.test.pass");
-        String domain  = prop.getProperty("ecs.test.domain");
-        String url     = prop.getProperty("ecs.test.url");
-        String mailbox = prop.getProperty("ecs.test.mailbox");
+        String user    = prop.getProperty("ecs.user");
+        String pass    = prop.getProperty("ecs.pass");
+        String domain  = prop.getProperty("ecs.domain");
+        String url     = prop.getProperty("ecs.url");
+        String mailbox = prop.getProperty("ecs.mailbox");
+        String msgRulesFile =
+            prop.getProperty("ecs.messageRulesFile");
+        String altIdRulesFile =
+            prop.getProperty("ecs.alternateIdRulesFile");
+        int msgLimit = Integer.parseInt(
+                prop.getProperty("ecs.messageLimit").substring(0));
 
-        //For injection - with message limit 10
-        EcsInboxMessageSoap inboxSoap = new EcsInboxMessageSoap(MSGLIMIT);
+        EcsInboxMessageSoap inboxSoap = new EcsInboxMessageSoap(msgLimit);
         EcsSoap msgSoap =
-            new EcsSoap(url, user, pass, domain, inboxSoap, MSGRULESFILE);
+            new EcsSoap(url, user, pass, domain, inboxSoap, msgRulesFile);
         try {
             msgSoap.queryExchange();
         } catch (Exception e) {
@@ -89,7 +88,7 @@ public class TransformInboxMessageTest extends TestCase {
         EcsAlternateIdSoap altIdSoap =
             new EcsAlternateIdSoap(FROMIDTYPE, TOIDTYPE, mailbox, msgs);
         EcsSoap idSoap =
-            new EcsSoap(url, user, pass, domain, altIdSoap, ALTIDRULESFILE);
+            new EcsSoap(url, user, pass, domain, altIdSoap, altIdRulesFile);
         try {
             idSoap.queryExchange();
         } catch (Exception e) {
@@ -101,15 +100,18 @@ public class TransformInboxMessageTest extends TestCase {
 
     }
 
-    /* (non-Javadoc)
-     * @see junit.framework.TestCase#tearDown()
+    /**
+     * Teardown for testing.
+     * @throws Exception Standard JUnit exception.
      */
-    protected void tearDown() throws Exception {
+    @Override
+    protected final void tearDown() throws Exception {
         super.tearDown();
     }
 
     /**
-     * Test method for {@link ca.uvic.portal.ecsPortlet.domain.TransformInboxMessage#transform()}.
+     * Test method for {@link ca.uvic.portal.ecsPortlet.domain.
+     * TransformInboxMessage#transform()}.
      */
     public final void testTransform() {
         Iterator < Object > msgIter = messages.iterator();

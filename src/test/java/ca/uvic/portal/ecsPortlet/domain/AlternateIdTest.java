@@ -20,6 +20,10 @@ import java.io.IOException;
 public class AlternateIdTest extends TestCase {
 
     /**
+     * private Set the TESTPROPFILE constant for testing.
+     */
+    private static final String TESTPROPFILE = "/ecs.test.properties";
+    /**
      * private Set the FROMIDTYPE constant, in test environment this is EwsId
      * in production it is EwsLegacyId.
      */
@@ -28,18 +32,6 @@ public class AlternateIdTest extends TestCase {
      * private Set the TOIDTYPE constant.
      */
     private static final String TOIDTYPE = "OwaId";
-     /**
-      * private Set the Digester ALTIDRULESFILE constant.
-      */
-    private static final String ALTIDRULESFILE = "/ecs_alternate_id-rules.xml";
-     /**
-      * private Set the Digester MSGRULESFILE constant.
-      */
-    private static final String MSGRULESFILE = "/ecs_inbox_msgs-rules.xml";
-    /**
-     * private Set the messageLimit.
-     */
-    private static final int MSGLIMIT = 10;
 
     /**
      * Create the test case.
@@ -63,21 +55,27 @@ public class AlternateIdTest extends TestCase {
 
         Properties prop = new Properties();
         try {
-            prop.load(getClass().getResourceAsStream("/ecs.test.properties"));
+            prop.load(getClass().getResourceAsStream(TESTPROPFILE));
         } catch (IOException e) {
            e.printStackTrace();
         }
 
-        String user    = prop.getProperty("ecs.test.user");
-        String pass    = prop.getProperty("ecs.test.pass");
-        String domain  = prop.getProperty("ecs.test.domain");
-        String url     = prop.getProperty("ecs.test.url");
-        String mailbox = prop.getProperty("ecs.test.mailbox");
+        String user    = prop.getProperty("ecs.user");
+        String pass    = prop.getProperty("ecs.pass");
+        String domain  = prop.getProperty("ecs.domain");
+        String url     = prop.getProperty("ecs.url");
+        String mailbox = prop.getProperty("ecs.mailbox");
+        String altIdRulesFile =
+            prop.getProperty("ecs.alternateIdRulesFile");
+        String msgRulesFile =
+            prop.getProperty("ecs.messageRulesFile");
+        int msgLimit = Integer.parseInt(
+                prop.getProperty("ecs.messageLimit").substring(0));
 
         //For injection - with message limit 10
-        EcsInboxMessageSoap inboxSoap = new EcsInboxMessageSoap(MSGLIMIT);
+        EcsInboxMessageSoap inboxSoap = new EcsInboxMessageSoap(msgLimit);
         EcsSoap msgSoap =
-            new EcsSoap(url, user, pass, domain, inboxSoap, MSGRULESFILE);
+            new EcsSoap(url, user, pass, domain, inboxSoap, msgRulesFile);
         try {
             msgSoap.queryExchange();
         } catch (Exception e) {
@@ -92,7 +90,7 @@ public class AlternateIdTest extends TestCase {
         //Exchange url, soap file for call to soap server/user/pass/domain,
         //EcsRemoteSoapCall type, digester rules in this constructor.
         EcsSoap soap =
-            new EcsSoap(url, user, pass, domain, altIdSoap, ALTIDRULESFILE);
+            new EcsSoap(url, user, pass, domain, altIdSoap, altIdRulesFile);
         try {
             soap.queryExchange();
         } catch (Exception e) {

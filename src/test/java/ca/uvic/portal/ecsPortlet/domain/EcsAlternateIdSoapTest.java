@@ -17,6 +17,24 @@ import ca.uvic.portal.ecsPortlet.domain.EcsSoap;
 public class EcsAlternateIdSoapTest extends TestCase {
 
     /**
+     * private Set the TESTPROPFILE constant for testing.
+     */
+    private static final String TESTPROPFILE = "/ecs.test.properties";
+    /**
+     * private Set the FROMIDTYPE constant, in test environment this is EwsId
+     * in production it is EwsLegacyId.
+     */
+    private static final String FROMIDTYPE = "EwsId";
+    /**
+     * private Set the TOIDTYPE constant.
+     */
+    private static final String TOIDTYPE = "OwaId";
+    /**
+     * private messageSoap hold the object.
+     */
+    private EcsAlternateIdSoap messageSoap;
+
+    /**
      * @param name test to run.
      */
     public EcsAlternateIdSoapTest(final String name) {
@@ -24,41 +42,36 @@ public class EcsAlternateIdSoapTest extends TestCase {
     }
 
     /**
-     * private messageSoap hold the object.
+     * Setup for testing.
+     * @throws Exception Standard JUnit exception.
      */
-    private EcsAlternateIdSoap messageSoap;
-
-    /**
-     * private Set the messageLimit.
-     */
-    private static final int MSGLIMIT = 10;
-
-    /* (non-Javadoc)
-     * @see junit.framework.TestCase#setUp()
-     */
+    @Override
     protected final void setUp() throws Exception {
         super.setUp();
         Properties prop = new Properties();
         try {
-            prop.load(getClass().getResourceAsStream("/ecs.test.properties"));
+            prop.load(getClass().getResourceAsStream(TESTPROPFILE));
         } catch (IOException e) {
            e.printStackTrace();
         }
 
-        String user   = prop.getProperty("ecs.test.user");
-        String pass   = prop.getProperty("ecs.test.pass");
-        String domain = prop.getProperty("ecs.test.domain");
-        String url    = prop.getProperty("ecs.test.url");
-        String mlbox  = prop.getProperty("ecs.test.mailbox");
-
+        String user   = prop.getProperty("ecs.user");
+        String pass   = prop.getProperty("ecs.pass");
+        String domain = prop.getProperty("ecs.domain");
+        String url    = prop.getProperty("ecs.url");
+        String mlbox  = prop.getProperty("ecs.mailbox");
+        String msgRulesFile =
+            prop.getProperty("ecs.messageRulesFile");
+        int msgLimit = Integer.parseInt(
+                prop.getProperty("ecs.messageLimit").substring(0));
         //For injection - with message limit 10
-        EcsInboxMessageSoap inboxSoap = new EcsInboxMessageSoap(MSGLIMIT);
+        EcsInboxMessageSoap inboxSoap = new EcsInboxMessageSoap(msgLimit);
 
         //Handle properties usually injected via Spring
         //Exchange url, soap file for call to soap server/user/pass/domain,
         //EcsRemoteSoapCall type, digester rules in this constructor.
         EcsSoap soap = new EcsSoap(url, user, pass, domain, inboxSoap,
-            "/ecs_inbox_msgs-rules.xml");
+            msgRulesFile);
         try {
             soap.queryExchange();
         } catch (Exception e) {
@@ -66,18 +79,22 @@ public class EcsAlternateIdSoapTest extends TestCase {
         }
         ConcurrentLinkedQueue < Object > messages = soap.getExchangeObjects();
         messageSoap =
-            new EcsAlternateIdSoap("EwsLegacyId", "OwaId", mlbox, messages);
+            new EcsAlternateIdSoap(FROMIDTYPE, TOIDTYPE, mlbox, messages);
     }
 
-    /* (non-Javadoc)
-     * @see junit.framework.TestCase#tearDown()
+    /**
+     * Teardown for testing.
+     * @throws Exception Standard JUnit exception.
      */
+    @Override
     protected final void tearDown() throws Exception {
         super.tearDown();
     }
 
     /**
-     * Test method for {@link ca.uvic.portal.ecsPortlet.domain.EcsAlternateIdSoap#getSoapCall()}.
+     * Test method for
+     * {@link ca.uvic.portal.ecsPortlet.domain.
+     * EcsAlternateIdSoap#getSoapCall()}.
      */
     public final void testGetSoapCall() {
         //System.out.println(messageSoap.getSoapCall());

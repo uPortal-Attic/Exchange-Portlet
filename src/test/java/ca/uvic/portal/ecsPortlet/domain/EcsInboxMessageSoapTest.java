@@ -1,5 +1,8 @@
 package ca.uvic.portal.ecsPortlet.domain;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import junit.framework.TestCase;
 import ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap;
 
@@ -11,13 +14,13 @@ import ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap;
 public class EcsInboxMessageSoapTest extends TestCase {
 
     /**
+     * private Set the TESTPROPFILE constant for testing.
+     */
+    private static final String TESTPROPFILE = "/ecs.test.properties";
+    /**
      * private messageSoap hold the object.
      */
     private EcsInboxMessageSoap messageSoap;
-    /**
-     * private Set the messageLimit.
-     */
-    private static final int MSGLIMIT = 10;
 
     /**
      * Create the test case.
@@ -27,31 +30,45 @@ public class EcsInboxMessageSoapTest extends TestCase {
         super(name);
     }
 
-    /* (non-Javadoc)
-     * @see junit.framework.TestCase#setUp()
+    /**
+     * Setup for testing.
+     * @throws Exception Standard JUnit exception.
      */
+    @Override
     protected final void setUp() throws Exception {
         super.setUp();
-        messageSoap = new EcsInboxMessageSoap(MSGLIMIT);
+        Properties prop = new Properties();
+        try {
+            prop.load(getClass().getResourceAsStream(TESTPROPFILE));
+        } catch (IOException e) {
+           e.printStackTrace();
+        }
+        int msgLimit = Integer.parseInt(
+                prop.getProperty("ecs.messageLimit").substring(0));
+        messageSoap = new EcsInboxMessageSoap(msgLimit);
     }
 
-    /* (non-Javadoc)
-     * @see junit.framework.TestCase#tearDown()
+    /**
+     * Teardown for testing.
+     * @throws Exception Standard JUnit exception.
      */
+    @Override
     protected final void tearDown() throws Exception {
         super.tearDown();
     }
 
     /**
      * Test method
-     * {@link ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap#getSoapCall()}.
+     * {@link ca.uvic.portal.ecsPortlet.domain.
+     * EcsInboxMessageSoap#getSoapCall()}.
      */
     public final void testGetSoapCall() {
         assertNotNull("getSoapCall()", messageSoap.getSoapCall());
     }
     /**
      * Test method
-     * {@link ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap#getLineEnding()}.
+     * {@link ca.uvic.portal.ecsPortlet.domain.
+     * EcsInboxMessageSoap#getLineEnding()}.
      */
     public final void testGetLineEnding() {
         assertEquals("\r\n", messageSoap.getLineEnding());

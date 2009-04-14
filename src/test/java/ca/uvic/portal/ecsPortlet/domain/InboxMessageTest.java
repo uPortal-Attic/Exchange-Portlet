@@ -19,9 +19,10 @@ import java.io.IOException;
 public class InboxMessageTest extends TestCase {
 
     /**
-     * private Set the messageLimit.
+     * private Set the TESTPROPFILE constant for testing.
      */
-    private static final int MSGLIMIT = 10;
+    private static final String TESTPROPFILE = "/ecs.test.properties";
+
     /**
      * Create the test case.
      * @param testName name of the test case
@@ -44,24 +45,28 @@ public class InboxMessageTest extends TestCase {
 
         Properties prop = new Properties();
         try {
-            prop.load(getClass().getResourceAsStream("/ecs.test.properties"));
+            prop.load(getClass().getResourceAsStream(TESTPROPFILE));
         } catch (IOException e) {
            e.printStackTrace();
         }
 
-        String user   = prop.getProperty("ecs.test.user");
-        String pass   = prop.getProperty("ecs.test.pass");
-        String domain = prop.getProperty("ecs.test.domain");
-        String url    = prop.getProperty("ecs.test.url");
+        String user   = prop.getProperty("ecs.user");
+        String pass   = prop.getProperty("ecs.pass");
+        String domain = prop.getProperty("ecs.domain");
+        String url    = prop.getProperty("ecs.url");
+        String msgRulesFile =
+            prop.getProperty("ecs.messageRulesFile");
+        int msgLimit = Integer.parseInt(
+                prop.getProperty("ecs.messageLimit").substring(0));
 
         //For injection - with message limit 10
-        EcsInboxMessageSoap inboxSoap = new EcsInboxMessageSoap(MSGLIMIT);
+        EcsInboxMessageSoap inboxSoap = new EcsInboxMessageSoap(msgLimit);
 
         //Handle properties usually injected via Spring
         //Exchange url, soap file for call to soap server/user/pass/domain,
         //EcsRemoteSoapCall type, digester rules in this constructor.
         EcsSoap soap = new EcsSoap(url, user, pass, domain, inboxSoap,
-            "/ecs_inbox_msgs-rules.xml");
+            msgRulesFile);
         try {
             soap.queryExchange();
         } catch (Exception e) {

@@ -3,7 +3,27 @@
 
 <beans>
 
-        <!-- Message source for this context, loaded from localized "messages_xx" files -->
+    <!--  enable access to externalized properties via PropertyPlaceholderConfigurer -->
+    <!-- bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="WEB-INF/ecs.properties"/>
+    </bean-->
+
+    <!-- Service Classes that might need access to PropertyPlaceHolderConfigurer -->
+    <!-- The one and only InboxMessageService 
+         TODO: think about abstracting out the ecs.properties using
+         PropertyPlaceHolderConfigurer see example in petportal, could read
+         properties and then inject them instead of doing it InboxMessageServiceImpl class -->
+    <bean id="inboxMessageService" class="ca.uvic.portal.ecsPortlet.service.InboxMessageServiceImpl">
+        <constructor-arg  value="/ecs.properties" />
+        <constructor-arg value="10" />
+        <constructor-arg value="/ecs_inbox_msgs-rules.xml" />
+        <constructor-arg value="/ecs_alternate_id-rules.xml" />
+        <!-- constructor-arg value="EwsLegacyId" /-->
+        <constructor-arg value="EwsId" />
+        <constructor-arg value="OwaId" />
+    </bean>
+
+    <!-- Message source for this context, loaded from localized "messages_xx" files -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>

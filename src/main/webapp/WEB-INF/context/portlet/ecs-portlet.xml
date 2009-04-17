@@ -1,45 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
-<beans>
+<!-- DispatcherPortlet application context for ecsPortlet. -->
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <!-- Reused Portlet -->
-    <bean id="ecsPortlet" class="org.springframework.web.portlet.mvc.PortletWrappingController">
-        <property name="portletClass">
-            <value>ca.uvic.portal.ecsPortlet.portlet.EcsPortlet</value>
-        </property>
-        <property name="useSharedPortletConfig">
-            <value>false</value>
-        </property>
-        <property name="portletName">
-            <value>ecsPortlet</value>
-        </property>
-        <property name="initParameters">
-            <props>
-                <prop key="HarryPotter">The magic property</prop>
-                <prop key="JerrySeinfeld">The funny property</prop>
-            </props>
-        </property>
-    </bean>
+    <!-- See applicationContext.xml for service class wiring -->
 
-    <!-- Alternate method to reuse portlet - simpler, but no ability to rename or set init parameters
-    <bean id="simplePortletHandlerAdapter" class="org.springframework.web.portlet.handler.SimplePortletHandlerAdapter"/>
-    <bean id="simplePortletPostProcessor" class="org.springframework.web.portlet.handler.SimplePortletPostProcessor"/>
-    <bean id="helloWorldPortlet" class="org.springframework.web.portlet.sample.HelloWorldPortlet"/>
-    -->
+    <context:annotation-config/>
 
-    <!-- Handler Mapping -->
-    <bean id="portletModeHandlerMapping" class="org.springframework.web.portlet.handler.PortletModeHandlerMapping">
-        <property name="portletModeMap">
-            <map>
-                <entry key="view"><ref bean="ecsPortlet"/></entry>
-            </map>
+    <bean class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="interceptors">
+            <!-- This interceptor forwards the mapping request parameter from an ActionRequest to be used as a render parameter. -->
+            <bean class="org.springframework.web.portlet.handler.ParameterMappingInterceptor"/>
         </property>
     </bean>
 
-    <!-- Exceptions Handler -->
-    <bean id="defaultExceptionHandler" parent="defaultExceptionHandlerTemplate"/>
-
-    <bean id="ecsSoap" class="ca.uvic.portal.ecsPortlet.portlet.domain.EcsSoap">
-        <property name="exchangeURL" value="https://mail.uvic.ca/ews/Exchange.asmx"/>
+    <bean id="inboxMessageController" class="ca.uvic.portal.ecsPortlet.portlet.InboxMessageController" >
+        <property name="inboxMessageService" ref="inboxMessageService" />
     </bean>
+
 </beans>

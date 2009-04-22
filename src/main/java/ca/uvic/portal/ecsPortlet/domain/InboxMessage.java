@@ -12,7 +12,7 @@ import java.text.ParseException;
  * @version svn:$Id$
  *
  */
-public class InboxMessage extends EcsDomain {
+public class InboxMessage extends Domain {
 
     /**
      * private message id.

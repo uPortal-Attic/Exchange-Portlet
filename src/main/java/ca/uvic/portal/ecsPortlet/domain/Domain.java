@@ -1,14 +1,14 @@
 package ca.uvic.portal.ecsPortlet.domain;
 
 /**
- * Superclass for all Ecs Domain classes.  Basically a wrapper for common
+ * Superclass for all Domain classes.  Basically a wrapper for common
  * soap elements that need to be set in the Domain classes.  For example,
  * error responses on faulty soap exchange.
  * @author Charles Frank
  * @version svn:$Id$
  *
  */
-public class EcsDomain {
+public class Domain {
     /**
      * private The ResponseClass element from soap call. Is usually 'Success'
      * or 'Error'.
@@ -28,7 +28,7 @@ public class EcsDomain {
     /**
      * Default constructor.
      */
-    public EcsDomain() { }
+    public Domain() { }
 
     /**
      * @return the responseIndicator

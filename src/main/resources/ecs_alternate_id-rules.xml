@@ -1,11 +1,19 @@
 <digester-rules>
-  <pattern value="*/ConvertIdResponseMessage/AlternateId">
+  <pattern value="*/ConvertIdResponseMessage">
     <object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.AlternateId"/>
-    <set-next-rule methodname="addExchangeObject"/>
     <set-properties-rule>
-      <alias attr-name="Id" prop-name="id" />
-      <alias attr-name="Format" prop-name="format" />
-      <alias attr-name="Mailbox" prop-name="mailbox" />
+       <alias attr-name="ResponseClass" prop-name="responseIndicator" />
     </set-properties-rule>
+    <bean-property-setter-rule pattern="ResponseCode" propertyname="errorResponseCode"/>
+    <bean-property-setter-rule pattern="MessageText" propertyname="errorMessageText"/> 
+    <pattern value="AlternateId">
+      <!--object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.AlternateId"/-->
+      <set-next-rule methodname="addExchangeObject"/>
+      <set-properties-rule>
+        <alias attr-name="Id" prop-name="id" />
+        <alias attr-name="Format" prop-name="format" />
+        <alias attr-name="Mailbox" prop-name="mailbox" />
+      </set-properties-rule>
+    </pattern>
   </pattern>
 </digester-rules>

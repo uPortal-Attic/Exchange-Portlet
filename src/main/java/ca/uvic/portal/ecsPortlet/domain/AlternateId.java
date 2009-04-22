@@ -7,7 +7,7 @@ package ca.uvic.portal.ecsPortlet.domain;
  * @version svn:$Id$
  *
  */
-public class AlternateId {
+public class AlternateId extends Domain {
     /**
      * private format of the id, EwsLegacyId, OwaId, etc.
      */
@@ -24,7 +24,9 @@ public class AlternateId {
     /**
      * Constructor default.
      */
-    public AlternateId() { }
+    public AlternateId() {
+        super();
+    }
 
     /**
      * @return the format

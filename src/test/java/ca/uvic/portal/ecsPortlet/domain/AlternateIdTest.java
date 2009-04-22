@@ -105,6 +105,11 @@ public class AlternateIdTest extends TestCase {
         assertNotNull("got id", altId.getId());
         assertNotNull("got format", altId.getFormat());
         assertNotNull("got mailbox", altId.getMailbox());
+        //System.out.println(message.getResponseIndicator());
+        assertEquals("Success", altId.getResponseIndicator());
+        assertEquals("NoError", altId.getErrorResponseCode());
+        assertNull("error message text should be null",
+                altId.getErrorMessageText());
     }
 
 }

@@ -39,7 +39,8 @@ public class InboxMessageController extends AbstractController {
             (Map) request.getAttribute(PortletRequest.USER_INFO);
         String user  = (String) userInfo.get("urn:sungardhe:dir:loginId");
         String pass  = (String) userInfo.get("password");
-        //logical view name = inboxMessages|variable holding objects is messages
+        //logical view name        => inboxMessages
+        //variable holding objects => messages
         return new ModelAndView("inboxMessages", "messages",
                 inboxMessageService.getInboxMessages(user, pass));
     }

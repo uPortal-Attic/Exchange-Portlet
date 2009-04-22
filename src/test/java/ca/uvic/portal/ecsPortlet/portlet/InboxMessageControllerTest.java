@@ -2,7 +2,10 @@ package ca.uvic.portal.ecsPortlet.portlet;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.portlet.PortletRequest;
 
@@ -11,10 +14,13 @@ import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.mock.web.portlet.MockRenderRequest;
 import org.springframework.mock.web.portlet.MockRenderResponse;
 import org.springframework.web.portlet.ModelAndView;
+
+import ca.uvic.portal.ecsPortlet.domain.InboxMessage;
 
 /**
  * Test class to test the InboxMessageControllerTest.
@@ -48,30 +54,17 @@ public class InboxMessageControllerTest extends TestCase {
     /**
      * private The application context.
      */
-    private static final ApplicationContext APPCONTEXT;
+    private static ApplicationContext APPCONTEXT;
     /**
      * private The portlet context.
      */
-    private static final ApplicationContext ECSPORTLETCONTEXT;
+    private static ApplicationContext ECSPORTLETCONTEXT;
     /**
      * private The commons logger.
      */
     private final Log logger = LogFactory.getLog(getClass());
 
-    //When the class loads before any objects are created, load the context.
-    static {
-        try {
-            APPCONTEXT = new FileSystemXmlApplicationContext(
-              new String[]{
-                  "src/main/webapp/WEB-INF/context/applicationContext.xml"});
-            ECSPORTLETCONTEXT = new FileSystemXmlApplicationContext(
-              new String[]{
-                  "src/main/webapp/WEB-INF/context/portlet/ecs-portlet.xml"},
-                  APPCONTEXT);
-        } catch (Exception ex) {
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
+
 
     /**
      * @param name The name of the test to run.
@@ -89,11 +82,19 @@ public class InboxMessageControllerTest extends TestCase {
         super.setUp();
         Properties prop = new Properties();
         try {
-            prop.load(
-                    getClass().getResourceAsStream(TESTPROPFILE));
+            prop.load(getClass().getResourceAsStream(TESTPROPFILE));
         } catch (IOException e) {
            logger.debug("Failed to load testing properties.");
            e.printStackTrace();
+        }
+        try {
+            APPCONTEXT = new FileSystemXmlApplicationContext(
+              new String[]{prop.getProperty("ecs.appContext.url")});
+            ECSPORTLETCONTEXT = new FileSystemXmlApplicationContext(
+              new String[]{prop.getProperty("ecs.portletContext.url")},
+                  APPCONTEXT);
+        } catch (Exception ex) {
+            throw new ExceptionInInitializerError(ex);
         }
         exchangeUser      = prop.getProperty("ecs.user");
         exchangePassword  = prop.getProperty("ecs.pass");
@@ -131,5 +132,19 @@ public class InboxMessageControllerTest extends TestCase {
         ModelAndView mav = controller.handleRenderRequest(request, response);
 
         assertNotNull("Get model and view from controller", mav);
+        //get the model
+        Map < ? , ? > model = mav.getModel();
+        assertTrue("model should contain messages",
+                model.containsKey("messages"));
+        ConcurrentLinkedQueue < InboxMessage > inboxMessages =
+            (ConcurrentLinkedQueue) model.get("messages");
+        Iterator < InboxMessage > msgIter = inboxMessages.iterator();
+        InboxMessage firstMessage = msgIter.next();
+        logger.debug("checking returned model message OwaId: "
+                + firstMessage.getOwaId());
+        assertNotNull("pull an message OwaId", firstMessage.getOwaId());
+        assertNotNull("pull a message subject ", firstMessage.getSubject());
+
+
     }
 }

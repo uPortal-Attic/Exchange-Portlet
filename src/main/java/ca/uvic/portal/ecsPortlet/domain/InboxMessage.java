@@ -12,7 +12,7 @@ import java.text.ParseException;
  * @version svn:$Id$
  *
  */
-public class InboxMessage {
+public class InboxMessage extends EcsDomain {
 
     /**
      * private message id.
@@ -62,7 +62,9 @@ public class InboxMessage {
     /**
      * Constructor default.
      */
-    public InboxMessage() { }
+    public InboxMessage() { 
+        super();
+    }
 
     /*
      * @return Subject as default toString output.

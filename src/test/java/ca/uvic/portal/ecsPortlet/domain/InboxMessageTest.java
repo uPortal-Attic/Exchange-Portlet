@@ -89,6 +89,11 @@ public class InboxMessageTest extends TestCase {
                 message.getDateTimeSent("yyyy-MM-dd"));
         assertNotNull("got dateTimeSent",
                 message.getDateTimeCreated("yyyy-MM-dd"));
+        //System.out.println(message.getResponseIndicator());
+        assertEquals("Success", message.getResponseIndicator());
+        assertEquals("NoError", message.getErrorResponseCode());
+        assertNull("error message text should be null",
+                message.getErrorMessageText());
     }
 
 }

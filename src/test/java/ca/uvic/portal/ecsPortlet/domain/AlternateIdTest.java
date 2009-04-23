@@ -128,6 +128,33 @@ public class AlternateIdTest extends TestCase {
             assertNotNull("got error message text",
                     altId.getErrorMessageText());
         }
+
+        //Now modify a message with a faulty Id and test failure.
+        ConcurrentLinkedQueue < Object > forceFailMsgs =
+            new ConcurrentLinkedQueue < Object >();
+        //Set the Id to something that won't possibly register on a look up.
+        singleMsg.setId("blah");
+        forceFailMsgs.add(singleMsg);
+        EcsAlternateIdSoap altIdSoapFail =
+            new EcsAlternateIdSoap(FROMIDTYPE, TOIDTYPE,
+                                   mailbox, forceFailMsgs);
+        soap =
+            new EcsSoap(url, user, pass, domain, altIdSoapFail, altIdRulesFile);
+        try {
+            soap.queryExchange();
+        } catch (Exception e) {
+            assertNull("Got error " + e, e);
+        }
+        ConcurrentLinkedQueue < Object > altIdsFail = soap.getExchangeObjects();
+        Iterator < Object > altIdIteratorFail = altIdsFail.iterator();
+        assertNotNull("received altId back", altIdIteratorFail.hasNext());
+        AlternateId altIdFail = (AlternateId) altIdIteratorFail.next();
+        assertEquals("Error", altIdFail.getResponseIndicator());
+        assertNotNull("got error response code",
+                altIdFail.getErrorResponseCode());
+        assertNotNull("got error message text",
+                altIdFail.getErrorMessageText());
+        assertNull(altIdFail.getMailbox());
     }
 
 }

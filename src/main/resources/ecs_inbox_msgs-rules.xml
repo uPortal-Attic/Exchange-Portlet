@@ -1,5 +1,5 @@
 <digester-rules>
-  <pattern value="*/FindItemResponseMessage">
+  <pattern value="*/ResponseMessages/FindItemResponseMessage">
     <object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.InboxMessage"/>
     <set-properties-rule>
        <alias attr-name="ResponseClass" prop-name="responseIndicator" />
@@ -8,7 +8,6 @@
     <bean-property-setter-rule pattern="MessageText" propertyname="errorMessageText"/>
     <pattern value="RootFolder/Items/Message">
       <!--object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.InboxMessage"/-->
-      <set-next-rule methodname="addExchangeObject"/>
       <pattern value="ItemId">
          <set-properties-rule>
             <alias attr-name="Id" prop-name="id" />
@@ -25,5 +24,6 @@
           <bean-property-setter-rule pattern="Name" propertyname="fromMailboxName"/>
       </pattern>
     </pattern>
+    <set-next-rule methodname="addExchangeObject"/>
   </pattern>
 </digester-rules>

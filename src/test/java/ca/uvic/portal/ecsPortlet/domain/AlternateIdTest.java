@@ -83,6 +83,16 @@ public class AlternateIdTest extends TestCase {
         }
         ConcurrentLinkedQueue < Object > msgs = msgSoap.getExchangeObjects();
 
+        //Make sure we actually got some msgs back
+        Iterator < Object > msgIterator = msgs.iterator();
+        assertNotNull("received msgs back", msgIterator.hasNext());
+        InboxMessage singleMsg = (InboxMessage) msgIterator.next();
+        if (singleMsg.getResponseIndicator().equals("Error")) {
+            //Fail this test as we can can't get alternateId back if we don't
+            //have messages.
+            fail("Forcing failure as we returned no messages from exchange.");
+        }
+
         EcsAlternateIdSoap altIdSoap =
             new EcsAlternateIdSoap(FROMIDTYPE, TOIDTYPE, mailbox, msgs);
 
@@ -100,16 +110,24 @@ public class AlternateIdTest extends TestCase {
         Iterator < Object > exchangeIterator = altIds.iterator();
         assertNotNull("received altId back", exchangeIterator.hasNext());
         AlternateId altId = (AlternateId) exchangeIterator.next();
-        //System.out.println(altId.getId());
-        //System.out.println(altId.getMailbox());
-        assertNotNull("got id", altId.getId());
-        assertNotNull("got format", altId.getFormat());
-        assertNotNull("got mailbox", altId.getMailbox());
-        //System.out.println(message.getResponseIndicator());
-        assertEquals("Success", altId.getResponseIndicator());
-        assertEquals("NoError", altId.getErrorResponseCode());
-        assertNull("error message text should be null",
-                altId.getErrorMessageText());
+        if (altId.getResponseIndicator().equals("Success")) {
+            //System.out.println(altId.getId());
+            //System.out.println(altId.getMailbox());
+            assertNotNull("got id", altId.getId());
+            assertNotNull("got format", altId.getFormat());
+            assertNotNull("got mailbox", altId.getMailbox());
+            //System.out.println(message.getResponseIndicator());
+            assertEquals("Success", altId.getResponseIndicator());
+            assertEquals("NoError", altId.getErrorResponseCode());
+            assertNull("error message text should be null",
+                    altId.getErrorMessageText());
+        } else {
+            assertEquals("Error", altId.getResponseIndicator());
+            assertNotNull("got error response code",
+                    altId.getErrorResponseCode());
+            assertNotNull("got error message text",
+                    altId.getErrorMessageText());
+        }
     }
 
 }

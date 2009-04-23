@@ -84,6 +84,15 @@ public class TransformInboxMessageTest extends TestCase {
             assertNull("Got error " + e, e);
         }
         ConcurrentLinkedQueue < Object > msgs = msgSoap.getExchangeObjects();
+        //Make sure we actually got some msgs back
+        Iterator < Object > msgIterator = msgs.iterator();
+        assertNotNull("received msgs back", msgIterator.hasNext());
+        InboxMessage singleMsg = (InboxMessage) msgIterator.next();
+        if(singleMsg.getResponseIndicator().equals("Error")) {
+            //Fail this test as we can can't get alternateId back if we don't
+            //have messages.
+            fail("Forcing failure as we returned no messages from exchange.");
+        }
 
         EcsAlternateIdSoap altIdSoap =
             new EcsAlternateIdSoap(FROMIDTYPE, TOIDTYPE, mailbox, msgs);

@@ -76,24 +76,32 @@ public class InboxMessageTest extends TestCase {
         Iterator < Object > exchangeIterator = messages.iterator();
         assertNotNull("received messages back", exchangeIterator.hasNext());
         InboxMessage message = (InboxMessage) messages.iterator().next();
-        //System.out.println(message.getSubject());
-        //System.out.println(message.getDateTimeCreated("yyyy-MM-dd"));
-        assertNotNull("got subject", message.getSubject());
-        assertNotNull("got id", message.getId());
-        assertNotNull("got sensitivity", message.getSensitivity());
-        assertNotNull("got size", message.getSize());
-        assertNotNull("got hasAttachments", message.getHasAttachments());
-        assertNotNull("got isRead", message.getIsRead());
-        assertNotNull("got fromMailboxName", message.getFromMailboxName());
-        assertNotNull("got dateTimeSent",
-                message.getDateTimeSent("yyyy-MM-dd"));
-        assertNotNull("got dateTimeSent",
-                message.getDateTimeCreated("yyyy-MM-dd"));
-        //System.out.println(message.getResponseIndicator());
-        assertEquals("Success", message.getResponseIndicator());
-        assertEquals("NoError", message.getErrorResponseCode());
-        assertNull("error message text should be null",
-                message.getErrorMessageText());
+        if(message.getResponseIndicator().equals("Success")) {
+            //System.out.println(message.getSubject());
+            //System.out.println(message.getDateTimeCreated("yyyy-MM-dd"));
+            assertNotNull("got subject", message.getSubject());
+            assertNotNull("got id", message.getId());
+            assertNotNull("got sensitivity", message.getSensitivity());
+            assertNotNull("got size", message.getSize());
+            assertNotNull("got hasAttachments", message.getHasAttachments());
+            assertNotNull("got isRead", message.getIsRead());
+            assertNotNull("got fromMailboxName", message.getFromMailboxName());
+            assertNotNull("got dateTimeSent",
+                    message.getDateTimeSent("yyyy-MM-dd"));
+            assertNotNull("got dateTimeSent",
+                    message.getDateTimeCreated("yyyy-MM-dd"));
+            System.out.println(message.getResponseIndicator());
+            assertEquals("Success", message.getResponseIndicator());
+            assertEquals("NoError", message.getErrorResponseCode());
+            assertNull("error message text should be null",
+                    message.getErrorMessageText());
+        } else {
+            assertEquals("Error", message.getResponseIndicator());
+            assertNotNull("got error response code",
+                    message.getErrorResponseCode());
+            assertNotNull("got error message text",
+                    message.getErrorMessageText());
+        }
     }
 
 }

@@ -76,7 +76,7 @@ public class InboxMessageTest extends TestCase {
         Iterator < Object > exchangeIterator = messages.iterator();
         assertNotNull("received messages back", exchangeIterator.hasNext());
         InboxMessage message = (InboxMessage) messages.iterator().next();
-        if(message.getResponseIndicator().equals("Success")) {
+        if (message.getResponseIndicator().equals("Success")) {
             //System.out.println(message.getSubject());
             //System.out.println(message.getDateTimeCreated("yyyy-MM-dd"));
             assertNotNull("got subject", message.getSubject());

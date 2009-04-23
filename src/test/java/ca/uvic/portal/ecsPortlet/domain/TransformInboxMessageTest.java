@@ -1,15 +1,11 @@
 package ca.uvic.portal.ecsPortlet.domain;
 
-import junit.framework.TestCase;
-import ca.uvic.portal.ecsPortlet.domain.EcsSoap;
-import ca.uvic.portal.ecsPortlet.domain.InboxMessage;
-import ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap;
-import ca.uvic.portal.ecsPortlet.domain.EcsAlternateIdSoap;
-import ca.uvic.portal.ecsPortlet.domain.TransformInboxMessage;
-import java.util.Properties;
-import java.util.Iterator;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+import junit.framework.TestCase;
 
 
 /** Test Class to test the setting of the InboxMessage owaId attribute.
@@ -88,7 +84,7 @@ public class TransformInboxMessageTest extends TestCase {
         Iterator < Object > msgIterator = msgs.iterator();
         assertNotNull("received msgs back", msgIterator.hasNext());
         InboxMessage singleMsg = (InboxMessage) msgIterator.next();
-        if(singleMsg.getResponseIndicator().equals("Error")) {
+        if (singleMsg.getResponseIndicator().equals("Error")) {
             //Fail this test as we can can't get alternateId back if we don't
             //have messages.
             fail("Forcing failure as we returned no messages from exchange.");

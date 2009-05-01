@@ -13,6 +13,9 @@ import ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap;
 import java.util.Properties;
 import java.io.IOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Unit testing for InboxMessage.
  */
@@ -37,6 +40,11 @@ public class InboxMessageTest extends TestCase {
     public static Test suite() {
         return new TestSuite(InboxMessageTest.class);
     }
+
+    /**
+     * private Apache Commons logger.
+     */
+    private final Log logger = LogFactory.getLog(getClass());
 
     /**
      * Test the getter methods for the domain class.
@@ -72,11 +80,26 @@ public class InboxMessageTest extends TestCase {
         } catch (Exception e) {
             assertNull("Got error " + e, e);
         }
-        ConcurrentLinkedQueue < Object > messages = soap.getExchangeObjects();
-        Iterator < Object > exchangeIterator = messages.iterator();
-        assertNotNull("received messages back", exchangeIterator.hasNext());
-        InboxMessage message = (InboxMessage) messages.iterator().next();
-        if (message.getResponseIndicator().equals("Success")) {
+        //Get the first, and in this case, only ResponseMessage back.
+        ConcurrentLinkedQueue < Object > respMessages =
+            soap.getExchangeObjects();
+        Iterator < Object > respIterator = respMessages.iterator();
+        assertNotNull("received response messages back",
+                respIterator.hasNext());
+        ResponseMessage respMessage = (ResponseMessage) respIterator.next();
+
+        //Get the first InboxMessage back
+        ConcurrentLinkedQueue < Object > inboxMessages =
+            respMessage.getExchangeObjects();
+        if (logger.isDebugEnabled()) {
+            logger.debug("We have this many InboxMessage objects: "
+                    + inboxMessages.size());
+        }
+        Iterator < Object > inboxIter = inboxMessages.iterator();
+        assertNotNull("received inbox message back", inboxIter.hasNext());
+        InboxMessage message = (InboxMessage) inboxIter.next();
+
+        if (respMessage.getResponseIndicator().equals("Success")) {
             //System.out.println(message.getSubject());
             //System.out.println(message.getDateTimeCreated("yyyy-MM-dd"));
             assertNotNull("got subject", message.getSubject());
@@ -90,17 +113,16 @@ public class InboxMessageTest extends TestCase {
                     message.getDateTimeSent("yyyy-MM-dd"));
             assertNotNull("got dateTimeSent",
                     message.getDateTimeCreated("yyyy-MM-dd"));
-            System.out.println(message.getResponseIndicator());
-            assertEquals("Success", message.getResponseIndicator());
-            assertEquals("NoError", message.getErrorResponseCode());
+            assertEquals("Success", respMessage.getResponseIndicator());
+            assertEquals("NoError", respMessage.getResponseCode());
             assertNull("error message text should be null",
-                    message.getErrorMessageText());
+                    respMessage.getResponseText());
         } else {
-            assertEquals("Error", message.getResponseIndicator());
+            assertEquals("Error", respMessage.getResponseIndicator());
             assertNotNull("got error response code",
-                    message.getErrorResponseCode());
+                    respMessage.getResponseCode());
             assertNotNull("got error message text",
-                    message.getErrorMessageText());
+                    respMessage.getResponseText());
         }
     }
 

@@ -55,8 +55,11 @@
         <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
         <init-param>
             <param-name>portlet-class</param-name>
-            <param-value>
+            <!--param-value>
                ca.uvic.portal.ecsPortlet.portlet.EcsPortlet
+            </param-value-->
+            <param-value>
+                org.springframework.web.portlet.DispatcherPortlet
             </param-value>
         </init-param>
         <init-param>

@@ -1,19 +1,17 @@
 package ca.uvic.portal.ecsPortlet.service;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import ca.uvic.portal.ecsPortlet.domain.InboxMessage;
-import ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap;
-import ca.uvic.portal.ecsPortlet.domain.EcsSoap;
-import ca.uvic.portal.ecsPortlet.domain.EcsAlternateIdSoap;
-import ca.uvic.portal.ecsPortlet.domain.TransformInboxMessage;
-
-import java.util.Properties;
 import java.util.Iterator;
-import java.io.IOException;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import ca.uvic.portal.ecsPortlet.domain.EcsAlternateIdSoap;
+import ca.uvic.portal.ecsPortlet.domain.EcsInboxMessageSoap;
+import ca.uvic.portal.ecsPortlet.domain.EcsSoap;
+import ca.uvic.portal.ecsPortlet.domain.InboxMessage;
+import ca.uvic.portal.ecsPortlet.domain.ResponseMessage;
+import ca.uvic.portal.ecsPortlet.domain.TransformInboxMessage;
 
 /**The implementation class for InboxMessageService.  This class is responsible
  * for the implementation details of building up a queue of InboxMessage
@@ -22,10 +20,6 @@ import org.apache.commons.logging.LogFactory;
  * @version svn:$Id$
  */
 public final class InboxMessageServiceImpl implements InboxMessageService {
-    /**
-     * private The application properties file.
-     */
-    private static String applicationPropertiesFile;
     /**
      * private The InboxMessage limit.
      */
@@ -47,18 +41,30 @@ public final class InboxMessageServiceImpl implements InboxMessageService {
      */
     private static String alternateIdToIdType;
     /**
-     * private Apache commons logger.
+     * private The exchange domain, i.e. uvic or devad, etc.
      */
-    private final Log logger = LogFactory.getLog(getClass());
+    private static String exchangeDomain;
+    /**
+     * private The exchange url,
+     * example: https://serv.uvic.ca/EWS/Exchange.asmx .
+     */
+    private static String exchangeUrl;
+    /**
+     * private The mailbox domain, example '@uvic.ca' or '@devad.uvic.ca'.
+     */
+    private static String exchangeMailboxDomain;
     /**
      * private The queue of InboxMessage objects.
      */
     private ConcurrentLinkedQueue < InboxMessage > transformedMsgs
         = new ConcurrentLinkedQueue < InboxMessage >();
+    /**
+     * private Apache commons logger.
+     */
+    private final Log logger = LogFactory.getLog(getClass());
 
     /**
      * Constructor: use Spring Injection.
-     * @param appPropFile The applictionPropertyFile w/deployment specifics.
      * @param msgLimit The InboxMessage limit.
      * @param msgRulesFile The Digest Rules file that dictate InboxMessage
      * object creation.
@@ -66,21 +72,27 @@ public final class InboxMessageServiceImpl implements InboxMessageService {
      * object creation.
      * @param fromIdType The exchange id type to change from.
      * @param toIdType  The exchange id type to change to.
+     * @param exchDomain The exchange domain to query with, example 'devad'.
+     * @param exchUrl The url location of the exchange server to query.
+     * @param exchMboxDomain The exhange mailbox domain, example '@uvic.ca'.
      */
     public InboxMessageServiceImpl(
-            final String appPropFile,
             final int msgLimit,
             final String msgRulesFile,
             final String altIdRulesFile,
             final String fromIdType,
-            final String toIdType) {
-
-        applicationPropertiesFile = appPropFile;
+            final String toIdType,
+            final String exchDomain,
+            final String exchUrl,
+            final String exchMboxDomain) {
         messageLimit              = msgLimit;
         messageRulesFile          = msgRulesFile;
         alternateIdRulesFile      = altIdRulesFile;
         alternateIdFromIdType     = fromIdType;
         alternateIdToIdType       = toIdType;
+        exchangeDomain            = exchDomain;
+        exchangeUrl               = exchUrl;
+        exchangeMailboxDomain     = exchMboxDomain;
     }
 
     /**
@@ -92,24 +104,13 @@ public final class InboxMessageServiceImpl implements InboxMessageService {
     public ConcurrentLinkedQueue < InboxMessage >
         getInboxMessages(final String user, final String pass) {
 
-        Properties prop = new Properties();
-        try {
-            prop.load(
-                    getClass().getResourceAsStream(applicationPropertiesFile));
-        } catch (IOException e) {
-            String error = "Failed to load ecs application properties file";
-            logger.error(error, e);
-            e.printStackTrace();
-        }
-
-        String domain  = prop.getProperty("ecs.domain");
-        String url     = prop.getProperty("ecs.url");
-        String mailbox = user + prop.getProperty("ecs.mailbox.domain");
+        String mailbox = user + exchangeMailboxDomain;
 
         //First do the InboxMessage Soap call, and build up message object
         EcsInboxMessageSoap inboxSoap = new EcsInboxMessageSoap(messageLimit);
         EcsSoap msgSoap =
-            new EcsSoap(url, user, pass, domain, inboxSoap, messageRulesFile);
+            new EcsSoap(exchangeUrl, user, pass, exchangeDomain, inboxSoap,
+                    messageRulesFile);
         try {
             msgSoap.queryExchange();
         } catch (Exception e) {
@@ -117,15 +118,21 @@ public final class InboxMessageServiceImpl implements InboxMessageService {
             logger.error(error, e);
             e.printStackTrace();
         }
-        ConcurrentLinkedQueue < Object > msgs = msgSoap.getExchangeObjects();
+        //TODO think about processing when no messages are returned.
+        ConcurrentLinkedQueue < Object > respMsgs =
+            msgSoap.getExchangeObjects();
+        Iterator < Object > respIter = respMsgs.iterator();
+        ResponseMessage respMessage = (ResponseMessage) respIter.next();
+        ConcurrentLinkedQueue < Object > inboxMessages =
+            respMessage.getExchangeObjects();
 
         //Next do the AlternateId Soap call (pass in message object),
         //and get the AlternateId objects
         EcsAlternateIdSoap altIdSoap =
             new EcsAlternateIdSoap(alternateIdFromIdType, alternateIdToIdType,
-                    mailbox, msgs);
-        EcsSoap idSoap = new EcsSoap(
-                url, user, pass, domain, altIdSoap, alternateIdRulesFile);
+                    mailbox, inboxMessages);
+        EcsSoap idSoap = new EcsSoap(exchangeUrl, user, pass, exchangeDomain,
+                altIdSoap, alternateIdRulesFile);
         try {
             idSoap.queryExchange();
         } catch (Exception e) {
@@ -139,7 +146,7 @@ public final class InboxMessageServiceImpl implements InboxMessageService {
         //for example, set the OwaId property of the InboxMessage object.
         try {
             TransformInboxMessage transIm =
-                new TransformInboxMessage(msgs, ids);
+                new TransformInboxMessage(inboxMessages, ids);
             transIm.transform();
         } catch (Exception e) {
             logger.error(e);
@@ -147,7 +154,9 @@ public final class InboxMessageServiceImpl implements InboxMessageService {
         }
 
         //Transform the queue of Object into casts of InboxMessage
-        Iterator < Object > msgIter = msgs.iterator();
+        Iterator < Object > msgIter = inboxMessages.iterator();
+        //Have to ConcurrentLinkedQueue or message dupes will appear in the jsp.
+        transformedMsgs.clear();
         while (msgIter.hasNext()) {
             InboxMessage msg = (InboxMessage) msgIter.next();
             //logger.debug("Checking iterator: " + msg.getOwaId());

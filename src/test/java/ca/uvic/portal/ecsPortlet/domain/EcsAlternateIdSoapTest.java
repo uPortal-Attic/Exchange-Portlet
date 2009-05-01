@@ -1,6 +1,7 @@
 package ca.uvic.portal.ecsPortlet.domain;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -77,9 +78,22 @@ public class EcsAlternateIdSoapTest extends TestCase {
         } catch (Exception e) {
             assertNull("Got error " + e, e);
         }
-        ConcurrentLinkedQueue < Object > messages = soap.getExchangeObjects();
+        ConcurrentLinkedQueue < Object > respMessages =
+            soap.getExchangeObjects();
+
+        //Make sure we actually got some msgs back
+        Iterator < Object > respIterator = respMessages.iterator();
+        assertNotNull("received response msg back", respIterator.hasNext());
+        ResponseMessage respMessage = (ResponseMessage) respIterator.next();
+        if (respMessage.getResponseIndicator().equals("Error")) {
+            //Fail this test as we can can't get alternateId back if we don't
+            //have messages.
+            fail("Forcing failure as we returned no messages from exchange.");
+        }
+        ConcurrentLinkedQueue < Object > inboxMessages =
+            respMessage.getExchangeObjects();
         messageSoap =
-            new EcsAlternateIdSoap(FROMIDTYPE, TOIDTYPE, mlbox, messages);
+            new EcsAlternateIdSoap(FROMIDTYPE, TOIDTYPE, mlbox, inboxMessages);
     }
 
     /**

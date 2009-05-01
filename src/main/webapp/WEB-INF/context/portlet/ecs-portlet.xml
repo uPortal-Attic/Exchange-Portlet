@@ -9,6 +9,13 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
+    <!--  enable access to externalized properties via PropertyPlaceholderConfigurer 
+          It seems that you have to enable this here, even though its also enabled
+          in the applicationContext.xml file, or unit tests will fail -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:ecs.properties"/>
+    </bean>
+
     <!-- See applicationContext.xml for service class wiring -->
 
     <context:annotation-config/>
@@ -20,8 +27,23 @@
         </property>
     </bean>
 
+    <!-- Controllers -->
+    <!-- Make sure that the userInfo vars match what you have in the portlet.xml file -->
     <bean id="inboxMessageController" class="ca.uvic.portal.ecsPortlet.portlet.InboxMessageController" >
         <property name="inboxMessageService" ref="inboxMessageService" />
+        <property name="loginIdPortletParam" value="${ecs.portletRequest.userInfo.loginId}" />
+        <property name="passwordPortletParam" value="${ecs.portletRequest.userInfo.password}" />
+        <property name="cacheSeconds" value="0" />
     </bean>
+
+    <!-- Handler Mapping -->
+    <bean class="org.springframework.web.portlet.handler.PortletModeHandlerMapping">
+        <property name="portletModeMap">
+            <map>
+                <entry key="view" value-ref="inboxMessageController" />
+            </map>
+        </property>
+    </bean>
+    
 
 </beans>

@@ -1,13 +1,13 @@
 <digester-rules>
   <pattern value="*/ResponseMessages/FindItemResponseMessage">
-    <object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.InboxMessage"/>
+    <object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.ResponseMessage"/>
     <set-properties-rule>
        <alias attr-name="ResponseClass" prop-name="responseIndicator" />
     </set-properties-rule>
-    <bean-property-setter-rule pattern="ResponseCode" propertyname="errorResponseCode"/>
-    <bean-property-setter-rule pattern="MessageText" propertyname="errorMessageText"/>
+    <bean-property-setter-rule pattern="ResponseCode" propertyname="responseCode"/>
+    <bean-property-setter-rule pattern="MessageText" propertyname="responseText"/>
     <pattern value="RootFolder/Items/Message">
-      <!--object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.InboxMessage"/-->
+      <object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.InboxMessage"/>
       <pattern value="ItemId">
          <set-properties-rule>
             <alias attr-name="Id" prop-name="id" />
@@ -23,7 +23,10 @@
       <pattern value="From/Mailbox">
           <bean-property-setter-rule pattern="Name" propertyname="fromMailboxName"/>
       </pattern>
+      <!-- Add an exchange object to ResponseMessage -->
+      <set-next-rule methodname="addExchangeObject"/>
     </pattern>
+    <!-- Add an exchange object to EcsSoap -->
     <set-next-rule methodname="addExchangeObject"/>
   </pattern>
 </digester-rules>

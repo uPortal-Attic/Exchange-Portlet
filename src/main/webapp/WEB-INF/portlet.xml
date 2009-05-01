@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- Please see the associated properties file for variable attributes.-->
 <portlet-app
         xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -24,16 +25,26 @@
                         <title>Exchange Portlet</title>
                 </portlet-info>
         </portlet>
-        <user-attribute>
-                <description>User First Name</description>
-                <name>user.name.given</name>
-        </user-attribute>
+        <!-- Uportal specific and Luminis uPortal specific attributes that
+             are set in the personDirs.xml config and made available to portlet
+             here. -->
         <user-attribute>
                 <description>User Family Name</description>
-                <name>user.name.family</name>
+                <name>${ecs.portletRequest.userInfo.familyName}</name>
+        </user-attribute>
+        <user-attribute>
+                <description>User Given Name</description>
+                <name>${ecs.portletRequest.userInfo.givenName}</name>
+        </user-attribute>
+        <user-attribute>
+                <description>User Login ID</description>
+                <!--name>${ecs.portletRequest.userInfo.loginId}</name-->
+                <!-- name>urn:sungardhe:dir:loginId</name-->
+                <name>user.login.id</name>
         </user-attribute>
         <user-attribute>
                 <description>User Password</description>
                 <name>password</name>
+                <!--name>${ecs.portletRequest.userInfo.password}</name-->
         </user-attribute>
 </portlet-app>

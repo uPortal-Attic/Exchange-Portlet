@@ -6,13 +6,13 @@ import java.text.ParseException;
 
 /**
  * A Domain class for Exchange Channel Inbox Messages. This class works closely
- * with a Digester file that parses a soap response envelope into this 
+ * with a Digester file that parses a soap response envelope into this
  * domain object.
  * @author Charles Frank
  * @version svn:$Id$
  *
  */
-public class InboxMessage extends Domain {
+public class InboxMessage {
 
     /**
      * private message id.
@@ -62,16 +62,8 @@ public class InboxMessage extends Domain {
     /**
      * Constructor default.
      */
-    public InboxMessage() { 
-        super();
-    }
+    public InboxMessage() { }
 
-    /*
-     * @return Subject as default toString output.
-    public final String toString() {
-        return "Subject: " + subject;
-    }
-     */
     /**
      * @return the id
      */
@@ -91,10 +83,10 @@ public class InboxMessage extends Domain {
         return owaId;
     }
     /**
-     * @param id owaId to set
+     * @param oId owaId to set
      */
-    public final void setOwaId(final String id) {
-        this.owaId = id;
+    public final void setOwaId(final String oId) {
+        this.owaId = oId;
     }
 
     /**

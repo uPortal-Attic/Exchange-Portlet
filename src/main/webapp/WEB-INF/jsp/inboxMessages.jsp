@@ -1,13 +1,10 @@
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
-<html>
-<head><title>Latest Exchange Inbox Messages</title>
-<body>
 <h1>Recent Inbox Messages</h1>
 
 <table border="0" cellpadding="4">
    <tr>
-      <th>From</th>
-      <th>Subject</th>
+      <th>From: </th>
+      <th>Subject: </th>
    </tr>
    <c:forEach items="${messages}" var="msg">
      <tr>
@@ -16,5 +13,3 @@
      </tr>
    </c:forEach>
 </table>
-</body>
-</html>

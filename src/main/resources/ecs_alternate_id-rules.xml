@@ -4,8 +4,8 @@
     <set-properties-rule>
        <alias attr-name="ResponseClass" prop-name="responseIndicator" />
     </set-properties-rule>
-    <bean-property-setter-rule pattern="ResponseCode" propertyname="errorResponseCode"/>
-    <bean-property-setter-rule pattern="MessageText" propertyname="errorMessageText"/> 
+    <bean-property-setter-rule pattern="ResponseCode" propertyname="responseCode"/>
+    <bean-property-setter-rule pattern="MessageText" propertyname="responseText"/> 
     <pattern value="AlternateId">
       <!--object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.AlternateId"/-->
       <set-properties-rule>

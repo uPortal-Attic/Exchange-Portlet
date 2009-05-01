@@ -28,7 +28,7 @@ public class InboxMessageServiceImplTest extends TestCase {
     /**
      * private The exchange id type to change to.
      */
-    private static String TOIDTYPE = "OwaId";
+    private static final String TOIDTYPE = "OwaId";
     /**
      * private The queue of InboxMessage objects.
      */
@@ -76,14 +76,19 @@ public class InboxMessageServiceImplTest extends TestCase {
             prop.getProperty("ecs.alternateIdRulesFile");
         int msgLimit = Integer.parseInt(
                 prop.getProperty("ecs.messageLimit").substring(0));
+        String exchDomain = prop.getProperty("ecs.domain");
+        String exchUrl = prop.getProperty("ecs.url");
+        String exchMboxDomain = prop.getProperty("ecs.mailbox.domain");
 
         inboxMsgImpl = new InboxMessageServiceImpl(
-                TESTPROPFILE,
                 msgLimit,
                 msgRulesFile,
                 altIdRulesFile,
                 FROMIDTYPE,
-                TOIDTYPE);
+                TOIDTYPE,
+                exchDomain,
+                exchUrl,
+                exchMboxDomain);
     }
 
     /**

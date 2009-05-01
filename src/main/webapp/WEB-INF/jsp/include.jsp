@@ -7,4 +7,4 @@
 <%@ taglib prefix="portlet" uri="http://java.sun.com/portlet" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<%@ taglib prefix="html" uri="/WEB-INF/tags/html" %>
+<%@ taglib prefix="html" tagdir="/WEB-INF/tags/html" %>

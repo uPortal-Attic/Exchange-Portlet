@@ -4,23 +4,31 @@
 <beans>
 
     <!--  enable access to externalized properties via PropertyPlaceholderConfigurer -->
-    <!-- bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="WEB-INF/ecs.properties"/>
-    </bean-->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:ecs.properties"/>
+    </bean>
+
 
     <!-- Service Classes that might need access to PropertyPlaceHolderConfigurer -->
-    <!-- The one and only InboxMessageService 
-         TODO: think about abstracting out the ecs.properties using
-         PropertyPlaceHolderConfigurer see example in petportal, could read
-         properties and then inject them instead of doing it InboxMessageServiceImpl class -->
+    <!-- The one and only InboxMessageService Constructor signature
+        messageLimit              = msgLimit;
+        messageRulesFile          = msgRulesFile;
+        alternateIdRulesFile      = altIdRulesFile;
+        alternateIdFromIdType     = fromIdType;
+        alternateIdToIdType       = toIdType;
+        exchangeDomain            = exchDomain;
+        exchangeUrl               = exchUrl;
+        exchangeMailboxDomain     = exchMboxDomain;-->
     <bean id="inboxMessageService" class="ca.uvic.portal.ecsPortlet.service.InboxMessageServiceImpl">
-        <constructor-arg  value="/ecs.properties" />
         <constructor-arg value="10" />
         <constructor-arg value="/ecs_inbox_msgs-rules.xml" />
         <constructor-arg value="/ecs_alternate_id-rules.xml" />
         <!-- constructor-arg value="EwsLegacyId" /-->
         <constructor-arg value="EwsId" />
         <constructor-arg value="OwaId" />
+        <constructor-arg value="${ecs.domain}" />
+        <constructor-arg value="${ecs.url}" />
+        <constructor-arg value="${ecs.mailbox.domain}" />
     </bean>
 
     <!-- Message source for this context, loaded from localized "messages_xx" files -->

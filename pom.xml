@@ -29,13 +29,11 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>${commons-codec-version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
             <version>${commons-httpclient-version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>portlet-api</groupId>

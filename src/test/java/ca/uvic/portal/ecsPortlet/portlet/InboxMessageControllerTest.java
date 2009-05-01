@@ -14,7 +14,6 @@ import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.mock.web.portlet.MockRenderRequest;
 import org.springframework.mock.web.portlet.MockRenderResponse;
@@ -54,11 +53,11 @@ public class InboxMessageControllerTest extends TestCase {
     /**
      * private The application context.
      */
-    private static ApplicationContext APPCONTEXT;
+    private static ApplicationContext appContext;
     /**
      * private The portlet context.
      */
-    private static ApplicationContext ECSPORTLETCONTEXT;
+    private static ApplicationContext ecsPortletContext;
     /**
      * private The commons logger.
      */
@@ -88,16 +87,20 @@ public class InboxMessageControllerTest extends TestCase {
            e.printStackTrace();
         }
         try {
-            APPCONTEXT = new FileSystemXmlApplicationContext(
+            appContext = new FileSystemXmlApplicationContext(
               new String[]{prop.getProperty("ecs.appContext.url")});
-            ECSPORTLETCONTEXT = new FileSystemXmlApplicationContext(
+            ecsPortletContext = new FileSystemXmlApplicationContext(
               new String[]{prop.getProperty("ecs.portletContext.url")},
-                  APPCONTEXT);
+                  appContext);
         } catch (Exception ex) {
             throw new ExceptionInInitializerError(ex);
         }
         exchangeUser      = prop.getProperty("ecs.user");
         exchangePassword  = prop.getProperty("ecs.pass");
+        //The ecs.test.properties values for this must match what is
+        //is actually set in ecs.properties for this test to pass because
+        //this test uses the actual applicationContext.xml and portlet.xml
+        //files.
         portletRequestUserInfoLoginId =
             prop.getProperty("ecs.portletRequest.userInfo.loginId");
         portletRequestUserInfoPassword =
@@ -120,7 +123,7 @@ public class InboxMessageControllerTest extends TestCase {
      */
     public final void testGetInboxMessages() throws Exception {
         InboxMessageController controller = (InboxMessageController)
-            ECSPORTLETCONTEXT.getBean("inboxMessageController");
+            ecsPortletContext.getBean("inboxMessageController");
 
         MockRenderRequest request = new MockRenderRequest();
         MockRenderResponse response = new MockRenderResponse();

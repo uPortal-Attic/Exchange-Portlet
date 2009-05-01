@@ -81,17 +81,21 @@ public class AlternateIdTest extends TestCase {
         } catch (Exception e) {
             assertNull("Got error " + e, e);
         }
-        ConcurrentLinkedQueue < Object > msgs = msgSoap.getExchangeObjects();
+        ConcurrentLinkedQueue < Object > respMessage =
+            msgSoap.getExchangeObjects();
 
         //Make sure we actually got some msgs back
-        Iterator < Object > msgIterator = msgs.iterator();
-        assertNotNull("received msgs back", msgIterator.hasNext());
-        InboxMessage singleMsg = (InboxMessage) msgIterator.next();
-        if (singleMsg.getResponseIndicator().equals("Error")) {
+        Iterator < Object > respIterator = respMessage.iterator();
+        assertNotNull("received response msg back", respIterator.hasNext());
+        ResponseMessage message = (ResponseMessage) respIterator.next();
+        if (message.getResponseIndicator().equals("Error")) {
             //Fail this test as we can can't get alternateId back if we don't
             //have messages.
             fail("Forcing failure as we returned no messages from exchange.");
         }
+
+        ConcurrentLinkedQueue < Object > msgs = message.getExchangeObjects();
+        assertNotNull("received inbox message back", msgs.size());
 
         EcsAlternateIdSoap altIdSoap =
             new EcsAlternateIdSoap(FROMIDTYPE, TOIDTYPE, mailbox, msgs);
@@ -118,21 +122,23 @@ public class AlternateIdTest extends TestCase {
             assertNotNull("got mailbox", altId.getMailbox());
             //System.out.println(message.getResponseIndicator());
             assertEquals("Success", altId.getResponseIndicator());
-            assertEquals("NoError", altId.getErrorResponseCode());
+            assertEquals("NoError", altId.getResponseCode());
             assertNull("error message text should be null",
-                    altId.getErrorMessageText());
+                    altId.getResponseText());
         } else {
             assertEquals("Error", altId.getResponseIndicator());
             assertNotNull("got error response code",
-                    altId.getErrorResponseCode());
+                    altId.getResponseCode());
             assertNotNull("got error message text",
-                    altId.getErrorMessageText());
+                    altId.getResponseText());
         }
 
         //Now modify a message with a faulty Id and test failure.
         ConcurrentLinkedQueue < Object > forceFailMsgs =
             new ConcurrentLinkedQueue < Object >();
         //Set the Id to something that won't possibly register on a look up.
+        Iterator < Object > failedMsgIter = msgs.iterator();
+        InboxMessage singleMsg = (InboxMessage) failedMsgIter.next();
         singleMsg.setId("blah");
         forceFailMsgs.add(singleMsg);
         EcsAlternateIdSoap altIdSoapFail =
@@ -151,9 +157,9 @@ public class AlternateIdTest extends TestCase {
         AlternateId altIdFail = (AlternateId) altIdIteratorFail.next();
         assertEquals("Error", altIdFail.getResponseIndicator());
         assertNotNull("got error response code",
-                altIdFail.getErrorResponseCode());
+                altIdFail.getResponseCode());
         assertNotNull("got error message text",
-                altIdFail.getErrorMessageText());
+                altIdFail.getResponseText());
         assertNull(altIdFail.getMailbox());
     }
 

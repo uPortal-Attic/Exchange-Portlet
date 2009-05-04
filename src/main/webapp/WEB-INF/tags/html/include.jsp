@@ -3,4 +3,4 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="portlet" uri="http://java.sun.com/portlet" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="html" uri="/WEB-INF/tags/html" %>
+<%@ taglib prefix="ecshtml" uri="/WEB-INF/tags/ecs.tld" %>

@@ -9,7 +9,7 @@
    <c:forEach items="${messages}" var="msg">
      <tr>
         <td><c:out value="${msg.fromMailboxName}" /></td>
-        <td><c:out value="${msg.subject}" /></td>
+        <td><a href="https://mail.uvic.ca/owa/?ae=Item&t=IPM.Note&id=<c:out value="${msg.owaId}" />"><c:out value="${msg.subject}" /></a></td>
      </tr>
    </c:forEach>
 </table>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- DispatcherPortlet application context for ecsPortlet. -->
-<beans xmlns="http://www.springframework.org/schema/beans" 
+<beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -9,7 +9,7 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <!--  enable access to externalized properties via PropertyPlaceholderConfigurer 
+    <!--  enable access to externalized properties via PropertyPlaceholderConfigurer
           It seems that you have to enable this here, even though its also enabled
           in the applicationContext.xml file, or unit tests will fail -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -44,6 +44,6 @@
             </map>
         </property>
     </bean>
-    
+
 
 </beans>

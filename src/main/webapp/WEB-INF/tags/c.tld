@@ -4,7 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
     version="2.0">
-    
+
   <description>JSTL 1.1 core library</description>
   <display-name>JSTL core</display-name>
   <tlib-version>1.1</tlib-version>
@@ -42,9 +42,9 @@ scoped variable is the type of the exception thrown.
 
   <tag>
     <description>
-	Simple conditional tag that establishes a context for
-	mutually exclusive conditional operations, marked by
-	&lt;when&gt; and &lt;otherwise&gt;
+    Simple conditional tag that establishes a context for
+    mutually exclusive conditional operations, marked by
+    &lt;when&gt; and &lt;otherwise&gt;
     </description>
     <name>choose</name>
     <tag-class>org.apache.taglibs.standard.tag.common.core.ChooseTag</tag-class>
@@ -53,9 +53,9 @@ scoped variable is the type of the exception thrown.
 
   <tag>
     <description>
-	Simple conditional tag, which evalutes its body if the
-	supplied condition is true and optionally exposes a Boolean
-	scripting variable representing the evaluation of this condition
+    Simple conditional tag, which evalutes its body if the
+    supplied condition is true and optionally exposes a Boolean
+    scripting variable representing the evaluation of this condition
     </description>
     <name>if</name>
     <tag-class>org.apache.taglibs.standard.tag.rt.core.IfTag</tag-class>
@@ -68,13 +68,13 @@ not the body content should be processed.
         <name>test</name>
         <required>true</required>
         <rtexprvalue>true</rtexprvalue>
-	<type>boolean</type>
+    <type>boolean</type>
     </attribute>
     <attribute>
         <description>
 Name of the exported scoped variable for the
 resulting value of the test condition. The type
-of the scoped variable is Boolean.        
+of the scoped variable is Boolean.
         </description>
         <name>var</name>
         <required>false</required>
@@ -158,7 +158,7 @@ resource.
 
   <tag>
     <description>
-	The basic iteration tag, accepting many different
+    The basic iteration tag, accepting many different
         collection types and supporting subsetting and other
         functionality
     </description>
@@ -170,10 +170,10 @@ resource.
         <description>
 Collection of items to iterate over.
         </description>
-	<name>items</name>
-	<required>false</required>
-	<rtexprvalue>true</rtexprvalue>
-	<type>java.lang.Object</type>
+    <name>items</name>
+    <required>false</required>
+    <rtexprvalue>true</rtexprvalue>
+    <type>java.lang.Object</type>
     </attribute>
     <attribute>
         <description>
@@ -185,10 +185,10 @@ If items not specified:
 Iteration begins with index set at the value
 specified.
         </description>
-	<name>begin</name>
-	<required>false</required>
-	<rtexprvalue>true</rtexprvalue>
-	<type>int</type>
+    <name>begin</name>
+    <required>false</required>
+    <rtexprvalue>true</rtexprvalue>
+    <type>int</type>
     </attribute>
     <attribute>
         <description>
@@ -199,20 +199,20 @@ If items not specified:
 Iteration ends when index reaches the value
 specified.
         </description>
-	<name>end</name>
-	<required>false</required>
-	<rtexprvalue>true</rtexprvalue>
-	<type>int</type>
+    <name>end</name>
+    <required>false</required>
+    <rtexprvalue>true</rtexprvalue>
+    <type>int</type>
     </attribute>
     <attribute>
         <description>
 Iteration will only process every step items of
 the collection, starting with the first one.
         </description>
-	<name>step</name>
-	<required>false</required>
-	<rtexprvalue>true</rtexprvalue>
-	<type>int</type>
+    <name>step</name>
+    <required>false</required>
+    <rtexprvalue>true</rtexprvalue>
+    <type>int</type>
     </attribute>
     <attribute>
         <description>
@@ -221,9 +221,9 @@ current item of the iteration. This scoped
 variable has nested visibility. Its type depends
 on the object of the underlying collection.
         </description>
-	<name>var</name>
-	<required>false</required>
-	<rtexprvalue>false</rtexprvalue>
+    <name>var</name>
+    <required>false</required>
+    <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
         <description>
@@ -232,15 +232,15 @@ status of the iteration. Object exported is of type
 javax.servlet.jsp.jstl.core.LoopTagStatus. This scoped variable has nested
 visibility.
         </description>
-	<name>varStatus</name>
-	<required>false</required>
-	<rtexprvalue>false</rtexprvalue>
+    <name>varStatus</name>
+    <required>false</required>
+    <rtexprvalue>false</rtexprvalue>
     </attribute>
   </tag>
 
   <tag>
     <description>
-	Iterates over tokens, separated by the supplied delimeters
+    Iterates over tokens, separated by the supplied delimeters
     </description>
     <name>forTokens</name>
     <tag-class>org.apache.taglibs.standard.tag.rt.core.ForTokensTag</tag-class>
@@ -249,50 +249,50 @@ visibility.
         <description>
 String of tokens to iterate over.
         </description>
-	<name>items</name>
-	<required>true</required>
-	<rtexprvalue>true</rtexprvalue>
-	<type>java.lang.String</type>
+    <name>items</name>
+    <required>true</required>
+    <rtexprvalue>true</rtexprvalue>
+    <type>java.lang.String</type>
     </attribute>
     <attribute>
         <description>
 The set of delimiters (the characters that
 separate the tokens in the string).
         </description>
-	<name>delims</name>
-	<required>true</required>
-	<rtexprvalue>true</rtexprvalue>
-	<type>java.lang.String</type>
+    <name>delims</name>
+    <required>true</required>
+    <rtexprvalue>true</rtexprvalue>
+    <type>java.lang.String</type>
     </attribute>
     <attribute>
         <description>
 Iteration begins at the token located at the
 specified index. First token has index 0.
         </description>
-	<name>begin</name>
-	<required>false</required>
-	<rtexprvalue>true</rtexprvalue>
-	<type>int</type>
+    <name>begin</name>
+    <required>false</required>
+    <rtexprvalue>true</rtexprvalue>
+    <type>int</type>
     </attribute>
     <attribute>
         <description>
 Iteration ends at the token located at the
 specified index (inclusive).
         </description>
-	<name>end</name>
-	<required>false</required>
-	<rtexprvalue>true</rtexprvalue>
-	<type>int</type>
+    <name>end</name>
+    <required>false</required>
+    <rtexprvalue>true</rtexprvalue>
+    <type>int</type>
     </attribute>
     <attribute>
         <description>
 Iteration will only process every step tokens
 of the string, starting with the first one.
         </description>
-	<name>step</name>
-	<required>false</required>
-	<rtexprvalue>true</rtexprvalue>
-	<type>int</type>
+    <name>step</name>
+    <required>false</required>
+    <rtexprvalue>true</rtexprvalue>
+    <type>int</type>
     </attribute>
     <attribute>
         <description>
@@ -300,9 +300,9 @@ Name of the exported scoped variable for the
 current item of the iteration. This scoped
 variable has nested visibility.
         </description>
-	<name>var</name>
-	<required>false</required>
-	<rtexprvalue>false</rtexprvalue>
+    <name>var</name>
+    <required>false</required>
+    <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
         <description>
@@ -313,16 +313,16 @@ javax.servlet.jsp.jstl.core.LoopTag
 Status. This scoped variable has nested
 visibility.
         </description>
-	<name>varStatus</name>
-	<required>false</required>
-	<rtexprvalue>false</rtexprvalue>
+    <name>varStatus</name>
+    <required>false</required>
+    <rtexprvalue>false</rtexprvalue>
     </attribute>
   </tag>
 
   <tag>
     <description>
         Like &lt;%= ... &gt;, but for expressions.
-    </description> 
+    </description>
     <name>out</name>
     <tag-class>org.apache.taglibs.standard.tag.rt.core.OutTag</tag-class>
     <body-content>JSP</body-content>
@@ -542,8 +542,8 @@ resource that belongs to a foreign context.
 
   <tag>
     <description>
-	Subtag of &lt;choose&gt; that includes its body if its
-	condition evalutes to 'true'
+    Subtag of &lt;choose&gt; that includes its body if its
+    condition evalutes to 'true'
     </description>
     <name>when</name>
     <tag-class>org.apache.taglibs.standard.tag.rt.core.WhenTag</tag-class>
@@ -556,7 +556,7 @@ body content should be processed.
         <name>test</name>
         <required>true</required>
         <rtexprvalue>true</rtexprvalue>
-	<type>boolean</type>
+    <type>boolean</type>
     </attribute>
   </tag>
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Header>
+    <t:ServerVersionInfo MajorVersion="8" MinorVersion="1"
+    MajorBuildNumber="340" MinorBuildNumber="0"
+    xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />
+  </soap:Header>
+  <soap:Body>
+    <m:FindItemResponse
+xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"
+    xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages">
+
+      <m:ResponseMessages>
+        <m:FindItemResponseMessage ResponseClass="Success">
+          <m:ResponseCode>NoError</m:ResponseCode>
+          <m:RootFolder TotalItemsInView="2"
+          IncludesLastItemInRange="true">
+            <t:Items>
+              <t:CalendarItem>
+                <t:ItemId
+Id="AAAPAGNwZnJhbmtAdXZpYy5jYQFRAAiIy5wvaB/YAEYAAAAANwdp3nXZjkWdI+WX9pHtNgcAjHI6gcIQRkG+FFkDjS8UlgAAAK6QxQAAjHI6gcIQRkG+FFkDjS8UlgANz0RusAAAEA=="
+                ChangeKey="DwAAABYAAAA0kpbnJiIdS6dumTrYTWoaAFFXonSl" />
+                <t:Subject>Web Services Staff Meeting</t:Subject>
+                <t:HasAttachments>false</t:HasAttachments>
+                <t:Start>2009-05-06T18:00:00Z</t:Start>
+                <t:End>2009-05-06T19:00:00Z</t:End>
+                <t:LegacyFreeBusyStatus>
+                Tentative</t:LegacyFreeBusyStatus>
+                <t:Location>CLE C030</t:Location>
+                <t:CalendarItemType>Occurrence</t:CalendarItemType>
+                <t:Organizer>
+                  <t:Mailbox>
+                    <t:Name>David Wolowicz</t:Name>
+                  </t:Mailbox>
+                </t:Organizer>
+              </t:CalendarItem>
+              <t:CalendarItem>
+                <t:ItemId
+Id="AAAPAGNwZnJhbmtAdXZpYy5jYQFRAAiIy5z4komYAEYAAAAANwdp3nXZjkWdI+WX9pHtNgcAjHI6gcIQRkG+FFkDjS8UlgAAAK6QxQAANJKW5yYiHUunbpk62E1qGgBWjnWqdQAAEA=="
+                ChangeKey="DwAAABYAAAA0kpbnJiIdS6dumTrYTWoaAFaOkSTa" />
+                <t:Subject>uSource Project Team meeting</t:Subject>
+                <t:HasAttachments>false</t:HasAttachments>
+                <t:Start>2009-05-07T17:00:00Z</t:Start>
+                <t:End>2009-05-07T18:00:00Z</t:End>
+                <t:LegacyFreeBusyStatus>
+                Tentative</t:LegacyFreeBusyStatus>
+                <t:Location>CLE C030</t:Location>
+                <t:CalendarItemType>Exception</t:CalendarItemType>
+                <t:Organizer>
+                  <t:Mailbox>
+                    <t:Name>David Wolowicz</t:Name>
+                  </t:Mailbox>
+                </t:Organizer>
+              </t:CalendarItem>
+            </t:Items>
+          </m:RootFolder>
+        </m:FindItemResponseMessage>
+      </m:ResponseMessages>
+    </m:FindItemResponse>
+  </soap:Body>
+</soap:Envelope>

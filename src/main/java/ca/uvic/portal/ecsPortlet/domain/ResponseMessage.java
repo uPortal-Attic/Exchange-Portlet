@@ -5,7 +5,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * This class is a domain class that will create message response object from
  * each of the soap responses.  The soap responses have properties in common,
- * though each soap request is unique.
+ * though each soap request is unique.  This class is handy for domain classes
+ * elements like InboxMessage.java, that return only one ResponseMessage
+ * soap item.  You would not use this class for a domain class like
+ * AlternateId.java, which has a ResponseMessage for every item returned (you
+ * would use the Domain superclass for the appropriate object properties
+ * for response messages).
  * @author Charles Frank
  * @version svn:$Id$
  *

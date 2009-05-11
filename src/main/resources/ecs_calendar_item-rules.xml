@@ -1,0 +1,32 @@
+<digester-rules>
+  <pattern value="*/ResponseMessages/FindItemResponseMessage">
+    <object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.ResponseMessage"/>
+    <set-properties-rule>
+       <alias attr-name="ResponseClass" prop-name="responseIndicator" />
+    </set-properties-rule>
+    <bean-property-setter-rule pattern="ResponseCode" propertyname="responseCode"/>
+    <bean-property-setter-rule pattern="MessageText" propertyname="responseText"/>
+    <pattern value="RootFolder/Items/CalendarItem">
+      <object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.CalendarItem"/>
+      <pattern value="ItemId">
+         <set-properties-rule>
+            <alias attr-name="Id" prop-name="id" />
+         </set-properties-rule>
+      </pattern>
+      <bean-property-setter-rule pattern="Subject" propertyname="subject"/>
+      <bean-property-setter-rule pattern="HasAttachments" propertyname="hasAttachments"/>
+      <bean-property-setter-rule pattern="Start" propertyname="start"/>
+      <bean-property-setter-rule pattern="End" propertyname="end"/>
+      <bean-property-setter-rule pattern="LegacyFreeBusyStatus" propertyname="legacyFreeBusyStatus"/>
+      <bean-property-setter-rule pattern="Location" propertyname="location"/>
+      <bean-property-setter-rule pattern="CalendarItemType" propertyname="calendarItemType"/>
+      <pattern value="Organizer/Mailbox">
+          <bean-property-setter-rule pattern="Name" propertyname="organizerMailboxName"/>
+      </pattern>
+      <!-- Add an exchange object to ResponseMessage -->
+      <set-next-rule methodname="addExchangeObject"/>
+    </pattern>
+    <!-- Add an exchange object to EcsSoap -->
+    <set-next-rule methodname="addExchangeObject"/>
+  </pattern>
+</digester-rules>

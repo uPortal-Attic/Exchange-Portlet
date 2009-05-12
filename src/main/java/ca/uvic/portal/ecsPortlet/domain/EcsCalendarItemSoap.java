@@ -67,9 +67,21 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
      */
      private DayTense dayTense;
 
+     /**
+      * private timeCalStart If a dayTense isn't passed in, use timeStart
+      * to construct a Date.  The string must match the SOAPDATEFORMAT.
+      */
+     private Date timeCalStart;
+     /**
+      * private timeCalEnd If a dayTense isn't passed in, use timeEnd to
+      * construct a Date.  The string must match the SOAPDATEFORMAT.
+      */
+     private Date timeCalEnd;
+
     /**
-     * Constructor uses Spring injection.
-     * @param evtLimit inbox message limit for the soap envelope
+     * Constructor to use if you need one day in past/future and todays events,
+     * or just todays events.
+     * @param evtLimit Calender item event limit for the soap envelope.
      * @param tense The one day past/future tense for calendar event retrieval.
      */
     public EcsCalendarItemSoap(final int evtLimit, final DayTense tense) {
@@ -77,6 +89,32 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
         eventLimit = evtLimit;
         //Internal typing for Enum will help with this at compile time check.
         this.dayTense = tense;
+        this.setXMLBody();
+    }
+
+    /**
+     * Constructor to use if you need an unspecified range of calendar items.
+     * @param evtLimit Calender item event limit for the soap envelope.
+     * @param timeStart String similar in format to SOAPDATEFORMAT.
+     * @param timeEnd String similar in format to SOAPDATEFORMAT.
+     * won't parse according to SOAPDATEFORMAT.
+     * @throws Exception Will throw an IllegalArgumentException if timeStart is
+     * after timeEnd in chrono order, and will also throw a ParseException if
+     * the string date is not similar to SOAPDATEFORMAT.
+     */
+    public EcsCalendarItemSoap(final int evtLimit,
+                               final String timeStart,
+                               final String timeEnd)
+            throws Exception {
+        super();
+        eventLimit = evtLimit;
+        SimpleDateFormat sdf = new SimpleDateFormat(SOAPDATEFORMAT);
+        this.timeCalStart = sdf.parse(timeStart);
+        this.timeCalEnd   = sdf.parse(timeEnd);
+        if (this.timeCalStart.after(this.timeCalEnd)) {
+            throw new IllegalArgumentException(
+                    "timeStart must be before timeEnd chronologically");
+        }
         this.setXMLBody();
     }
 
@@ -92,7 +130,8 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
       SimpleDateFormat dateFormat = new SimpleDateFormat(SOAPDATEFORMAT);
       String dayStart;
       String dayEnd;
-      switch (this.dayTense) {
+      if(this.dayTense != null) {
+          switch (this.dayTense) {
           case YESTERDAY:
               dayStart = dateFormat.format(
                       this.getDayPastOrFuture(ONEDAYPAST, BUSINESSDAYSTART));
@@ -109,11 +148,13 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
               dayEnd   = dateFormat.format(this.getToday(BUSINESSDAYEND));
               break;
           default:
-              //NOTE: we should never get here cause the constructor
-              //requires the Enum DayTense type, and will fail to compile
-              //if it doesn't get a valid value.
               dayStart = dateFormat.format(this.getToday(BUSINESSDAYSTART));
               dayEnd   = dateFormat.format(this.getToday(BUSINESSDAYEND));
+              break;
+          }
+      } else {
+        dayStart = dateFormat.format(this.timeCalStart);
+        dayEnd   = dateFormat.format(this.timeCalEnd);
       }
 
         String xmlBody =

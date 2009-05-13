@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import junit.framework.TestCase;
 import ca.uvic.portal.ecsPortlet.domain.CalendarItem;
-import ca.uvic.portal.ecsPortlet.domain.EcsCalendarItemSoap;
 
 /**
  * Test class for testing the CalendarItemServiceImpl implementation.
@@ -115,7 +114,8 @@ public class CalendarItemServiceImplTest extends TestCase {
             calendarItems = calItemImpl.getCalendarItems(exchangeUser,
                                                          exchangePassword,
                                                          calStart,
-                                                         calEnd);
+                                                         calEnd,
+                                                         "calendar");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,11 +129,10 @@ public class CalendarItemServiceImplTest extends TestCase {
 
     }
     /* This requires an entry for today, was passing when event is entered
-     * today
     public final void testGetCalendarItemsToday() {
         calendarItems = calItemImpl.getCalendarItems(
                 exchangeUser,
-                exchangePassword, 
+                exchangePassword,
                 EcsCalendarItemSoap.DayTense.TODAY);
         Iterator < CalendarItem > calIter = calendarItems.iterator();
         CalendarItem calItem = calIter.next();

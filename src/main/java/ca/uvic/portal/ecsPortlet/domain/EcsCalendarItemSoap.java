@@ -43,6 +43,12 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
     private static int eventLimit;
 
     /**
+     * private calendarId The calendar id property for the soap envelope.
+     * this will default to 'calendar' for most people.
+     */
+    private static String calendarId = "calendar";
+
+    /**
      * Set the DayTense to past or present.  This enum represents either
      * yesterday to today,today to tomorrow, or only today. It will either be
      * past or future tense, combined with today's events, or just today's
@@ -93,6 +99,23 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
     }
 
     /**
+     * Constructor to use if you need one day in past/future and todays events,
+     * or just todays events, and if you desire a calenderId that is not the
+     * default 'calendar'.
+     * @param evtLimit Calendar item event limit for the soap envelope.
+     * @param tense The one day past/future tense for calendar event retrieval.
+     * @param calId The calendar id to set for the soap envelope.
+     */
+    public EcsCalendarItemSoap(final int evtLimit, final DayTense tense,
+                               final String calId) {
+        super();
+        eventLimit = evtLimit;
+        //Internal typing for Enum will help with this at compile time check.
+        this.dayTense = tense;
+        calendarId = calId;
+        this.setXMLBody();
+    }
+    /**
      * Constructor to use if you need an unspecified range of calendar items.
      * @param evtLimit Calender item event limit for the soap envelope.
      * @param timeStart String similar in format to SOAPDATEFORMAT.
@@ -117,6 +140,35 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
         }
         this.setXMLBody();
     }
+    /**
+     * Constructor to use if you need an unspecified range of calendar items,
+     * and if you desire a calenderId that is not the default 'calendar'.
+     * @param evtLimit Calender item event limit for the soap envelope.
+     * @param timeStart String similar in format to SOAPDATEFORMAT.
+     * @param timeEnd String similar in format to SOAPDATEFORMAT.
+     * won't parse according to SOAPDATEFORMAT.
+     * @param calId The calendar id to set for the soap envelope.
+     * @throws Exception Will throw an IllegalArgumentException if timeStart is
+     * after timeEnd in chrono order, and will also throw a ParseException if
+     * the string date is not similar to SOAPDATEFORMAT.
+     */
+    public EcsCalendarItemSoap(final int evtLimit,
+                               final String timeStart,
+                               final String timeEnd,
+                               final String calId)
+            throws Exception {
+        super();
+        eventLimit = evtLimit;
+        SimpleDateFormat sdf = new SimpleDateFormat(SOAPDATEFORMAT);
+        this.timeCalStart = sdf.parse(timeStart);
+        this.timeCalEnd   = sdf.parse(timeEnd);
+        calendarId = calId;
+        if (this.timeCalStart.after(this.timeCalEnd)) {
+            throw new IllegalArgumentException(
+                    "timeStart must be before timeEnd chronologically");
+        }
+        this.setXMLBody();
+    }
 
     /**
      * Set the soap xml body of the soap envelope (decorated by super class).
@@ -130,7 +182,7 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
       SimpleDateFormat dateFormat = new SimpleDateFormat(SOAPDATEFORMAT);
       String dayStart;
       String dayEnd;
-      if(this.dayTense != null) {
+      if (this.dayTense != null) {
           switch (this.dayTense) {
           case YESTERDAY:
               dayStart = dateFormat.format(
@@ -164,7 +216,7 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
       +   "</ItemShape>" + this.getLineEnding()
       +   "<CalendarView MaxEntriesReturned=\"" + eventLimit + "\" StartDate=\"" + dayStart + "\" EndDate=\"" + dayEnd + "\" />" + this.getLineEnding()
       +   "<ParentFolderIds>" + this.getLineEnding()
-      +     "<t:DistinguishedFolderId Id=\"calendar\"/>" + this.getLineEnding()
+      +     "<t:DistinguishedFolderId Id=\"" + calendarId + "\"/>" + this.getLineEnding()
       +   "</ParentFolderIds>" + this.getLineEnding()
       + "</FindItem>" + this.getLineEnding();
         super.setXMLBody(xmlBody);

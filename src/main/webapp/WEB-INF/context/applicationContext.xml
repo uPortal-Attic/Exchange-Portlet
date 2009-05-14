@@ -10,7 +10,7 @@
 
 
     <!-- Service Classes that might need access to PropertyPlaceHolderConfigurer -->
-    <!-- The one and only InboxMessageService Constructor signature
+    <!-- The one and only InboxMessageServiceImpl Constructor signature
         messageLimit              = msgLimit;
         messageRulesFile          = msgRulesFile;
         alternateIdRulesFile      = altIdRulesFile;
@@ -22,6 +22,26 @@
     <bean id="inboxMessageService" class="ca.uvic.portal.ecsPortlet.service.InboxMessageServiceImpl">
         <constructor-arg value="10" />
         <constructor-arg value="/ecs_inbox_msgs-rules.xml" />
+        <constructor-arg value="/ecs_alternate_id-rules.xml" />
+        <!-- constructor-arg value="EwsLegacyId" /-->
+        <constructor-arg value="EwsId" />
+        <constructor-arg value="OwaId" />
+        <constructor-arg value="${ecs.domain}" />
+        <constructor-arg value="${ecs.url}" />
+        <constructor-arg value="${ecs.mailbox.domain}" />
+    </bean>
+    <!-- The one and only CalendarItemServiceImpl Constructor signature
+        eventLimit                = evtLimit;
+        calItemRulesFile          = calRulesFile;
+        alternateIdRulesFile      = altIdRulesFile;
+        alternateIdFromIdType     = fromIdType;
+        alternateIdToIdType       = toIdType;
+        exchangeDomain            = exchDomain;
+        exchangeUrl               = exchUrl;
+        exchangeMailboxDomain     = exchMboxDomain; -->
+    <bean id="calendarItemService" class="ca.uvic.portal.ecsPortlet.service.CalendarItemServiceImpl">
+        <constructor-arg value="10" />
+        <constructor-arg value="/ecs_calendar_item-rules.xml" />
         <constructor-arg value="/ecs_alternate_id-rules.xml" />
         <!-- constructor-arg value="EwsLegacyId" /-->
         <constructor-arg value="EwsId" />

@@ -70,7 +70,7 @@ public final class CalendarItemServiceImpl implements CalendarItemService {
     /**
      * Constructor: use Spring Injection.
      * @param evtLimit The CalendarItem limit.
-     * @param msgRulesFile The Digest Rules file that dictate CalendarItem
+     * @param calRulesFile The Digest Rules file that dictate CalendarItem
      * object creation.
      * @param altIdRulesFile The Digest Rules file that dictate AlternateId
      * object creation.
@@ -82,7 +82,7 @@ public final class CalendarItemServiceImpl implements CalendarItemService {
      */
     public CalendarItemServiceImpl(
             final int evtLimit,
-            final String msgRulesFile,
+            final String calRulesFile,
             final String altIdRulesFile,
             final String fromIdType,
             final String toIdType,
@@ -90,7 +90,7 @@ public final class CalendarItemServiceImpl implements CalendarItemService {
             final String exchUrl,
             final String exchMboxDomain) {
         eventLimit                = evtLimit;
-        calItemRulesFile          = msgRulesFile;
+        calItemRulesFile          = calRulesFile;
         alternateIdRulesFile      = altIdRulesFile;
         alternateIdFromIdType     = fromIdType;
         alternateIdToIdType       = toIdType;
@@ -242,15 +242,12 @@ public final class CalendarItemServiceImpl implements CalendarItemService {
             e.printStackTrace();
         }
 
-        //Transform the queue of Object into casts of CalendarItem
-        Iterator < Object > calIter = calendarItems.iterator();
         //Have to ConcurrentLinkedQueue or message dupes will appear in the jsp.
         transformedCalItems.clear();
-        while (calIter.hasNext()) {
-            CalendarItem msg = (CalendarItem) calIter.next();
-            //logger.debug("Checking iterator: " + msg.getOwaId());
-            transformedCalItems.add(msg);
-           //transformedCalItems.add((CalendarItem) calIter.next());
+
+        //Transform the queue of Object into casts of CalendarItem
+        for(Object cal : calendarItems) {
+           transformedCalItems.add( (CalendarItem) cal); 
         }
         return transformedCalItems;
     }

@@ -20,17 +20,28 @@
 
     <context:annotation-config/>
 
-    <bean class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+    <!--bean class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping">
         <property name="interceptors">
-            <!-- This interceptor forwards the mapping request parameter from an ActionRequest to be used as a render parameter. -->
-            <bean class="org.springframework.web.portlet.handler.ParameterMappingInterceptor"/>
+            <bean id="parameterMappingInterceptor" class="org.springframework.web.portlet.handler.ParameterMappingInterceptor"/>
         </property>
-    </bean>
+    </bean-->
+    
+    <!-- Interceptors -->
+    <!-- This interceptor forwards the mapping request parameter from an ActionRequest to be used as a render parameter. -->
+    <bean id="parameterMappingInterceptor" class="org.springframework.web.portlet.handler.ParameterMappingInterceptor"/>
 
     <!-- Controllers -->
     <!-- Make sure that the userInfo vars match what you have in the portlet.xml file -->
     <bean id="inboxMessageController" class="ca.uvic.portal.ecsPortlet.portlet.InboxMessageController" >
+        <!-- See applicationContext.xml for service class wiring -->
         <property name="inboxMessageService" ref="inboxMessageService" />
+        <property name="loginIdPortletParam" value="${ecs.portletRequest.userInfo.loginId}" />
+        <property name="passwordPortletParam" value="${ecs.portletRequest.userInfo.password}" />
+        <property name="cacheSeconds" value="0" />
+    </bean>
+    <bean id="calendarItemController" class="ca.uvic.portal.ecsPortlet.portlet.CalendarItemController" >
+        <!-- See applicationContext.xml for service class wiring -->
+        <property name="calendarItemService" ref="calendarItemService" />
         <property name="loginIdPortletParam" value="${ecs.portletRequest.userInfo.loginId}" />
         <property name="passwordPortletParam" value="${ecs.portletRequest.userInfo.password}" />
         <property name="cacheSeconds" value="0" />
@@ -44,6 +55,19 @@
             </map>
         </property>
     </bean>
-
+    <bean id="portletModeParameterHandlerMapping" class="org.springframework.web.portlet.handler.PortletModeParameterHandlerMapping">
+        <property name="interceptors">
+            <ref bean="parameterMappingInterceptor"/>
+        </property>
+        <property name="portletModeParameterMap">
+            <map>
+                <entry key="view">
+                    <map>
+                        <entry key="calendarView"><ref bean="calendarItemController"/></entry>
+                    </map>
+                </entry>
+            </map>
+        </property>
+    </bean>
 
 </beans>

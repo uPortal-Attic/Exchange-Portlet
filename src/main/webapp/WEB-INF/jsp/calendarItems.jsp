@@ -11,6 +11,10 @@ Today&rsquo;s Events - <%= new SimpleDateFormat("EEE, MMM d, yyyy").format(new D
       <th>Event</th>
       <th>Location</th>
    </tr>
+   <c:url value="https://mail.uvic.ca/owa" var="calUrl">
+     <c:param name="ae" value="Folder" />
+     <c:param name="t" value="IPF.Appointment" />
+   </c:url>
    <c:choose>
       <c:when test="${empty calItems}">
    <tr>
@@ -23,10 +27,7 @@ Today&rsquo;s Events - <%= new SimpleDateFormat("EEE, MMM d, yyyy").format(new D
         <c:forEach items="${calItems}" var="item">
    <tr>
      <td><c:out value="${item.eventTimePeriod}" /></td>
-     <c:url value="https://mail.uvic.ca/owa" var="calUrl">
-        <c:param name="ae" value="Folder" />
-        <c:param name="t" value="IPF.Appointment" />
-     </c:url>
+
      <td><a href='<c:out value="${calUrl}" />'><c:out value="${item.subject}" /></a></td>
      <td><c:out value="${item.location}" /></td>
    </tr>
@@ -34,3 +35,4 @@ Today&rsquo;s Events - <%= new SimpleDateFormat("EEE, MMM d, yyyy").format(new D
       </c:otherwise>
    </c:choose>
 </table>
+<a href='<c:out value="${calUrl}" />'>Open Calendar</a>

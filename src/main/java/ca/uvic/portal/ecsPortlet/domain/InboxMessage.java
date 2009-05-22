@@ -39,6 +39,10 @@ public class InboxMessage {
      */
     private Date dateTimeCreated;
     /**
+     * private Custom formatted month and day value.
+     */
+    private String dateTimeCreatedMonthDay;
+    /**
      * private message date time sent.
      */
     private Date dateTimeSent;
@@ -160,15 +164,26 @@ public class InboxMessage {
         SimpleDateFormat sdf = new SimpleDateFormat(SOAPDATEFORMAT);
         Date createdDate = sdf.parse(timeCreated);
         this.dateTimeCreated = createdDate;
+        //Add in any other custom date formats here, and then create
+        //a private property and getter method, useful w/jsp&EL.
+        this.dateTimeCreatedMonthDay = this.getDateTimeCreated("MMM d");
     }
     /**
-     * @return the attachements flag
+     * Helper method to return a custom formatted date 'MMM d', example 'May 6'.
+     * @return Formatted date similar to 'May 6' or 'June 22'
+     * @see SimpleDateFormat MMM d
+     */
+    public final String getDateTimeCreatedMonthDay() {
+        return this.dateTimeCreatedMonthDay;
+    }
+    /**
+     * @return the attachments flag
      */
     public final Boolean getHasAttachments() {
         return hasAttachments;
     }
     /**
-     * @param attachments the attachements flag to set
+     * @param attachments the attachments flag to set
      */
     public final void setHasAttachments(final Boolean attachments) {
         this.hasAttachments = attachments;

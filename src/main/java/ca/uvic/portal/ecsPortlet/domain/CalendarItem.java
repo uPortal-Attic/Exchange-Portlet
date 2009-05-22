@@ -35,6 +35,10 @@ public class CalendarItem {
      */
     private Date start;
     /**
+     * private Formatted Time period for event.
+     */
+    private String eventTimePeriod;
+    /**
      * private CalendarItem end.
      */
     private Date end;
@@ -134,7 +138,17 @@ public class CalendarItem {
         Date calendarItemDate = sdf.parse(timeStart);
         this.start = calendarItemDate;
     }
-
+    /**
+     * Return a formatted event time period, example 11:00am - 12:00pm.
+     * @return a formatted event time period.
+     * @see SimpleDateFormat 'h:mm a'
+     */
+    public final String getEventTimePeriod() {
+        String eventTime = this.getStart("h:mm a");
+        eventTime += " - " + this.getEnd("h:mm a");
+        this.eventTimePeriod = eventTime;
+        return this.eventTimePeriod;
+    }
     /**
      * @param format a string in the format required by SimpleDateFormat
      * @return the SimpleDateFormat manipulated string

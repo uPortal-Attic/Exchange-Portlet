@@ -43,7 +43,7 @@
         <constructor-arg value="10" />
         <constructor-arg value="/ecs_calendar_item-rules.xml" />
         <constructor-arg value="/ecs_alternate_id-rules.xml" />
-        <!-- constructor-arg value="EwsLegacyId" /-->
+        <!--constructor-arg value="EwsLegacyId" /-->
         <constructor-arg value="EwsId" />
         <constructor-arg value="OwaId" />
         <constructor-arg value="${ecs.domain}" />

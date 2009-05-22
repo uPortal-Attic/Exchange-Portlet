@@ -84,8 +84,8 @@ public class CalendarItemController extends AbstractController {
         }
         */
 
-        //logical view name        => inboxMessages
-        //variable holding objects => messages
+        //logical view name        => calendarItems
+        //variable holding objects => calItems
         //TODO make this accept a param related to calendar name
         return new ModelAndView("calendarItems", "calItems",
                 calendarItemService.getCalendarItems(user, pass, dayTense));

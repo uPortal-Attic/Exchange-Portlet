@@ -21,11 +21,11 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
     /**
      * private The hour of the start of a business day.
      */
-    private static final int BUSINESSDAYSTART = 7;
+    private static final int BUSINESSDAYSTART = 6;
     /**
      * private The hour of the end of a business day.
      */
-    private static final int BUSINESSDAYEND = 18;
+    private static final int BUSINESSDAYEND = 21;
     /**
      * private The integer value needed for calculating one day to add in
      * the past.

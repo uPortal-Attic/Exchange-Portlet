@@ -26,7 +26,7 @@ public class TransformCalendarItemTest extends TestCase {
      * private Set the fake response success
      */
     private static final String  ITEMFAKERESPONSESUCCESS =
-        "/ecs-calendar-item.xml";
+        "/ecs-calendar-item-success.xml";
     /**
      * private Set the fake response success
      */

@@ -25,7 +25,7 @@
             <bean id="parameterMappingInterceptor" class="org.springframework.web.portlet.handler.ParameterMappingInterceptor"/>
         </property>
     </bean-->
-    
+
     <!-- Interceptors -->
     <!-- This interceptor forwards the mapping request parameter from an ActionRequest to be used as a render parameter. -->
     <bean id="parameterMappingInterceptor" class="org.springframework.web.portlet.handler.ParameterMappingInterceptor"/>
@@ -48,13 +48,6 @@
     </bean>
 
     <!-- Handler Mapping -->
-    <bean class="org.springframework.web.portlet.handler.PortletModeHandlerMapping">
-        <property name="portletModeMap">
-            <map>
-                <entry key="view" value-ref="inboxMessageController" />
-            </map>
-        </property>
-    </bean>
     <bean id="portletModeParameterHandlerMapping" class="org.springframework.web.portlet.handler.PortletModeParameterHandlerMapping">
         <property name="interceptors">
             <ref bean="parameterMappingInterceptor"/>
@@ -64,8 +57,16 @@
                 <entry key="view">
                     <map>
                         <entry key="calendarView"><ref bean="calendarItemController"/></entry>
+                        <entry key="inboxView"><ref bean="inboxMessageController"/></entry>
                     </map>
                 </entry>
+            </map>
+        </property>
+    </bean>
+    <bean class="org.springframework.web.portlet.handler.PortletModeHandlerMapping">
+        <property name="portletModeMap">
+            <map>
+                <entry key="view"><ref bean="inboxMessageController" /></entry>
             </map>
         </property>
     </bean>

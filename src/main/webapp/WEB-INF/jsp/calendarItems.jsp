@@ -1,6 +1,16 @@
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 <%@page import="java.util.Date, java.text.SimpleDateFormat"%>
 <h1>Calendar Items</h1>
+<portlet:actionURL var="actionUrl">
+    <portlet:param name="action" value="calendarView"/>
+</portlet:actionURL>
+<form method="post" action="${actionUrl}">
+    <label>Calendar</label>
+    <select name="calId">
+        <option value="calendar" selected="selected">Default Calendar</option>
+     </select>
+     <input type="submit" value="Get Calendar" />
+</form>
 <p>
 Today&rsquo;s Events - <%= new SimpleDateFormat("EEE, MMM d, yyyy").format(new Date()) %>
 </p>

@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 <h1>Inbox Messages</h1>
-<a href="<portlet:renderURL><portlet:param name="action" value="calendarView"/></portlet:renderURL>">Calendar</a>
+<a href="<portlet:actionURL><portlet:param name="action" value="calendarView"/></portlet:actionURL>">Calendar</a>
 <table border="0" cellpadding="4">
    <tr>
       <th>From</th>

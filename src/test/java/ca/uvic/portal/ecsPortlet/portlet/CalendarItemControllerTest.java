@@ -15,6 +15,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.mock.web.portlet.MockActionRequest;
+import org.springframework.mock.web.portlet.MockActionResponse;
 import org.springframework.mock.web.portlet.MockRenderRequest;
 import org.springframework.mock.web.portlet.MockRenderResponse;
 import org.springframework.web.portlet.ModelAndView;
@@ -58,6 +60,14 @@ public class CalendarItemControllerTest extends TestCase {
      * private The portlet context.
      */
     private static ApplicationContext ecsPortletContext;
+    /**
+     * private The calender Id to test with.
+     */
+    private static final String CALENDARID = "calendar";
+    /**
+     * privatae The calender Id html parameter to test with.
+     */
+    private static final String CALENDARIDPARAM = "calId";
     /**
      * private The commons logger.
      */
@@ -123,11 +133,19 @@ public class CalendarItemControllerTest extends TestCase {
         CalendarItemController controller = (CalendarItemController)
             ecsPortletContext.getBean("calendarItemController");
 
+        MockActionRequest actionRequest = new MockActionRequest();
+        MockActionResponse actionResponse = new MockActionResponse();
+        actionRequest.addParameter(CALENDARIDPARAM, CALENDARID);
+        controller.handleActionRequestInternal(actionRequest, actionResponse);
+        assertEquals(CALENDARID,
+                actionResponse.getRenderParameter(CALENDARIDPARAM));
+
         MockRenderRequest request = new MockRenderRequest();
         MockRenderResponse response = new MockRenderResponse();
         HashMap < String, String > userInfo = new HashMap < String, String >();
         userInfo.put(portletRequestUserInfoLoginId, exchangeUser);
         userInfo.put(portletRequestUserInfoPassword, exchangePassword);
+        request.setParameter("calId", CALENDARID);
         request.setAttribute(PortletRequest.USER_INFO, userInfo);
 
         ModelAndView mav = controller.handleRenderRequest(request, response);
@@ -142,7 +160,7 @@ public class CalendarItemControllerTest extends TestCase {
         //Have to manually enter a calendar item for today to make get into
         //the following.  This is also a test that uses the ApplicationContext,
         //so it hits the production Exchange server, wired in ApplicationContext
-        if(!calendarItems.isEmpty()) {
+        if (!calendarItems.isEmpty()) {
             Iterator < CalendarItem > calIter = calendarItems.iterator();
             CalendarItem firstItem = calIter.next();
             logger.debug("checking returned model message OwaId: "

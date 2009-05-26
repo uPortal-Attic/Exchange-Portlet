@@ -2,6 +2,8 @@ package ca.uvic.portal.ecsPortlet.portlet;
 
 import java.util.Map;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -47,6 +49,19 @@ public class CalendarItemController extends AbstractController {
      */
     private String passwordPortletParam;
 
+    @Override
+    public void handleActionRequestInternal(
+            ActionRequest request, ActionResponse response) {
+        if(request.getParameter("calId") == null) {
+           logger.debug("actionRequest calId was null");
+           response.setRenderParameter("calId", "calendar");
+        } else {
+           logger.debug("actionRequest calId was '" + request.getParameter("calId") + "'");
+           response.setRenderParameter("calId", request.getParameter("calId"));
+        }
+        response.setRenderParameter("action", "calendarView");
+    }
+
     /**
      * Method to list exchange calendar items.
      * @param request The request object.
@@ -68,6 +83,8 @@ public class CalendarItemController extends AbstractController {
         } else if (request.getParameter("dayTense").equals("yesterday")) {
             dayTense = EcsCalendarItemSoap.DayTense.YESTERDAY;
         }
+        String calId = request.getParameter("calId");
+        logger.debug("calId is: '" +  calId + "'");
 
         Map userInfo =
             (Map) request.getAttribute(PortletRequest.USER_INFO);
@@ -88,7 +105,7 @@ public class CalendarItemController extends AbstractController {
         //variable holding objects => calItems
         //TODO make this accept a param related to calendar name
         return new ModelAndView("calendarItems", "calItems",
-                calendarItemService.getCalendarItems(user, pass, dayTense));
+                calendarItemService.getCalendarItems(user, pass, dayTense, calId));
     }
 
     /**

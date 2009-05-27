@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Header>
+    <t:ServerVersionInfo MajorVersion="8" MinorVersion="1"
+    MajorBuildNumber="375" MinorBuildNumber="1"
+    Version="Exchange2007_SP1"
+    xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />
+  </soap:Header>
+  <soap:Body>
+    <m:ConvertIdResponse xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"
+    xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages">
+
+      <m:ResponseMessages>
+        <m:ConvertIdResponseMessage ResponseClass="Success">
+          <m:ResponseCode>NoError</m:ResponseCode>
+          <m:AlternateId xsi:type="t:AlternateIdType"
+          Format="OwaId"
+          Id="LgAAAABdzdUlySKYR7cfsFfqRBrYAQC8rpjAVPufTZLJvZq3X9vIAN3cyjUNAAAB"
+          Mailbox="cpfrank@post.uvic.ca" />
+        </m:ConvertIdResponseMessage>
+        <m:ConvertIdResponseMessage ResponseClass="Success">
+          <m:ResponseCode>NoError</m:ResponseCode>
+          <m:AlternateId xsi:type="t:AlternateIdType"
+          Format="OwaId"
+          Id="LgAAAABdzdUlySKYR7cfsFfqRBrYAQC8rpjAVPufTZLJvZq3X9vIAN3cyjUPAAAB"
+          Mailbox="cpfrank@post.uvic.ca" />
+        </m:ConvertIdResponseMessage>
+      </m:ResponseMessages>
+    </m:ConvertIdResponse>
+  </soap:Body>
+</soap:Envelope>

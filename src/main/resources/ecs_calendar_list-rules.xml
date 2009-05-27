@@ -1,0 +1,24 @@
+<digester-rules>
+  <pattern value="*/ResponseMessages/FindFolderResponseMessage">
+    <object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.ResponseMessage"/>
+    <set-properties-rule>
+       <alias attr-name="ResponseClass" prop-name="responseIndicator" />
+    </set-properties-rule>
+    <bean-property-setter-rule pattern="ResponseCode" propertyname="responseCode"/>
+    <bean-property-setter-rule pattern="MessageText" propertyname="responseText"/>
+    <pattern value="RootFolder/Folders/CalendarFolder">
+      <object-create-rule classname="ca.uvic.portal.ecsPortlet.domain.CalendarList"/>
+      <pattern value="FolderId">
+         <set-properties-rule>
+            <alias attr-name="Id" prop-name="id" />
+         </set-properties-rule>
+      </pattern>
+      <bean-property-setter-rule pattern="DisplayName" propertyname="displayName"/>
+      <bean-property-setter-rule pattern="ChildFolderCount" propertyname="childFolderCount"/>
+      <!-- Add an exchange object to ResponseMessage -->
+      <set-next-rule methodname="addExchangeObject"/>
+    </pattern>
+    <!-- Add an exchange object to EcsSoap -->
+    <set-next-rule methodname="addExchangeObject"/>
+  </pattern>
+</digester-rules>

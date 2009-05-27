@@ -10,9 +10,13 @@ import org.apache.commons.logging.LogFactory;
  * This class is responsible for returning the soap xml body for locating
  * AlternateIds given a queue of Domain objects.  For example you might want
  * to convert the EwsId or EwsLegacyId to an OwaId.  Each object in the Domain
- * queue must implement a getId() method.
+ * queue must implement a getId() method.  If you add a domain object you will
+ * need to add in an instanceof check for that domain object to make sure
+ * that the object is cast correctly.  This instanceof check is done in the
+ * setXMLBody() method.
  * @author Charles Frank
  * @version svn:$Id$
+ * @see CalendarItem.java InboxMessage.java CalendarList.java domain classes
  */
 public final class EcsAlternateIdSoap extends EcsRemoteSoapCall {
 
@@ -88,6 +92,15 @@ public final class EcsAlternateIdSoap extends EcsRemoteSoapCall {
                 }
                 InboxMessage message = (InboxMessage) exchangeObject;
                 referenceId = message.getId();
+            } else if (exchangeObject instanceof CalendarList ) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("DEBUG instanceof CalendarList");
+                }
+                CalendarList calList = (CalendarList) exchangeObject;
+                referenceId = calList.getId();
+            } else {
+                logger.debug("DEBUG instanceof is not known!" +
+                        " adjust this module to take care of it.");
             }
             //String referenceId = message.getId();
             xmlBody = xmlBody

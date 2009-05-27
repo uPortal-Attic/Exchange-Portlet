@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Header>
+    <t:ServerVersionInfo MajorVersion="8" MinorVersion="1"
+    MajorBuildNumber="375" MinorBuildNumber="1"
+    xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />
+  </soap:Header>
+  <soap:Body>
+    <m:FindFolderResponse xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"
+        xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages">
+      <m:ResponseMessages>
+        <m:FindFolderResponseMessage ResponseClass="Success">
+          <m:ResponseCode>NoError</m:ResponseCode>
+          <m:RootFolder TotalItemsInView="2" IncludesLastItemInRange="true">
+            <t:Folders>
+              <t:CalendarFolder>
+                <t:FolderId Id="AQAVAGNwZnJhbmtAZGV2YWQudXZpYy5jYQAuAAADXc3VJckimEe3H7BX6kQa2AEAvK6YwFT7n02Syb2at1/byADd3Mo1DQAAAA=="
+                ChangeKey="AgAAABYAAAC8rpjAVPufTZLJvZq3X9vIAN3cymNY" />
+                <t:DisplayName>EcsPortletCalendar</t:DisplayName>
+                <t:ChildFolderCount>0</t:ChildFolderCount>
+              </t:CalendarFolder>
+              <t:CalendarFolder>
+                <t:FolderId Id="AQAVAGNwZnJhbmtAZGV2YWQudXZpYy5jYQAuAAADXc3VJckimEe3H7BX6kQa2AEAvK6YwFT7n02Syb2at1/byADd3Mo1DwAAAA=="
+                ChangeKey="AgAAABYAAAC8rpjAVPufTZLJvZq3X9vIAN3cymNc" />
+                <t:DisplayName>EcsPortletCalendar2</t:DisplayName>
+                <t:ChildFolderCount>0</t:ChildFolderCount>
+              </t:CalendarFolder>
+            </t:Folders>
+          </m:RootFolder>
+        </m:FindFolderResponseMessage>
+      </m:ResponseMessages>
+    </m:FindFolderResponse>
+  </soap:Body>
+</soap:Envelope>

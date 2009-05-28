@@ -23,12 +23,12 @@ public class TransformCalendarListTest extends TestCase {
      */
     private static final String TESTPROPFILE = "/ecs.test.properties";
     /**
-     * private Set the fake response success
+     * private Set the fake response success.
      */
     private static final String  ITEMFAKERESPONSESUCCESS =
         "/ecs-calendar-list-success.xml";
     /**
-     * private Set the fake response success
+     * private Set the transform fake response success.
      */
     private static final String  TRANSFAKERESPONSESUCCESS =
         "/ecs-calendarlist-transform.xml";
@@ -42,7 +42,7 @@ public class TransformCalendarListTest extends TestCase {
      * private alternate ids Queue of AlternateIds.
      */
     private static ConcurrentLinkedQueue < Object > altIds;
-    
+
     /**
      * private Commons Logger.
      */
@@ -143,6 +143,9 @@ public class TransformCalendarListTest extends TestCase {
         assertEquals(testTransformedId, item.getOwaId());
     }
 
+    /**
+     * Teset the error generated from an failed transform.
+     */
     public final void testTransformError() {
         //Un-balance the queues and test for thrown error.
         calendarListItems.remove();

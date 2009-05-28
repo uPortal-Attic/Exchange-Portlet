@@ -23,7 +23,7 @@ public class EcsCalendarListSoapTest extends TestCase {
      * private messageSoap hold the object.
      */
     private EcsCalendarListSoap calendarListSoap;
-    
+
     /**
      * private Commons Logger.
      */
@@ -50,7 +50,7 @@ public class EcsCalendarListSoapTest extends TestCase {
         } catch (IOException e) {
            e.printStackTrace();
         }
-        String calendarParentFolderId =  
+        String calendarParentFolderId =
             prop.getProperty("ecs.calendarParentFolderId").substring(0);
         calendarListSoap = new EcsCalendarListSoap(calendarParentFolderId);
     }

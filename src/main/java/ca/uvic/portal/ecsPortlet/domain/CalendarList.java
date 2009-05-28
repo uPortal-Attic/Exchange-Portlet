@@ -1,12 +1,9 @@
 package ca.uvic.portal.ecsPortlet.domain;
 
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
 
 /**
- * A Domain class for an Exchange Channel Calendar List. This class works 
- * closely * with a Digester file that parses a soap response envelope into 
+ * A Domain class for an Exchange Channel Calendar List. This class works
+ * closely * with a Digester file that parses a soap response envelope into
  * this * domain object.
  * @author Charles Frank
  * @version svn:$Id$

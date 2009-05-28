@@ -110,8 +110,8 @@ public final class CalendarListServiceImpl implements CalendarListService {
         EcsCalendarListSoap calendarListSoap =
             new EcsCalendarListSoap(calendarParentFolderId);
         EcsSoap calItemSoap =
-            new EcsSoap(exchangeUrl, user, pass, exchangeDomain, calendarListSoap,
-                    calendarListRulesFile);
+            new EcsSoap(exchangeUrl, user, pass, exchangeDomain,
+                    calendarListSoap, calendarListRulesFile);
         try {
             calItemSoap.queryExchange();
         } catch (Exception e) {

@@ -16,7 +16,7 @@ public final class EcsCalendarListSoap extends EcsRemoteSoapCall {
 
     /**
      * Constructor uses Spring injection.
-     * @param msgLimit inbox message limit for the soap envelope
+     * @param calParentFolderId inbox message limit for the soap envelope
      */
     public EcsCalendarListSoap(final String calParentFolderId) {
         super();

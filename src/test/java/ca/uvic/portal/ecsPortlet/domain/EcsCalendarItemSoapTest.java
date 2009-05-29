@@ -107,4 +107,14 @@ public class EcsCalendarItemSoapTest extends TestCase {
         }
         assertNotNull("getSoapCall()", calendarSoap.getSoapCall());
     }
+    
+    public final void testGetSoapCallFolderId() {
+        calendarSoap = new EcsCalendarItemSoap(
+                eventLimit, EcsCalendarItemSoap.DayTense.TODAY, "SomeOtherId");
+        if (logger.isDebugEnabled()) {
+            logger.debug("getSoapCall today is: "
+                    + calendarSoap.getSoapCall());
+        }
+        assertNotNull("getSoapCall()", calendarSoap.getSoapCall());
+    }
 }

@@ -42,6 +42,7 @@
     <bean id="calendarItemController" class="ca.uvic.portal.ecsPortlet.portlet.CalendarItemController" >
         <!-- See applicationContext.xml for service class wiring -->
         <property name="calendarItemService" ref="calendarItemService" />
+        <property name="calendarListService" ref="calendarListService" />
         <property name="loginIdPortletParam" value="${ecs.portletRequest.userInfo.loginId}" />
         <property name="passwordPortletParam" value="${ecs.portletRequest.userInfo.password}" />
         <property name="cacheSeconds" value="0" />

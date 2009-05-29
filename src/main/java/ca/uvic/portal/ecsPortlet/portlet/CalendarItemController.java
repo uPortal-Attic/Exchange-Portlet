@@ -1,6 +1,8 @@
 package ca.uvic.portal.ecsPortlet.portlet;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -14,9 +16,12 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.mvc.AbstractController;
 
+import ca.uvic.portal.ecsPortlet.domain.CalendarItem;
+import ca.uvic.portal.ecsPortlet.domain.CalendarList;
 import ca.uvic.portal.ecsPortlet.domain.EcsCalendarItemSoap;
 import ca.uvic.portal.ecsPortlet.domain.EcsCalendarItemSoap.DayTense;
 import ca.uvic.portal.ecsPortlet.service.CalendarItemService;
+import ca.uvic.portal.ecsPortlet.service.CalendarListService;
 
 /**
  * This is a simple Controller which delegates to the
@@ -33,9 +38,13 @@ public class CalendarItemController extends AbstractController {
     private final Log logger = LogFactory.getLog(getClass());
 
     /**
-     * private The inbox message service.
+     * private The calendar item service.
      */
     private CalendarItemService calendarItemService;
+    /**
+     * private The calendar list service. 
+     */
+    private CalendarListService calendarListService;
     /**
      * private The login id portlet.xml property, depends on portal used.  This
      * property will come from an application properties file, through the
@@ -100,12 +109,25 @@ public class CalendarItemController extends AbstractController {
            logger.debug("PASSWORD: '" + pass + "'");
         }
         */
+        Map <String, Object> model = new HashMap<String, Object>();
+        model.put("calItems",
+                calendarItemService.getCalendarItems(user, pass,
+                                                     dayTense, calId));
+        ConcurrentLinkedQueue < CalendarList > listQueue =
+            calendarListService.getCalendarListItems(user, pass);
+        model.put("calList",
+                calendarListService.getCalendarListItems(user, pass));
+
+        //Load up the
+        for(CalendarList cal : listQueue) {
+            if(cal.getId().equals(calId)) {
+                model.put("calendarId", cal);
+            }
+         } 
 
         //logical view name        => calendarItems
         //variable holding objects => calItems
-        //TODO make this accept a param related to calendar name
-        return new ModelAndView("calendarItems", "calItems",
-                calendarItemService.getCalendarItems(user, pass, dayTense, calId));
+        return new ModelAndView("calendarItems", model);
     }
 
     /**
@@ -118,6 +140,15 @@ public class CalendarItemController extends AbstractController {
         this.calendarItemService = calItemService;
     }
 
+    /**
+     * Set the CalendarListService.
+     * @param calListService The CalendarListService to set.
+     */
+    @Required
+    public final void setCalendarListService(
+            final CalendarListService calListService) {
+        this.calendarListService = calListService;
+    }
 
     /**
      * Set the loginId portlet param.  This is closely tied with parameters

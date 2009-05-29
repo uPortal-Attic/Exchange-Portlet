@@ -216,7 +216,7 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
       +   "</ItemShape>" + this.getLineEnding()
       +   "<CalendarView MaxEntriesReturned=\"" + eventLimit + "\" StartDate=\"" + dayStart + "\" EndDate=\"" + dayEnd + "\" />" + this.getLineEnding()
       +   "<ParentFolderIds>" + this.getLineEnding()
-      +     "<t:DistinguishedFolderId Id=\"" + calendarId + "\"/>" + this.getLineEnding()
+      +     this.getFolderQuery() + this.getLineEnding()
       +   "</ParentFolderIds>" + this.getLineEnding()
       + "</FindItem>" + this.getLineEnding();
         super.setXMLBody(xmlBody);
@@ -250,6 +250,23 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         return cal.getTime();
+    }
+
+    /**
+     * private method to get the folder query string for the xml body
+     * of the soap request.
+     * @return Give back the formatted folder query string.
+     */
+    private String getFolderQuery() {
+        String folderQuery = "";
+        if(calendarId.equals("calendar")) {
+            folderQuery =
+                "<t:DistinguishedFolderId Id=\"" + calendarId + "\"/>";
+        } else {
+            folderQuery =
+                "<t:FolderId Id=\"" + calendarId + "\"/>";
+        }
+        return folderQuery;
     }
 
 }

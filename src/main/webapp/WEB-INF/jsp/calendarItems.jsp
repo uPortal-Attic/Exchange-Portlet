@@ -1,13 +1,16 @@
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 <%@page import="java.util.Date, java.text.SimpleDateFormat"%>
-<h1>Calendar Items</h1>
+<h1><c:out value="${calendarId.displayName}" default="Calendar" /></h1>
 <portlet:actionURL var="actionUrl">
     <portlet:param name="action" value="calendarView"/>
 </portlet:actionURL>
 <form method="post" action="${actionUrl}">
     <label>Calendar</label>
     <select name="calId">
-        <option value="calendar" selected="selected">Default Calendar</option>
+        <option value="calendar" <c:out value="${empty calendarId ? 'selected=\"selected\"' : ''}" escapeXml="false"/>>Default Calendar</option>
+      <c:forEach items="${calList}" var="listItem">
+        <option value="${listItem.id}" <c:out value="${listItem.id eq calendarId.id ? 'selected=\"selected\"' : ''}" escapeXml="false"/>>${listItem.displayName}</option>
+      </c:forEach>
      </select>
      <input type="submit" value="Get Calendar" />
 </form>

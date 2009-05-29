@@ -50,7 +50,28 @@
         <constructor-arg value="${ecs.url}" />
         <constructor-arg value="${ecs.mailbox.domain}" />
     </bean>
-
+    <!--  The one and only CalendarListServiceImpl Constructor signature
+        calendarParentFolderId    = calParentFolderId;
+        calendarListRulesFile     = calListRulesFile;
+        alternateIdRulesFile      = altIdRulesFile;
+        alternateIdFromIdType     = fromIdType;
+        alternateIdToIdType       = toIdType;
+        exchangeDomain            = exchDomain;
+        exchangeUrl               = exchUrl;
+        exchangeMailboxDomain     = exchMboxDomain; -->
+    <bean id="calendarListService" class="ca.uvic.portal.ecsPortlet.service.CalendarListServiceImpl">
+        <!-- The calendar parent folder should be the same across every
+             exchange install, but the parameter adjustable just in case -->
+        <constructor-arg value="calendar" />
+        <constructor-arg value="/ecs_calendar_list-rules.xml" />
+        <constructor-arg value="/ecs_alternate_id-rules.xml" />
+        <!--constructor-arg value="EwsLegacyId" /-->
+        <constructor-arg value="EwsLegacyId" />
+        <constructor-arg value="OwaId" />
+        <constructor-arg value="${ecs.domain}" />
+        <constructor-arg value="${ecs.url}" />
+        <constructor-arg value="${ecs.mailbox.domain}" />
+    </bean>
     <!-- Message source for this context, loaded from localized "messages_xx" files -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">

@@ -24,7 +24,7 @@
              <c:param name="t" value="IPM.Note" />
              <c:param name="id" value="${msg.owaId}" />
            </c:url>
-      <td><a href='<c:out value="${inboxUrl}" />'><c:out value="${msg.subject}" /></a></td>
+      <td><a href='<c:out value="${inboxUrl}" />' target="_blank"><c:out value="${msg.subject}" /></a></td>
       <td><c:out value="${msg.dateTimeCreatedMonthDay}" /></td>
    </tr>
         </c:forEach>

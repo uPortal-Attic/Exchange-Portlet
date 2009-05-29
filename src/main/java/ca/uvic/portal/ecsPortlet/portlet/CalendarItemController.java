@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.mvc.AbstractController;
 
-import ca.uvic.portal.ecsPortlet.domain.CalendarItem;
 import ca.uvic.portal.ecsPortlet.domain.CalendarList;
 import ca.uvic.portal.ecsPortlet.domain.EcsCalendarItemSoap;
 import ca.uvic.portal.ecsPortlet.domain.EcsCalendarItemSoap.DayTense;
@@ -42,7 +41,7 @@ public class CalendarItemController extends AbstractController {
      */
     private CalendarItemService calendarItemService;
     /**
-     * private The calendar list service. 
+     * private The calendar list service.
      */
     private CalendarListService calendarListService;
     /**
@@ -58,14 +57,20 @@ public class CalendarItemController extends AbstractController {
      */
     private String passwordPortletParam;
 
+    /**
+     * Method to prepare some required request parameters before render.
+     * @param request The action request object.
+     * @param response The action response object.
+     */
     @Override
-    public void handleActionRequestInternal(
-            ActionRequest request, ActionResponse response) {
-        if(request.getParameter("calId") == null) {
+    public final void handleActionRequestInternal(
+            final ActionRequest request, final ActionResponse response) {
+        if (request.getParameter("calId") == null) {
            logger.debug("actionRequest calId was null");
            response.setRenderParameter("calId", "calendar");
         } else {
-           logger.debug("actionRequest calId was '" + request.getParameter("calId") + "'");
+           //logger.debug("actionRequest calId was '"
+           //        + request.getParameter("calId") + "'");
            response.setRenderParameter("calId", request.getParameter("calId"));
         }
         response.setRenderParameter("action", "calendarView");
@@ -95,7 +100,7 @@ public class CalendarItemController extends AbstractController {
         String calId = request.getParameter("calId");
         logger.debug("calId is: '" +  calId + "'");
 
-        Map userInfo =
+        Map  userInfo =
             (Map) request.getAttribute(PortletRequest.USER_INFO);
         if (logger.isDebugEnabled()) {
            logger.debug("loginIdPortletParam: '" + loginIdPortletParam + "'");
@@ -109,7 +114,7 @@ public class CalendarItemController extends AbstractController {
            logger.debug("PASSWORD: '" + pass + "'");
         }
         */
-        Map <String, Object> model = new HashMap<String, Object>();
+        Map < String, Object > model = new HashMap < String, Object >();
         model.put("calItems",
                 calendarItemService.getCalendarItems(user, pass,
                                                      dayTense, calId));
@@ -119,11 +124,13 @@ public class CalendarItemController extends AbstractController {
                 calendarListService.getCalendarListItems(user, pass));
 
         //Load up the
-        for(CalendarList cal : listQueue) {
-            if(cal.getId().equals(calId)) {
+        for (CalendarList cal : listQueue) {
+            if (cal.getId().equals(calId)) {
                 model.put("calendarId", cal);
+                //logger.debug("MAJOR DEBUG: " + cal.getOwaId());
+                //logger.debug("MAJOR DEBUG: " + cal.getDisplayName());
             }
-         } 
+         }
 
         //logical view name        => calendarItems
         //variable holding objects => calItems

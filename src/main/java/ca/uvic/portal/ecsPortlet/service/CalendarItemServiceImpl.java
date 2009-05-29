@@ -242,13 +242,13 @@ public final class CalendarItemServiceImpl implements CalendarItemService {
             e.printStackTrace();
         }
 
-        //Have to ConcurrentLinkedQueue or message dupes will appear in the jsp.
+        //Clear ConcurrentLinkedQueue or message dupes will appear in the jsp.
         transformedCalItems.clear();
-
         //Transform the queue of Object into casts of CalendarItem
-        for(Object cal : calendarItems) {
-           transformedCalItems.add( (CalendarItem) cal); 
+        for (Object cal : calendarItems) {
+           transformedCalItems.add((CalendarItem) cal);
         }
+
         return transformedCalItems;
     }
 

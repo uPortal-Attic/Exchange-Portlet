@@ -1,6 +1,5 @@
 package ca.uvic.portal.ecsPortlet.domain;
 
-import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.commons.logging.Log;
@@ -73,13 +72,11 @@ public final class EcsAlternateIdSoap extends EcsRemoteSoapCall {
      * @see EcsSoap
      */
     protected void setXMLBody() {
-        Iterator < Object > msgIter = exchangeObjects.iterator();
         String xmlBody =
      "<ConvertId xmlns=\"http://schemas.microsoft.com/exchange/services/2006/messages\" xmlns:t=\"http://schemas.microsoft.com/exchange/services/2006/types\" DestinationFormat=\"" + toIdType + "\">" + this.getLineEnding()
    +   "<SourceIds>" + this.getLineEnding();
-        while (msgIter.hasNext()) {
+        for (Object exchangeObject : exchangeObjects) {
             String referenceId = "";
-            Object exchangeObject = msgIter.next();
             if (exchangeObject instanceof CalendarItem) {
                 if (logger.isDebugEnabled()) {
                     logger.debug("DEBUG instanceof CalendarItem");
@@ -92,15 +89,15 @@ public final class EcsAlternateIdSoap extends EcsRemoteSoapCall {
                 }
                 InboxMessage message = (InboxMessage) exchangeObject;
                 referenceId = message.getId();
-            } else if (exchangeObject instanceof CalendarList ) {
+            } else if (exchangeObject instanceof CalendarList) {
                 if (logger.isDebugEnabled()) {
                     logger.debug("DEBUG instanceof CalendarList");
                 }
                 CalendarList calList = (CalendarList) exchangeObject;
                 referenceId = calList.getId();
             } else {
-                logger.debug("DEBUG instanceof is not known!" +
-                        " adjust this module to take care of it.");
+                logger.debug("DEBUG instanceof is not known!"
+                        + " adjust this module to take care of it.");
             }
             //String referenceId = message.getId();
             xmlBody = xmlBody

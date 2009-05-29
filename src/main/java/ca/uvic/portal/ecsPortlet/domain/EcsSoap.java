@@ -1,20 +1,20 @@
 package ca.uvic.portal.ecsPortlet.domain;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.xmlrules.DigesterLoader;
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NTCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
-import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.digester.Digester;
-import org.apache.commons.digester.xmlrules.DigesterLoader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.net.URL;
 import org.xml.sax.SAXException;
 
 /**
@@ -88,8 +88,8 @@ public class EcsSoap {
      * Method is responsible for collecting credentials, marshalling a soap
      * request call, querying the exchange server, and creating an stack of
      * domain objects according to a Digester file specification.
-     * @throws IOException
-     * @throws SAXException
+     * @throws IOException Exception thrown if can not read digester rules file.
+     * @throws SAXException Exception thrown if can not parse digester file.
      * @see org.apache.commons.digester.xmlrules.DigesterLoader
      */
     public final void queryExchange() throws IOException, SAXException {
@@ -138,11 +138,8 @@ public class EcsSoap {
         }
 
         if (logger.isDebugEnabled()) {
-            Iterator < Object > exchangeIterator =
-                this.getExchangeObjects().iterator();
-            while (exchangeIterator.hasNext()) {
-               logger.debug("Element toString " + exchangeIterator.next().
-                       toString());
+            for (Object obj : this.getExchangeObjects()) {
+               logger.debug("Element toString " + obj.toString());
             }
         }
 

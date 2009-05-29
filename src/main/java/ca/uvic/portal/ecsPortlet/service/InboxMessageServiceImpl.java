@@ -153,16 +153,13 @@ public final class InboxMessageServiceImpl implements InboxMessageService {
             e.printStackTrace();
         }
 
-        //Transform the queue of Object into casts of InboxMessage
-        Iterator < Object > msgIter = inboxMessages.iterator();
-        //Have to ConcurrentLinkedQueue or message dupes will appear in the jsp.
+        //Clear ConcurrentLinkedQueue or message dupes will appear in the jsp.
         transformedMsgs.clear();
-        while (msgIter.hasNext()) {
-            InboxMessage msg = (InboxMessage) msgIter.next();
-            //logger.debug("Checking iterator: " + msg.getOwaId());
-            transformedMsgs.add(msg);
-           //transformedMsgs.add((InboxMessage) msgIter.next());
+        //Transform the queue of Object into casts of InboxMessage
+        for (Object msg : inboxMessages) {
+            transformedMsgs.add((InboxMessage) msg);
         }
+
         return transformedMsgs;
     }
 

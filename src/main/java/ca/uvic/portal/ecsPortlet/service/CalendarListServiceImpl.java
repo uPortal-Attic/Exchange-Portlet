@@ -154,16 +154,13 @@ public final class CalendarListServiceImpl implements CalendarListService {
             e.printStackTrace();
         }
 
-        //Transform the queue of Object into casts of CalendarList
-        Iterator < Object > calListIter = calendarListItems.iterator();
-        //Have to ConcurrentLinkedQueue or message dupes will appear in the jsp.
+        //Clear ConcurrentLinkedQueue or message dupes will appear in the jsp.
         transformedCalItems.clear();
-        while (calListIter.hasNext()) {
-            CalendarList calItem = (CalendarList) calListIter.next();
-            //logger.debug("Checking iterator: " + calItem.getOwaId());
-            transformedCalItems.add(calItem);
-           //transformedCalItems.add((CalendarList) calListIter.next());
+        //Transform the queue of Object into casts of CalendarList
+        for (Object calItem : calendarListItems) {
+            transformedCalItems.add((CalendarList) calItem);
         }
+
         return transformedCalItems;
     }
 

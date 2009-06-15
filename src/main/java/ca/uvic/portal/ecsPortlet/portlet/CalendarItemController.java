@@ -67,13 +67,12 @@ public class CalendarItemController extends AbstractController {
             final ActionRequest request, final ActionResponse response) {
         if (request.getParameter("calId") == null) {
            logger.debug("actionRequest calId was null");
-           response.setRenderParameter("calId", "calendar");
         } else {
-           //logger.debug("actionRequest calId was '"
-           //        + request.getParameter("calId") + "'");
+           logger.debug("actionRequest calId was not null '"
+                   + request.getParameter("calId") + "'");
            response.setRenderParameter("calId", request.getParameter("calId"));
         }
-        response.setRenderParameter("action", "calendarView");
+        //response.setRenderParameter("action", "calendarView");
     }
 
     /**
@@ -81,10 +80,20 @@ public class CalendarItemController extends AbstractController {
      * @param request The request object.
      * @param response The response object.
      * @return ModelAndView return the model and view.
+     * @throws Exception Throws exceptions related to message retrieval.  This
+     * generic exception should catch most everything that is thrown in the
+     * process of the soap request/response cycle.  The applicationContext.xml
+     * is setup to catch the generic error and display the correct error
+     * template in the portlet.
      */
     @Override
     public final ModelAndView handleRenderRequestInternal(
-            final RenderRequest request, final RenderResponse response) {
+            final RenderRequest request, final RenderResponse response) throws
+            Exception {
+        //For testing applicationContext.xml exceptionMappings
+        //This will catch all errors as they are all derived from Exception
+        //if( 1 == 1) throw new Exception("Testing Exception");
+
         //Default to today.
         DayTense dayTense = null;
         //Get the USER_INFO from portlet.xml, which gets it from personDirs.xml
@@ -97,8 +106,27 @@ public class CalendarItemController extends AbstractController {
         } else if (request.getParameter("dayTense").equals("yesterday")) {
             dayTense = EcsCalendarItemSoap.DayTense.YESTERDAY;
         }
-        String calId = request.getParameter("calId");
-        logger.debug("calId is: '" +  calId + "'");
+        /*
+        if(logger.isDebugEnabled()) {
+            logger.debug("REQUEST PROPERTY calId: "
+                + request.getProperty("calId"));
+            Map <?, ?> params = request.getParameterMap();
+            Iterator paramIt = params.entrySet().iterator();
+            while(paramIt.hasNext()){
+                Map.Entry pairs = (Map.Entry) paramIt.next();
+                logger.debug("REQUEST PARAM KEY: '" + pairs.getKey() + "'");
+                logger.debug("REQUEST PARAM VAL: '"
+                    + request.getParameter(pairs.getKey().toString()));
+            }
+        }
+        */
+        String calId = "calendar";
+        if (!(request.getParameter("calId") == null)) {
+          calId = request.getParameter("calId");
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("calId is: '" +  calId + "'");
+        }
 
         Map  userInfo =
             (Map) request.getAttribute(PortletRequest.USER_INFO);

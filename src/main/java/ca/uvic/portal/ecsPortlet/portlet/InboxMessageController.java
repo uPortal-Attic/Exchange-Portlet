@@ -50,10 +50,16 @@ public class InboxMessageController extends AbstractController {
      * @param request The request object.
      * @param response The response object.
      * @return ModelAndView return the model and view.
+     * @throws Exception Throws exceptions related to message retrieval.  This
+     * generic exception should catch most everything that is thrown in the
+     * process of the soap request/response cycle.  The applicationContext.xml
+     * is setup to catch the generic error and display the correct error
+     * template in the portlet.
      */
     @Override
     public final ModelAndView handleRenderRequestInternal(
-            final RenderRequest request, final RenderResponse response) {
+            final RenderRequest request, final RenderResponse response)
+        throws Exception {
         //Get the USER_INFO from portlet.xml, which gets it from personDirs.xml
         Map userInfo =
             (Map) request.getAttribute(PortletRequest.USER_INFO);

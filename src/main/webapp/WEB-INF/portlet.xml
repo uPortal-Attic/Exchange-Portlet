@@ -39,8 +39,8 @@
         <user-attribute>
                 <description>User Login ID</description>
                 <!--name>${ecs.portletRequest.userInfo.loginId}</name-->
-                <!-- name>urn:sungardhe:dir:loginId</name-->
-                <name>user.login.id</name>
+                <name>urn:sungardhe:dir:loginId</name>
+                <!--name>user.login.id</name-->
         </user-attribute>
         <user-attribute>
                 <description>User Password</description>

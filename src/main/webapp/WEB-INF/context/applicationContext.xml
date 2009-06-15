@@ -90,12 +90,14 @@
     </bean>
 
     <!-- Abstract Default Exception Handler Bean -->
-    <bean id="defaultExceptionHandlerTemplate" class="org.springframework.web.portlet.handler.SimpleMappingExceptionResolver" abstract="true">
-        <property name="defaultErrorView" value="defError"/>
+    <!-- bean id="defaultExceptionHandlerTemplate" class="org.springframework.web.portlet.handler.SimpleMappingExceptionResolver" abstract="true"-->
+    <bean class="org.springframework.web.portlet.handler.SimpleMappingExceptionResolver">
+        <!-- property name="defaultErrorView" value="defError"/-->
         <property name="exceptionMappings">
             <props>
                 <prop key="javax.portlet.PortletSecurityException">notAuthorized</prop>
                 <prop key="javax.portlet.UnavailableException">notAvailable</prop>
+                <prop key="java.lang.Exception">defError</prop>
             </props>
         </property>
     </bean>

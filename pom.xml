@@ -151,7 +151,24 @@
 
         <plugins>
 
-            <!-- configure to use Java 5 to compile -->
+          <!-- configure for using ant targets for deployment -->
+          <plugin>
+            <groupId>ca.uvic.portal</groupId>
+            <artifactId>portlet-deployment-maven-plugin</artifactId>
+            <configuration>
+              <archivename>${artifactId}.${packaging}</archivename>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>deployportlet</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- configure to use Java 5 to compile -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

@@ -171,6 +171,11 @@
         <artifactId>portlet-deployment-maven-plugin</artifactId>
         <configuration>
           <archivename>${artifactId}.${packaging}</archivename>
+          <!-- This is the remote server unix command to hit the script that
+            will place the war into the webapp root(s) -->
+          <portlet-deploy-script>
+            source ${portal-root}/.cprc; export ANSI_COLORS_DISABLED=1; uvic_deploy_portlet.pl ${artifactId}.${packaging}
+          </portlet-deploy-script>
         </configuration>
         <executions>
           <execution>

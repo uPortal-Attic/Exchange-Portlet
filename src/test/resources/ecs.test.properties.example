@@ -1,0 +1,23 @@
+ecs.url=https://post.uvic.ca/EWS/Exchange.asmx
+#domain for NTCredentials, different from email domain
+ecs.domain=devad
+ecs.user=someuser
+ecs.pass=somepass
+ecs.mailbox.domain=@devad.uvic.ca
+ecs.mailbox=cpfrank@devad.uvic.ca
+ecs.alternateIdRulesFile=/ecs_alternate_id-rules.xml
+ecs.messageRulesFile=/ecs_inbox_msgs-rules.xml
+ecs.messageLimit=10
+ecs.portletRequest.userInfo.loginId=urn:sungardhe:dir:loginId
+#ecs.portletRequest.userInfo.loginId=user.login.id
+ecs.portletRequest.userInfo.password=password
+#This has to be a full url to work with both maven and eclipse
+# In order to have filtering in test resources, set it in the build block
+# of the pom.xml -> then you can do ${variable} templates
+ecs.appContext.url=file:${basedir}/src/main/webapp/WEB-INF/context/applicationContext.xml
+ecs.portletContext.url=file:${basedir}/src/main/webapp/WEB-INF/context/portlet/ecs-portlet.xml
+ecs.calendarEventLimit=10
+ecs.calendarItemRulesFile=/ecs_calendar_item-rules.xml
+#This is the parent folder of all calendar items in exchange
+ecs.calendarParentFolderId=calendar
+ecs.calendarListRulesFile=/ecs_calendar_list-rules.xml

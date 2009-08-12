@@ -1,0 +1,19 @@
+#############################################################################
+# This file should contain deployment specific params, everything else will #
+# be configured in the applicationContext.xml, web.xml, portlet.xml, and    #
+# individual portlet-name.xml files. For testing purposes, please see the   #
+# ecs.test.properties file which will contain params similar to this file,  #
+# plus additional params needed for testing.                                #
+#############################################################################
+ecs.url=https://mail.uvic.ca/ews/Exchange.asmx
+ecs.domain=uvic
+ecs.mailbox.domain=@uvic.ca
+#These properties are specific to your portal deployment.
+ecs.portletRequest.userInfo.loginId=urn:sungardhe:dir:loginId
+#ecs.portletRequest.userInfo.loginId=user.login.id
+#This property seems to be the same in luminis or uPortal
+ecs.portletRequest.userInfo.password=password
+ecs.portletRequest.userInfo.givenName=urn:mace:dir:givenName
+#ecs.portletRequest.userInfo.givenName=user.name.given
+#ecs.portletRequest.userInfo.familyName=user.name.family
+ecs.portletRequest.userInfo.familyName=urn:mace:dir:sn

@@ -1,8 +1,11 @@
 package ca.uvic.portal.ecsPortlet.domain;
 
 import java.util.Date;
+import java.util.TimeZone;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A Domain class for Exchange Channel Calendar Items. This class works closely
@@ -62,6 +65,20 @@ public class CalendarItem {
      * private soap date format receiving from exchange server.
      */
     private static final String SOAPDATEFORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    /**
+     * private time zone to be used with date formatting, this is your
+     * webserver timezone.
+     */
+    private static final String TIMEZONE = "PST";
+    /**
+     * private exchange GMT time zone, it seems that Exchange always passes
+     * back <t:Start/> and <t:End/> elements in GMT.
+     */
+    private static final String EXCHANGETIMEZONE = "GMT";
+    /**
+     * private Commons Logger.
+     */
+    private final Log logger = LogFactory.getLog(getClass());
 
     /**
      * Constructor default.
@@ -126,6 +143,7 @@ public class CalendarItem {
      */
     public final String getStart(final String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
         return sdf.format(this.start);
     }
     /**
@@ -135,6 +153,9 @@ public class CalendarItem {
     public final void setStart(final String timeStart)
         throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(SOAPDATEFORMAT);
+        //It seems that Exchange always hands you back GMT time, convert it
+        //later in the getStart method to PST time
+        sdf.setTimeZone(TimeZone.getTimeZone(EXCHANGETIMEZONE));
         Date calendarItemDate = sdf.parse(timeStart);
         this.start = calendarItemDate;
     }
@@ -155,6 +176,7 @@ public class CalendarItem {
      */
     public final String getEnd(final String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
         return sdf.format(this.end);
     }
     /**
@@ -164,6 +186,9 @@ public class CalendarItem {
     public final void setEnd(final String timeEnd)
         throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(SOAPDATEFORMAT);
+        //It seems that Exchange always hands you back GMT time, convert it
+        //later in the getEnd method to PST time
+        sdf.setTimeZone(TimeZone.getTimeZone(EXCHANGETIMEZONE));
         Date calendarItemDate = sdf.parse(timeEnd);
         this.end = calendarItemDate;
     }

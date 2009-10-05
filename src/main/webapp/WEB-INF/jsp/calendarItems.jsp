@@ -37,7 +37,7 @@ Today&rsquo;s Events - <%= new SimpleDateFormat("EEE, MMM d, yyyy").format(new D
    <tr>
      <td><c:out value="${item.eventTimePeriod}" /></td>
 
-     <td><a href='<c:out value="${calUrl}" />'><c:out value="${item.subject}" /></a></td>
+     <td><c:out value="${item.subject}" /></td>
      <td><c:out value="${item.location}" /></td>
    </tr>
         </c:forEach>
@@ -51,4 +51,8 @@ Today&rsquo;s Events - <%= new SimpleDateFormat("EEE, MMM d, yyyy").format(new D
         <c:param name="id" value="${calendarId.owaId}" />
      </c:if>
    </c:url>
-<a href='<c:out value="${calUrl}" />' target="_blank">Open Calendar</a>
+   <c:url value="${gcfUrl}" var="connectorUrl">
+     <c:param name="sys" value="mowa" />
+     <c:param name="url" value="${calUrl}" />
+   </c:url>
+<a href='<c:out value="${connectorUrl}" />' target="_blank">Open Calendar</a>

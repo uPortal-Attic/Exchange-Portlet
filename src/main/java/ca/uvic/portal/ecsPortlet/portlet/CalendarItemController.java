@@ -1,5 +1,6 @@
 package ca.uvic.portal.ecsPortlet.portlet;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -56,6 +57,11 @@ public class CalendarItemController extends AbstractController {
      * applicationContext and portletContext.
      */
     private String passwordPortletParam;
+
+    /**
+     * private The single sign on servlet portion of a URL
+     */
+    private String singleSignOnServletContextPath = "/cp/ip/login";
 
     /**
      * Method to prepare some required request parameters before render.
@@ -160,9 +166,16 @@ public class CalendarItemController extends AbstractController {
             }
          }
 
+        //Create the URL base to escape portlet context on the link generation
+        //in view.
+        URL gcfUrl = new URL(request.getScheme(), request.getServerName(),
+                request.getServerPort(), singleSignOnServletContextPath);
+
         //logical view name        => calendarItems
         //variable holding objects => calItems
-        return new ModelAndView("calendarItems", model);
+        return new ModelAndView("calendarItems", model)
+            .addObject("gcfUrl", gcfUrl.toString());
+
     }
 
     /**

@@ -1,8 +1,10 @@
 package ca.uvic.portal.ecsPortlet.portlet;
 
+import java.net.URL;
 import java.util.Map;
 
 import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
@@ -44,6 +46,10 @@ public class InboxMessageController extends AbstractController {
      * applicationContext and portletContext.
      */
     private String passwordPortletParam;
+    /**
+     * private The single sign on servlet portion of a URL
+     */
+    private String singleSignOnServletContextPath = "/cp/ip/login";
 
     /**
      * Method to list exchange inbox messages.
@@ -63,10 +69,12 @@ public class InboxMessageController extends AbstractController {
         //Get the USER_INFO from portlet.xml, which gets it from personDirs.xml
         Map userInfo =
             (Map) request.getAttribute(PortletRequest.USER_INFO);
+        /*
         if (logger.isDebugEnabled()) {
            logger.debug("loginIdPortletParam: '" + loginIdPortletParam + "'");
            logger.debug("passwordPortletParam: '" + passwordPortletParam + "'");
         }
+        */
         String user  = (String) userInfo.get(loginIdPortletParam);
         String pass  = (String) userInfo.get(passwordPortletParam);
         /*
@@ -75,11 +83,17 @@ public class InboxMessageController extends AbstractController {
            logger.debug("PASSWORD: '" + pass + "'");
         }
         */
+        //Create the URL base to escape portlet context on the link generation
+        //in view.
+        URL gcfUrl = new URL(request.getScheme(), request.getServerName(),
+                request.getServerPort(), singleSignOnServletContextPath);
+        
 
         //logical view name        => inboxMessages
         //variable holding objects => messages
         return new ModelAndView("inboxMessages", "messages",
-                inboxMessageService.getInboxMessages(user, pass));
+                inboxMessageService.getInboxMessages(user, pass))
+                    .addObject("gcfUrl", gcfUrl.toString());
     }
 
     /**

@@ -3,6 +3,10 @@ package ca.uvic.portal.ecsPortlet.domain;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -83,6 +87,17 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
       * construct a Date.  The string must match the SOAPDATEFORMAT.
       */
      private Date timeCalEnd;
+
+     /**
+      * private exchange GMT time zone, it seems that Exchange always passes
+      * wants GMT during the soap query.
+      */
+     private static final String EXCHANGETIMEZONE = "GMT";
+
+     /**
+      * private Commons Logger.
+      */
+     private final Log logger = LogFactory.getLog(getClass());
 
     /**
      * Constructor to use if you need one day in past/future and todays events,
@@ -180,6 +195,8 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
     protected void setXMLBody() {
       //Calculate the start and end dates
       SimpleDateFormat dateFormat = new SimpleDateFormat(SOAPDATEFORMAT);
+      //You have to set the timezone to "GMT" to query exchange
+      dateFormat.setTimeZone(TimeZone.getTimeZone(EXCHANGETIMEZONE));
       String dayStart;
       String dayEnd;
       if (this.dayTense != null) {
@@ -207,6 +224,10 @@ public final class EcsCalendarItemSoap extends EcsRemoteSoapCall {
       } else {
         dayStart = dateFormat.format(this.timeCalStart);
         dayEnd   = dateFormat.format(this.timeCalEnd);
+      }
+      if(logger.isDebugEnabled()) {
+          logger.debug("dayStart: " + dayStart);
+          logger.debug("dayEnd: "   + dayEnd);
       }
 
         String xmlBody =

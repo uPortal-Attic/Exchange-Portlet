@@ -1,17 +1,15 @@
-#log4j.debug=TRUE
+#Change this out to reflect your application name
+log4j.rootLogger = WARN, ecsPortlet
 
-#log4j.rootLogger=FATAL, stdout
-#log4j.rootLogger=ERROR, stdout
-log4j.rootLogger=WARN, stdout
-#log4j.rootLogger=INFO, stdout
-#log4j.rootLogger=DEBUG, stdout
-
-log4j.appender.stdout=org.apache.log4j.ConsoleAppender
-log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-log4j.appender.stdout.layout.ConversionPattern=%d %p [%c] - <%m>%n
+#Setup a rolling file appender
+log4j.appender.ecsPortlet = org.apache.log4j.DailyRollingFileAppender
+log4j.appender.ecsPortlet.File = @env.logpath@/ecsPortlet.log
+log4j.appender.ecsPortlet.Append = true
+log4j.appender.ecsPortlet.layout=org.apache.log4j.PatternLayout
+log4j.appender.ecsPortlet.layout.ConversionPattern=%d{ABSOLUTE} [%t] %-5p %-30.30c{2} %x - %m %n
 
 # spring portlet mvc classes
-log4j.logger.org.springframework.web.portlet=DEBUG
+#log4j.logger.org.springframework.web.portlet=DEBUG
 
 # spring portlet mvc sample classes
 log4j.logger.ca.uvic.portal.ecsPortlet.service=DEBUG
@@ -21,7 +19,7 @@ log4j.logger.ca.uvic.portal.ecsPortlet.portlet=DEBUG
 #log4j.logger.org.apache.pluto=DEBUG
 
 # http client
-log4j.logger.org.apache.commons.httpclient.HttpClient=INFO
+#log4j.logger.org.apache.commons.httpclient.HttpClient=INFO
 #Uncomment this when you need to debug Digester matches for soap xml processing
 #log4j.logger.org.apache.commons.digester.Digester=DEBUG
 #log4j.logger.org.apache.commons.digester.Digester.sax=INFO

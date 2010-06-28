@@ -1,6 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <artifactId>portlet-parent</artifactId>
+    <groupId>ca.uvic.portal</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
   <modelVersion>4.0.0</modelVersion>
   <groupId>ca.uvic.portal</groupId>
   <artifactId>ecsPortlet</artifactId>
@@ -11,6 +18,7 @@
     This is a starter spring portlet mvc shell for JSR-168 Portlets,
     developed at the University of Victoria.
   </description>
+
   <!-- Dependency Version Properties -->
   <properties>
     <portlet-api-version>1.0</portlet-api-version>
@@ -146,102 +154,38 @@
 
   </dependencies>
 
-  <!-- produce javadoc and provide coding standard -->
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </reporting>
-
-  <build>
-    <finalName>${pom.name}</finalName>
-
-    <plugins>
-
-      <!-- configure for using ant targets for deployment -->
-      <plugin>
-        <groupId>ca.uvic.portal</groupId>
-        <artifactId>portlet-deployment-maven-plugin</artifactId>
-        <configuration>
-          <archivename>${artifactId}.${packaging}</archivename>
-          <!-- This is the remote server unix command to hit the script that
-            will place the war into the webapp root(s) -->
-          <portlet-deploy-script>
-            source ${portal-root}/.cprc; export ANSI_COLORS_DISABLED=1; uvic_deploy_portlet.pl ${artifactId}.${packaging}
-          </portlet-deploy-script>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>deployportlet</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- configure to use Java 5 to compile -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-        </configuration>
-      </plugin>
-
-      <!-- for testing purposes, runs unit tests -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <workingDirectory>src/main/webapp</workingDirectory>
-        </configuration>
-      </plugin>
-
-      <!-- configure maven-war-plugin to use updated web.xml -->
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-      </plugin>
-
-      <!-- configure cargo to config_for/deploy_to/start tomcat5 -->
-      <plugin>
-        <groupId>org.codehaus.cargo</groupId>
-        <artifactId>cargo-maven2-plugin</artifactId>
-        <configuration>
-          <container>
-            <containerId>tomcat5x</containerId>
-            <type>remote</type>
-          </container>
-          <configuration>
-            <type>runtime</type>
-            <properties>
-              <cargo.tomcat.manager.url>
-                http://localhost:8080/manager
-              </cargo.tomcat.manager.url>
-              <cargo.remote.username>pluto</cargo.remote.username>
-              <cargo.remote.password>pluto</cargo.remote.password>
-            </properties>
-          </configuration>
-        </configuration>
-      </plugin>
-
-    </plugins>
-    <testResources>
-        <testResource>
-            <directory>src/test/resources</directory>
-            <filtering>true</filtering>
-        </testResource>
-    </testResources>
-
-
-  </build>
+  <profiles>
+    <profile>
+      <id>localdev</id>
+      <!-- Only use this profile when the property "localdev" is true -->
+      <activation>
+        <property>
+          <name>localdev</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <!-- 
+            The plugins below are inheriting information from
+            the pluginManagement element in the parent pom.xml
+        -->
+        <plugins>
+          <!-- Perform required pluto changes -->
+          <plugin>
+            <groupId>org.apache.pluto</groupId>
+            <artifactId>maven-pluto-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.jasig.portal</groupId>
+            <artifactId>maven-uportal-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

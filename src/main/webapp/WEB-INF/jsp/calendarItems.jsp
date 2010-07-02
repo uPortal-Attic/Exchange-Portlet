@@ -44,6 +44,7 @@ Today&rsquo;s Events - <%= new SimpleDateFormat("EEE, MMM d, yyyy").format(new D
       </c:otherwise>
    </c:choose>
 </table>
+   <!-- Note, I took out the old mowa sso links before revision 317 -->
    <c:url value="https://mail.uvic.ca/owa" var="calUrl">
      <c:param name="ae" value="Folder" />
      <c:param name="t" value="IPF.Appointment" />
@@ -51,8 +52,4 @@ Today&rsquo;s Events - <%= new SimpleDateFormat("EEE, MMM d, yyyy").format(new D
         <c:param name="id" value="${calendarId.owaId}" />
      </c:if>
    </c:url>
-   <c:url value="${gcfUrl}" var="connectorUrl">
-     <c:param name="sys" value="mowa" />
-     <c:param name="url" value="${calUrl}" />
-   </c:url>
-<a href='<c:out value="${connectorUrl}" />' target="_blank">Open Calendar</a>
+<a href='<c:out value="${calUrl}" />' target="_blank">Open Calendar</a>

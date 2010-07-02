@@ -16,19 +16,13 @@
    </tr>
       </c:when>
       <c:otherwise>
+        <!-- Note, I took out the old mowa sso links before revision 317 -->
         <c:forEach items="${messages}" var="msg">
    <tr>
       <td><c:out value="${msg.fromMailboxName}" /></td>
            <c:url value="https://mail.uvic.ca/owa" var="inboxUrl">
-             <c:param name="ae" value="Item" />
-             <c:param name="t" value="IPM.Note" />
-             <c:param name="id" value="${msg.owaId}" />
            </c:url>
-           <c:url value="${gcfUrl}" var="connectorUrl">
-              <c:param name="sys" value="mowa" />
-              <c:param name="url" value="${inboxUrl}" />
-           </c:url>
-      <td><a href='<c:out value="${connectorUrl}" />' target="_blank"><c:out value="${msg.subject}" /></a></td>
+      <td><a href='<c:out value="${inboxUrl}" />' target="_blank"><c:out value="${msg.subject}" /></a></td>
       <td><c:out value="${msg.dateTimeCreatedMonthDay}" /></td>
    </tr>
         </c:forEach>

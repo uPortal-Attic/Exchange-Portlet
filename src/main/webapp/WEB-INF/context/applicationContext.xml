@@ -27,7 +27,7 @@
         <constructor-arg value="EwsId" />
         <constructor-arg value="OwaId" />
         <constructor-arg value="${ecs.domain}" />
-        <constructor-arg value="${ecs.url}" />
+        <constructor-arg value="${ecsurl}" />
         <constructor-arg value="${ecs.mailbox.domain}" />
     </bean>
     <!-- The one and only CalendarItemServiceImpl Constructor signature
@@ -47,7 +47,7 @@
         <constructor-arg value="EwsId" />
         <constructor-arg value="OwaId" />
         <constructor-arg value="${ecs.domain}" />
-        <constructor-arg value="${ecs.url}" />
+        <constructor-arg value="${ecsurl}" />
         <constructor-arg value="${ecs.mailbox.domain}" />
     </bean>
     <!--  The one and only CalendarListServiceImpl Constructor signature
@@ -69,7 +69,7 @@
         <constructor-arg value="EwsId" />
         <constructor-arg value="OwaId" />
         <constructor-arg value="${ecs.domain}" />
-        <constructor-arg value="${ecs.url}" />
+        <constructor-arg value="${ecsurl}" />
         <constructor-arg value="${ecs.mailbox.domain}" />
     </bean>
     <!-- Message source for this context, loaded from localized "messages_xx" files -->

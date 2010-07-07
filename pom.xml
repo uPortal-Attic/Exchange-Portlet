@@ -153,6 +153,17 @@
     </dependency>
 
   </dependencies>
+  <!-- Exclude these when we are pushing unfiltered to nexus -->
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>**/*.example</exclude>
+        </excludes>
+      </resource>
+    </resources>
+  </build>
 
   <profiles>
     <profile>
@@ -165,6 +176,16 @@
         </property>
       </activation>
       <build>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <!-- Exclude these in local development -->
+            <excludes>
+              <exclude>**/*.example</exclude>
+             </excludes>
+           </resource>
+         </resources>
         <!-- 
             The plugins below are inheriting information from
             the pluginManagement element in the parent pom.xml

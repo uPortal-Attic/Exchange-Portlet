@@ -77,6 +77,15 @@ public class InboxMessageController extends AbstractController {
         */
         String user  = (String) userInfo.get(loginIdPortletParam);
         String pass  = (String) userInfo.get(passwordPortletParam);
+
+        //Handle the case where the user has just added the portlet, but
+        //portlet won't work until next portal login.
+        if(user == null || user.length() == 0) {
+            if(logger.isDebugEnabled()) {
+                logger.debug("We have no user.");
+            }
+            return new ModelAndView("ecsFirstTime");
+        }
         /*
         if(logger.isDebugEnabled()) {
            logger.debug("USER: '" + user + "'");

@@ -47,4 +47,8 @@
                 <name>password</name>
                 <!--name>${ecs.portletRequest.userInfo.password}</name-->
         </user-attribute>
+        <user-attribute>
+                <description>Netlink Id</description>
+                <name>uid</name>
+        </user-attribute>
 </portlet-app>

@@ -51,6 +51,12 @@ public class InboxMessageController extends AbstractController {
      * private The single sign on servlet portion of a URL.
      */
     private String singleSignOnServletContextPath = "/cp/ip/login";
+    /**
+     * private The login id backup field to use if loginIdPortletParam is not
+     * available. This property will come from an application properties file,
+     * through the applicationContext and portletContext.
+     */
+    private String loginIdPortletParamBackup;
 
     /**
      * Method to list exchange inbox messages.
@@ -85,10 +91,11 @@ public class InboxMessageController extends AbstractController {
         // portlet won't work until next portal login.
         if (user == null || user.length() == 0) {
             if (logger.isDebugEnabled()) {
-                logger.debug("We have no user, trying uid.");
+                logger.debug("We have no user, trying "
+                        + loginIdPortletParamBackup);
             }
-            // If the login id is not available try the uid from ldap.
-            user = (String) userInfo.get("uid");
+            // If the login id is not available try the backup field.
+            user = (String) userInfo.get(loginIdPortletParamBackup);
             if (user == null || user.length() == 0) {
                 if (logger.isDebugEnabled()) {
                     logger.debug("We have no user or uid.");
@@ -140,6 +147,25 @@ public class InboxMessageController extends AbstractController {
     @Required
     public final void setLoginIdPortletParam(final String loginIdParam) {
         this.loginIdPortletParam = loginIdParam;
+    }
+
+    /**
+     * Set the loginId portlet param backup field, it will be used if the
+     * loginIdPortletParam is not available. This field should something similar
+     * to "uid" that is sure to be populated in personDirectoryContext.xml. This
+     * field is tied with parameters made accessible via the portlet.xml context
+     * file. This parameter is used with the JSR-168 portlet specification
+     * USER_INFO information hash.
+     *
+     * @param loginIdParamBackup
+     *            The login id portlet param backup field.
+     * @see portlet.xml, applicationContext.xml for more information on this
+     *      deployment specific property.
+     */
+    @Required
+    public final void setLoginIdPortletParamBackup(
+            final String loginIdParamBackup) {
+        this.loginIdPortletParamBackup = loginIdParamBackup;
     }
 
     /**

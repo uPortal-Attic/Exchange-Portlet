@@ -30,11 +30,12 @@
              here. -->
         <user-attribute>
                 <description>User Family Name</description>
-                <name>${ecs.portletRequest.userInfo.familyName}</name>
+                <!-- TODO think about templating these values -->
+                <name>user.name.family</name>
         </user-attribute>
         <user-attribute>
                 <description>User Given Name</description>
-                <name>${ecs.portletRequest.userInfo.givenName}</name>
+                <name>user.name.given</name>
         </user-attribute>
         <user-attribute>
                 <description>User Login ID</description>
@@ -50,5 +51,9 @@
         <user-attribute>
                 <description>Netlink Id</description>
                 <name>uid</name>
+        </user-attribute>
+        <user-attribute>
+                <description>uvicEduPersonSpridenID</description>
+                <name>uvicEduPersonSpridenID</name>
         </user-attribute>
 </portlet-app>

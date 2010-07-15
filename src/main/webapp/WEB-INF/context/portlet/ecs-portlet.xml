@@ -36,6 +36,7 @@
         <!-- See applicationContext.xml for service class wiring -->
         <property name="inboxMessageService" ref="inboxMessageService" />
         <property name="loginIdPortletParam" value="${ecs.portletRequest.userInfo.loginId}" />
+        <property name="loginIdPortletParamBackup" value="${ecs.portletRequest.userInfo.loginIdBackup}" />
         <property name="passwordPortletParam" value="${ecs.portletRequest.userInfo.password}" />
         <property name="cacheSeconds" value="0" />
     </bean>

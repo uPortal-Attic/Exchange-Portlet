@@ -11,6 +11,8 @@ ecs.mailbox.domain=@uvic.ca
 #These properties are specific to your portal deployment.
 #ecs.portletRequest.userInfo.loginId=urn:sungardhe:dir:loginId
 ecs.portletRequest.userInfo.loginId=user.login.id
+#Set this to something you know will be available if user.login.id is not.
+ecs.portletRequest.userInfo.loginIdBackup=uid
 #This property seems to be the same in luminis or uPortal
 ecs.portletRequest.userInfo.password=password
 #ecs.portletRequest.userInfo.givenName=urn:mace:dir:givenName

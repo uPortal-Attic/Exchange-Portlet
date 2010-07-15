@@ -8,8 +8,9 @@ ecs.mailbox=someuser@devad.uvic.ca
 ecs.alternateIdRulesFile=/ecs_alternate_id-rules.xml
 ecs.messageRulesFile=/ecs_inbox_msgs-rules.xml
 ecs.messageLimit=10
-ecs.portletRequest.userInfo.loginId=urn:sungardhe:dir:loginId
-#ecs.portletRequest.userInfo.loginId=user.login.id
+#ecs.portletRequest.userInfo.loginId=urn:sungardhe:dir:loginId
+ecs.portletRequest.userInfo.loginId=user.login.id
+ecs.portletRequest.userInfo.loginIdBackup=uid
 ecs.portletRequest.userInfo.password=password
 #This has to be a full url to work with both maven and eclipse
 # In order to have filtering in test resources, set it in the build block

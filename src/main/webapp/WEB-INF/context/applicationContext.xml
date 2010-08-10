@@ -28,7 +28,7 @@
         <constructor-arg value="OwaId" />
         <constructor-arg value="${ecs.domain}" />
         <constructor-arg value="${ecsurl}" />
-        <constructor-arg value="${ecs.mailbox.domain}" />
+        <constructor-arg value="@${ecs.mailbox.domain}" />
     </bean>
     <!-- The one and only CalendarItemServiceImpl Constructor signature
         eventLimit                = evtLimit;
@@ -48,7 +48,7 @@
         <constructor-arg value="OwaId" />
         <constructor-arg value="${ecs.domain}" />
         <constructor-arg value="${ecsurl}" />
-        <constructor-arg value="${ecs.mailbox.domain}" />
+        <constructor-arg value="@${ecs.mailbox.domain}" />
     </bean>
     <!--  The one and only CalendarListServiceImpl Constructor signature
         calendarParentFolderId    = calParentFolderId;
@@ -70,7 +70,7 @@
         <constructor-arg value="OwaId" />
         <constructor-arg value="${ecs.domain}" />
         <constructor-arg value="${ecsurl}" />
-        <constructor-arg value="${ecs.mailbox.domain}" />
+        <constructor-arg value="@${ecs.mailbox.domain}" />
     </bean>
     <!-- Message source for this context, loaded from localized "messages_xx" files -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -83,7 +83,7 @@
 
     <!-- Default View Resolver -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="cache" value="false"/>
+        <property name="cache" value="${viewResCache}"/>
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>

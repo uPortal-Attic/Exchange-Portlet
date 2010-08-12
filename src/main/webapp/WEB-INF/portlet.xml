@@ -17,10 +17,7 @@
                         <name>contextConfigLocation</name>
                         <value>/WEB-INF/context/portlet/ecs-portlet.xml</value>
                 </init-param>
-                <expiration-cache>120</expiration-cache>
-                <!--
-                <expiration-cache>${ecs.expirationCache}</expiration-cache>
-                  -->
+                <expiration-cache>${ecs.expiration-cache}</expiration-cache>
                 <supports>
                         <mime-type>text/html</mime-type>
                         <portlet-mode>view</portlet-mode>

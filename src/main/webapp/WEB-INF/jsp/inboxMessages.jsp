@@ -22,8 +22,8 @@
       <td><c:out value="${msg.fromMailboxName}" /></td>
            <c:url value="https://mail.uvic.ca/owa" var="inboxUrl">
            </c:url>
-      <td><a href='<c:out value="${inboxUrl}" />' target="_blank"><c:out value="${msg.subject}" /></a></td>
-      <td><c:out value="${msg.dateTimeCreatedMonthDay}" /></td>
+      <td><c:out value="${msg.subject}" /></td>
+      <td><a href='<c:out value="${inboxUrl}" />' target="_blank"><c:out value="${msg.dateTimeCreatedMonthDay}" /></a></td>
    </tr>
         </c:forEach>
      </c:otherwise>

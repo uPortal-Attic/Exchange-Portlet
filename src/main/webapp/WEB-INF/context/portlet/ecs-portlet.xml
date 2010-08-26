@@ -39,6 +39,10 @@
         <property name="loginIdPortletParamBackup" value="${ecs.portletRequest.userInfo.loginIdBackup}" />
         <property name="passwordPortletParam" value="${ecs.portletRequest.userInfo.password}" />
         <property name="cacheSeconds" value="${ecs.InboxMessageControllerCache}" />
+        <property name="checkMowaUser" value="false" />
+        <!-- Only have to set these values if checkMowaUser is true -->
+        <property name="mowaEntitlementAttributeName" value="${ecs.mowaEntitlementAttributeName}" />
+        <property name="mowaEntitlementAttributeValue" value="${ecs.mowaEntitlementAttributeValue}" />
     </bean>
     <bean id="calendarItemController" class="ca.uvic.portal.ecsPortlet.portlet.CalendarItemController" >
         <!-- See applicationContext.xml for service class wiring -->

@@ -26,6 +26,10 @@ ecs.portletRequest.userInfo.password=password
 #ecs.portletRequest.userInfo.familyName=urn:mace:dir:sn
 ecs.portletRequest.userInfo.givenName=user.name.given
 ecs.portletRequest.userInfo.familyName=user.name.family
+#Set this based on your institutions lookup for mowa entitlement (probably ldap
+#attribute.
+ecs.mowaEntitlementAttributeName=eduPersonEntitlement
+ecs.mowaEntitlementAttributeValue=urn:mace:uvic.ca:university:usource:mowa_user
 
 #Get these values from the filter-*.properties file
 #ecs.expirationCache=@ecs.expiration-cache@

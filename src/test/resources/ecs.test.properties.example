@@ -22,3 +22,7 @@ ecs.calendarItemRulesFile=/ecs_calendar_item-rules.xml
 #This is the parent folder of all calendar items in exchange
 ecs.calendarParentFolderId=calendar
 ecs.calendarListRulesFile=/ecs_calendar_list-rules.xml
+#Set this based on your institutions lookup for mowa entitlement (probably ldap
+#attribute.
+ecs.mowaEntitlementAttributeName=eduPersonEntitlement
+ecs.mowaEntitlementAttributeValue=urn:mace:uvic.ca:university:usource:mowa_user

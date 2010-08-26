@@ -1,10 +1,11 @@
 package ca.uvic.portal.ecsPortlet.portlet;
 
 import java.net.URL;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.portlet.PortletRequest;
-import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
@@ -57,6 +58,22 @@ public class InboxMessageController extends AbstractController {
      * through the applicationContext and portletContext.
      */
     private String loginIdPortletParamBackup;
+    /**
+     * private The mowa entitlement attribute name (likely from LDAP).  This
+     * attribute's value determines if a portal user is a mowa user.
+     */
+    private String mowaEntitlementAttributeName;
+    /**
+     * private The mowa entitlement attribute value (likely from LDAP).  This
+     * value determines if a portal user is a mowa user.
+     */
+    private String mowaEntitlementAttributeValue;
+    /**
+     * private The boolean value that performs a switch to turn on/off
+     * a check to see if the portal user has a mowa account (useful for
+     * displaying a nice page for any user w/out a mowa account).
+     */
+    public boolean checkMowaUser;
 
     /**
      * Method to list exchange inbox messages.
@@ -78,7 +95,52 @@ public class InboxMessageController extends AbstractController {
             final RenderRequest request, final RenderResponse response)
             throws Exception {
         // Get the USER_INFO from portlet.xml, which gets it from personDirs.xml
-        Map userInfo = (Map) request.getAttribute(PortletRequest.USER_INFO);
+        Map<String,String> userInfo = (Map<String,String>)
+            request.getAttribute(PortletRequest.USER_INFO);
+
+        if (checkMowaUser) {
+            //This is a uPortal specific way to get around using the USER_INFO
+            //issue of a Map(<String,String>), which for an attribute from the
+            //datasource that has multiple values, eduPersonAffiliation or
+            //eduPersonEntitlement, gets only the very first value as a String.
+            //Here we can pull out a List of possible values.  This method
+            //also keeps compliance with JSR-168 spec.
+            Map<String, List<Object>> userInfoMulti =
+                (Map <String, List<Object>>) request.
+                        getAttribute("org.jasig.portlet.USER_INFO_MULTIVALUED");
+
+            //Check if the user is mowa enabled
+            boolean mowaEntitlement = false;
+            Iterator <String> it = userInfoMulti.keySet().iterator();
+            while (it.hasNext()) {
+                String key = (String) it.next();
+                Object val =  (Object) userInfoMulti.get(key);
+                if (key.toString().equals(mowaEntitlementAttributeName)) {
+                    /*
+                    if(logger.isDebugEnabled()) {
+                        logger.debug("key: " + key.toString());
+                        logger.debug("val: " + val.getClass());
+                        logger.debug("val: " + val.toString());
+                    }
+                    */
+                    List <Object> entitlements = (List<Object>) val;
+                    Iterator <Object> eduPerIter = entitlements.iterator();
+                    while (eduPerIter.hasNext()) {
+                        String entitlement = eduPerIter.next().toString();
+                        if (entitlement.equals(mowaEntitlementAttributeValue)) {
+                            logger.debug(mowaEntitlementAttributeName + ": "
+                                    + entitlement);
+                            mowaEntitlement = true;
+                        }
+                    }
+                }
+            }
+            //Handle the situation where there is no mowa entitlement
+            if (!mowaEntitlement) {
+                return new ModelAndView("ecsNoMowa");
+            }
+        }
+
         /*
          * if (logger.isDebugEnabled()) { logger.debug("loginIdPortletParam: '"
          * + loginIdPortletParam + "'"); logger.debug("passwordPortletParam: '"
@@ -90,15 +152,15 @@ public class InboxMessageController extends AbstractController {
         // Handle the case where the user has just added the portlet, but
         // portlet won't work until next portal login.
         if (user == null || user.length() == 0) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("We have no user, trying "
+            if (logger.isWarnEnabled()) {
+                logger.warn("We have no user, trying "
                         + loginIdPortletParamBackup);
             }
             // If the login id is not available try the backup field.
             user = (String) userInfo.get(loginIdPortletParamBackup);
             if (user == null || user.length() == 0) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("We have no user or uid.");
+                if (logger.isWarnEnabled()) {
+                    logger.warn("We have no user or uid.");
                 }
                 return new ModelAndView("ecsFirstTime");
             }
@@ -183,5 +245,46 @@ public class InboxMessageController extends AbstractController {
     @Required
     public final void setPasswordPortletParam(final String passwordParam) {
         this.passwordPortletParam = passwordParam;
+    }
+
+    /**
+     * Set the mowa entitlement attribute name (likely from LDAP).  This param
+     * corresponds to a setting in portlet.xml context file
+     * (example, eduPersonEntitlement).
+     *
+     * @param attributeName
+     *          The mowa entitlement attribute value.
+     */
+    public final void setMowaEntitlementAttributeName(
+            final String attributeName) {
+        this.mowaEntitlementAttributeName = attributeName;
+    }
+
+    /**
+     * Set the mowa entitlement attribute value (likely from LDAP).  This param
+     * corresponds to a setting in portlet.xml context file
+     * (example, urn:mace:uvic.ca:university:usource:mowa_user).
+     *
+     * @param attributeValue
+     *          The mowa attribute value.
+     *
+     * @see mowaEntitlementAttributeName
+     */
+    public final void setMowaEntitlementAttributeValue(
+            final String attributeValue) {
+        this.mowaEntitlementAttributeValue = attributeValue;
+    }
+
+    /**
+     * Set the checkMowaUser boolean value.  If true this will check to see if
+     * the portal user has a mowa account, and if not, display a nice view
+     * informing the user that they need a mowa account.
+     *
+     * @param checkAccount
+     *          The boolean flag to enable a check on a users mowa account.
+     */
+    @Required
+    public final void setCheckMowaUser(final boolean checkAccount) {
+        this.checkMowaUser = checkAccount;
     }
 }

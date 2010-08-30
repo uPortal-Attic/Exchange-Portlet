@@ -165,10 +165,14 @@ public class InboxMessageController extends AbstractController {
                 return new ModelAndView("ecsFirstTime");
             }
         }
-        /*
-         * if(logger.isDebugEnabled()) { logger.debug("USER: '" + user + "'");
-         * logger.debug("PASSWORD: '" + pass + "'"); }
-         */
+        if(logger.isDebugEnabled() && user.equals("cpfrank")) {
+            logger.debug("USER: '" + user + "'");
+            if(pass != null) {
+                logger.debug("We have a password.");
+            } else {
+                logger.debug("Password is null.");
+            }
+        }
         // Create the URL base to escape portlet context on the link generation
         // in view.
         URL gcfUrl = new URL(request.getScheme(), request.getServerName(),

@@ -165,6 +165,7 @@ public class InboxMessageController extends AbstractController {
                 return new ModelAndView("ecsFirstTime");
             }
         }
+        /*
         if(logger.isDebugEnabled() && user.equals("cpfrank")) {
             logger.debug("USER: '" + user + "'");
             if(pass != null) {
@@ -173,6 +174,7 @@ public class InboxMessageController extends AbstractController {
                 logger.debug("Password is null.");
             }
         }
+        */
         // Create the URL base to escape portlet context on the link generation
         // in view.
         URL gcfUrl = new URL(request.getScheme(), request.getServerName(),

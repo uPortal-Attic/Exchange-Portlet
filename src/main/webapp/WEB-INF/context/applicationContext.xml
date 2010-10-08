@@ -40,7 +40,7 @@
         exchangeUrl               = exchUrl;
         exchangeMailboxDomain     = exchMboxDomain; -->
     <bean id="calendarItemService" class="ca.uvic.portal.ecsPortlet.service.CalendarItemServiceImpl">
-        <constructor-arg value="5" />
+        <constructor-arg value="20" />
         <constructor-arg value="/ecs_calendar_item-rules.xml" />
         <constructor-arg value="/ecs_alternate_id-rules.xml" />
         <!--constructor-arg value="EwsLegacyId" /-->

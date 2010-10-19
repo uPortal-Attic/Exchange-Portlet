@@ -7,11 +7,14 @@
   </ul>
   <div id="exchemail" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
     <table border="0" cellpadding="4">
+       <thead>
        <tr>
           <th>From</th>
           <th>Subject</th>
           <th>Received</th>
        </tr>
+       </thead>
+       <tbody>
        <c:choose>
          <c:when test="${empty messages}">
        <tr>
@@ -23,7 +26,7 @@
           <c:otherwise>
             <!-- Note, I took out the old mowa sso links before revision 317 -->
             <c:forEach items="${messages}" var="msg">
-       <tr <c:out value="${msg.isRead == false ? 'class=\"unread\"' : ''}" escapeXml="false"/>">
+       <tr <c:out value="${msg.isRead == false ? 'class=\"unread\"' : ''}" escapeXml="false"/>>
           <td><c:out value="${msg.fromMailboxName}" /></td>
                <c:url value="https://mail.uvic.ca/owa" var="inboxUrl">
                </c:url>
@@ -33,6 +36,7 @@
             </c:forEach>
          </c:otherwise>
        </c:choose>
+       </tbody>
     </table>
   </div>
 </div>

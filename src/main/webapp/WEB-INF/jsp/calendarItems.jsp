@@ -14,8 +14,8 @@
       <label>Calendar</label>
       <select name="calId">
           <option value="calendar" <c:out value="${empty calendarId ? 'selected=\"selected\"' : ''}" escapeXml="false"/>>Default Calendar</option>
-        <c:forEach items="${calList}" var="listItem">
-          <option value="${listItem.id}" <c:out value="${listItem.id eq calendarId.id ? 'selected=\"selected\"' : ''}" escapeXml="false"/>>${listItem.displayName}</option>
+        <c:forEach items="${calList}" var="calListItem">
+          <option value="${calListItem.id}" <c:out value="${calListItem.id eq calendarId.id ? 'selected=\"selected\"' : ''}" escapeXml="false"/>>${calListItem.id}</option>
         </c:forEach>
        </select>
                                                                         <!-- Dave format this spacing w/css for Andrew's IA -->
@@ -23,11 +23,14 @@
   </form>
   <div id="exchcalendar" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
     <table border="0" cellpadding="4">
+       <thead>
        <tr>
           <th>Time</th>
           <th>Event</th>
           <th>Location</th>
        </tr>
+       </thead>
+       <tbody>
        <c:choose>
           <c:when test="${empty calItems}">
        <tr>
@@ -47,6 +50,7 @@
             </c:forEach>
           </c:otherwise>
        </c:choose>
+       </tbody>
     </table>
        <!-- Note, I took out the old mowa sso links before revision 317 -->
        <c:url value="https://mail.uvic.ca/owa" var="calUrl">

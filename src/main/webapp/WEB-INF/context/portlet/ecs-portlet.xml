@@ -49,8 +49,13 @@
         <property name="calendarItemService" ref="calendarItemService" />
         <property name="calendarListService" ref="calendarListService" />
         <property name="loginIdPortletParam" value="${ecs.portletRequest.userInfo.loginId}" />
+        <property name="loginIdPortletParamBackup" value="${ecs.portletRequest.userInfo.loginIdBackup}" />
         <property name="passwordPortletParam" value="${ecs.portletRequest.userInfo.password}" />
         <property name="cacheSeconds" value="${ecs.CalendarItemControllerCache}" />
+        <property name="checkMowaUser" value="true" />
+        <!-- Only have to set these values if checkMowaUser is true -->
+        <property name="mowaEntitlementAttributeName" value="${ecs.mowaEntitlementAttributeName}" />
+        <property name="mowaEntitlementAttributeValue" value="${ecs.mowaEntitlementAttributeValue}" />
     </bean>
 
     <!-- Handler Mapping -->

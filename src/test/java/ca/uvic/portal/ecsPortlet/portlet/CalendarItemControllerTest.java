@@ -82,15 +82,15 @@ public class CalendarItemControllerTest extends TestCase {
      */
     private Map <String, Object> userInfo;
     /**
-     * private entitlements hash map of entitlement name and values.
+     * private Entitlements hash map of entitlement name and values.
      */
-    Map<String, List<Object>> entitlements;
+    private Map<String, List<Object>> entitlements;
     /**
-     * private specific entitlement list to be put into entitlements HashMap. 
-     * 
+     * private Specific entitlement list to be put into entitlements HashMap.
+     *
      * @see entitlements
      */
-     List <Object> entitlementList;
+     private List <Object> entitlementList;
     /**
      * private The calender Id to test with.
      */
@@ -136,8 +136,10 @@ public class CalendarItemControllerTest extends TestCase {
         }
         exchangeUser      = prop.getProperty("ecs.user");
         exchangePassword  = prop.getProperty("ecs.pass");
-        mowaEntitlementAttributeName  = prop.getProperty("ecs.mowaEntitlementAttributeName");
-        mowaEntitlementAttributeValue = prop.getProperty("ecs.mowaEntitlementAttributeValue");
+        mowaEntitlementAttributeName  =
+            prop.getProperty("ecs.mowaEntitlementAttributeName");
+        mowaEntitlementAttributeValue =
+            prop.getProperty("ecs.mowaEntitlementAttributeValue");
         //The ecs.test.properties values for this must match what is
         //is actually set in ecs.properties for this test to pass because
         //this test uses the actual applicationContext.xml and portlet.xml
@@ -159,7 +161,7 @@ public class CalendarItemControllerTest extends TestCase {
         entitlements = new HashMap <String, List<Object>>();
 
         //The specific entitlementList to be put into the entitlements HashMap
-        entitlementList = new ArrayList <Object> ();
+        entitlementList = new ArrayList <Object>();
 
     }
 
@@ -223,27 +225,35 @@ public class CalendarItemControllerTest extends TestCase {
 
     }
 
+    /**
+     * Test method for {@link ca.uvic.portal.ecsPortlet.portlet.
+     * CalendarItemController#handleRenderRequest()}, specifically the condition
+     * for an appropriate view when the mowa_user ldap attribute is not present.
+     * @throws Exception controller exception.
+     */
     public final void testNoMowa() throws Exception {
         CalendarItemController controller = (CalendarItemController)
             ecsPortletContext.getBean("calendarItemController");
         //Run this test if the checkMowaUser property is true in ecs-portlet.xml
         //portlet application context file, inboxMessageController bean.
-        if(controller.checkMowaUser) {
+        if (controller.checkMowaUser) {
             MockRenderResponse response = new MockRenderResponse();
             userInfo.put(portletRequestUserInfoLoginId, "admin");
             userInfo.put(portletRequestUserInfoPassword, "blah");
             //userInfo.put(portletRequestUserInfoMultiValue, entitlements);
             request.setAttribute(PortletRequest.USER_INFO, userInfo);
-    
+
             //Simulate the org.jasig.portal.portlet.container.services.
             //RequestAttributeServiceImpl#getAttribute()
             //method that sets org.jasig.portlet.USER_INFO_MULTIVALUED
             //Don't give the user a mowa attribute value
             entitlementList.add("");
             entitlements.put(mowaEntitlementAttributeName, entitlementList);
-            request.setAttribute(portletRequestUserInfoMultiValue, entitlements);
-    
-            ModelAndView mav = controller.handleRenderRequest(request, response);
+            request.setAttribute(
+                    portletRequestUserInfoMultiValue, entitlements);
+
+            ModelAndView mav =
+                controller.handleRenderRequest(request, response);
             Map < ? , ? > model = mav.getModel();
             assertNotNull("Get model and view from controller", mav);
             assertEquals("model view should be ecsNoMowa",

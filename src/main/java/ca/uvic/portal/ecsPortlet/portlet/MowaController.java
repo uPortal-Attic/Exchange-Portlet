@@ -6,23 +6,22 @@ import java.util.Map;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.mvc.AbstractController;
 
 /**
  * This is a simple Controller Super Class, it provides common controller
- * functionality to the Mowa Portlet Classes.
+ * functionality to the Mowa Portlet Controller Classes.
  *
  * @author Charles Frank
+ * @version svn:$Id$
  */
 public class MowaController extends AbstractController {
     /**
-     * private Apache commons logger.
+     * protected Apache commons logger.
      */
     protected final Log logger = LogFactory.getLog(getClass());
 
@@ -58,11 +57,18 @@ public class MowaController extends AbstractController {
      * value determines if a portal user is a mowa user.
      */
     protected String mowaEntitlementAttributeValue;
-    
+    /**
+     * protected The mowa user.
+     */
     protected String user;
+    /**
+     * protected The mowa user password.
+     */
     protected String pass;
-
-    protected Map<String,String> userInfo;
+     /**
+      * protected The RenderRequest userInfo hashmap that stores userInfo.
+      */
+    protected Map<String, String> userInfo;
 
     /**
      * public The boolean value that performs a switch to turn on/off
@@ -72,11 +78,25 @@ public class MowaController extends AbstractController {
     public boolean checkMowaUser;
 
 
-    public String initialMowaView (final RenderRequest request)
+    /**
+     * This method, if checkMowaUser is wired as true, will check to see if
+     * the user has an LDAP attribute corresponding to a mowa account.  If not
+     * it will return the name of the view corresponding to a need for a mowa
+     * attribute.  If everything is fine, it will return an empty string, and
+     * allow the subclass controller to set the view name.  This method also
+     * initializes the userInfo Map, and sets the user and pass class attributes
+     * if they are available.
+     * @param request The RenderRequest Object.
+     * @return String The Mowa view to show if checkMowaUser is enabled.  Empty
+     * string if there isn't an inital view to show.
+     * @throws Exception Controller Exception.
+     */
+    public final String initialMowaView(final RenderRequest request)
             throws Exception {
 
         // Get the USER_INFO from portlet.xml, which gets it from personDirs.xml
-        userInfo = (Map<String,String>) request.getAttribute(PortletRequest.USER_INFO);
+        userInfo = (Map<String,String>)
+            request.getAttribute(PortletRequest.USER_INFO);
 
         if (checkMowaUser) {
             //This is a uPortal specific way to get around using the USER_INFO

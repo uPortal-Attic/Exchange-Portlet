@@ -20,11 +20,12 @@ import ca.uvic.portal.ecsPortlet.service.CalendarItemService;
 import ca.uvic.portal.ecsPortlet.service.CalendarListService;
 
 /**
- * This is a simple Controller which delegates to the
+ * This is a simple Controller subclass of MowaController which delegates to the
  * {@link CalendarItemService CalendarItemService} and then populates the model
  * with all returned calendar items.  Implements the controller interface.
  * @author Charles Frank
  * @see CalendarItemService
+ * @see MowaController
  */
 public class CalendarItemController extends MowaController {
 

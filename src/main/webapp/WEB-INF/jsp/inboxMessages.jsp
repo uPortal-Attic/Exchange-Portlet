@@ -30,7 +30,7 @@
           <td><c:out value="${msg.fromMailboxName}" /></td>
                <c:url value="https://mail.uvic.ca/owa" var="inboxUrl">
                </c:url>
-          <td><c:out value="${msg.subject}" /></td>
+          <td><a href='<c:out value="${inboxUrl}" />' target="_blank"><c:out value="${empty msg.subject ? '[No Subject]' : msg.subject}" /></a></td>
           <td><a href='<c:out value="${inboxUrl}" />' target="_blank"><c:out value="${msg.dateTimeCreatedMonthDay}" /></a></td>
        </tr>
             </c:forEach>
@@ -38,5 +38,6 @@
        </c:choose>
        </tbody>
     </table>
+    <a href='<c:out value="${inboxUrl}" />' target="_blank">Open Inbox</a>
   </div>
 </div>

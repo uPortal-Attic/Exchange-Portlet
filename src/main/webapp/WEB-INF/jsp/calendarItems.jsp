@@ -15,7 +15,7 @@
       <select name="calId">
           <option value="calendar" <c:out value="${empty calendarId ? 'selected=\"selected\"' : ''}" escapeXml="false"/>>Default Calendar</option>
         <c:forEach items="${calList}" var="calListItem">
-          <option value="${calListItem.id}" <c:out value="${calListItem.id eq calendarId.id ? 'selected=\"selected\"' : ''}" escapeXml="false"/>>${calListItem.id}</option>
+          <option value="${calListItem.id}" <c:out value="${calListItem.id eq calendarId.id ? 'selected=\"selected\"' : ''}" escapeXml="false"/>>${calListItem.displayName}</option>
         </c:forEach>
        </select>
                                                                         <!-- Dave format this spacing w/css for Andrew's IA -->

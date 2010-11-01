@@ -12,6 +12,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.portlet.mvc.AbstractController;
 
+import ca.uvic.portal.ecsPortlet.domain.DataAccessResourceFailureException;
+
 /**
  * This is a simple Controller Super Class, it provides common controller
  * functionality to the Mowa Portlet Controller Classes.
@@ -38,9 +40,9 @@ public class MowaController extends AbstractController {
      */
     protected String passwordPortletParam;
     /**
-     * protected The single sign on servlet portion of a URL.
+     * protected The single sign on URL.
      */
-    protected String singleSignOnServletContextPath = "/cp/ip/login";
+    protected String singleSignOnUrl;
     /**
      * protected The login id backup field to use if loginIdPortletParam is not
      * available. This property will come from an application properties file,
@@ -171,6 +173,20 @@ public class MowaController extends AbstractController {
         if(logger.isDebugEnabled()) {
             logger.debug("User is: '" + user + "'");
         }
+        //Throw an Exception that we can map to an error view nicely, need
+        //a pass or application fails.
+        //pass = ""; //use this for testing exception resolver
+        if(pass == null || pass == "") {
+            String passErrMsg = "User: " + user +
+                      " does not have a cached password,"  +
+                      "check clearpass integration, " +
+                      "node replication on cas, and portal security context.";
+            if(logger.isErrorEnabled()) {
+                logger.error(passErrMsg);
+            }
+            //TODO make an exception class for lack of exchangePassword
+            throw new DataAccessResourceFailureException(passErrMsg, null);
+        }
         return "";
     }
 
@@ -267,6 +283,19 @@ public class MowaController extends AbstractController {
     @Required
     public final void setCheckMowaUser(final boolean checkAccount) {
         this.checkMowaUser = checkAccount;
+    }
+
+    /**
+     * Set the single sign on resource url.
+     *
+     * @param ssoUrl
+     *            The login id portlet param.
+     * @see portlet.xml, applicationContext.xml for more information on this
+     *      deployment specific property.
+     */
+    @Required
+    public final void setSingleSignOnUrl(final String ssoUrl) {
+        this.singleSignOnUrl = ssoUrl;
     }
 
 }

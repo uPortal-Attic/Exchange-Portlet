@@ -24,11 +24,22 @@
        </tr>
           </c:when>
           <c:otherwise>
+            <c:url value="https://mail.uvic.ca/owa" var="mowaBaseUrl" />
+            <c:url value="${ssoUrl}" var="casBaseUrl" />
+            <c:url value="${casBaseUrl}" var="combinedBaseUrl" >
+                <c:param name="destination" value="${mowaBaseUrl}"/>
+            </c:url>
             <!-- Note, I took out the old mowa sso links before revision 317 -->
             <c:forEach items="${messages}" var="msg">
        <tr <c:out value="${msg.isRead == false ? 'class=\"unread\"' : ''}" escapeXml="false"/>>
           <td><c:out value="${msg.fromMailboxName}" /></td>
-               <c:url value="https://mail.uvic.ca/owa" var="inboxUrl">
+               <c:url value="${mowaBaseUrl}" var="mowaUrl">
+                 <c:param name="ae" value="Item"/>
+                 <c:param name="t" value="IPM.Note"/>
+                 <c:param name="id" value="${msg.owaId}" />
+               </c:url>
+               <c:url value="${casBaseUrl}" var="inboxUrl">
+                 <c:param name="destination" value="${mowaUrl}"/>
                </c:url>
           <td><a href='<c:out value="${inboxUrl}" />' target="_blank"><c:out value="${empty msg.subject ? '[No Subject]' : msg.subject}" /></a></td>
           <td><a href='<c:out value="${inboxUrl}" />' target="_blank"><c:out value="${msg.dateTimeCreatedMonthDay}" /></a></td>
@@ -38,6 +49,6 @@
        </c:choose>
        </tbody>
     </table>
-    <a href='<c:out value="${inboxUrl}" />' target="_blank">Open Inbox</a>
+    <a href='<c:out value="${combinedBaseUrl}" />' target="_blank">Open Inbox</a>
   </div>
 </div>

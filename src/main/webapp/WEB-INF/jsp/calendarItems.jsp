@@ -60,6 +60,9 @@
             <c:param name="id" value="${calendarId.owaId}" />
          </c:if>
        </c:url>
-    <a href='<c:out value="${calUrl}" />' target="_blank">Open Calendar</a>
+       <c:url value="${ssoUrl}" var="casUrl">
+         <c:param name="destination" value="${calUrl}" />
+       </c:url>
+    <a href='<c:out value="${casUrl}"/>' target="_blank">Open Calendar</a>
   </div>
 </div>

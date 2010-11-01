@@ -95,6 +95,7 @@
         <!-- property name="defaultErrorView" value="defError"/-->
         <property name="exceptionMappings">
             <props>
+                <prop key="ca.uvic.portal.ecsPortlet.domain.DataAccessResourceFailureException">credentialCacheError</prop>
                 <prop key="javax.portlet.PortletSecurityException">notAuthorized</prop>
                 <prop key="javax.portlet.UnavailableException">notAvailable</prop>
                 <prop key="java.lang.Exception">defError</prop>

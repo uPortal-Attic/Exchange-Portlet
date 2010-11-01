@@ -21,3 +21,5 @@ exception.contactAdmin=Please contact your System Administrator for assistance.
 
 portlet.exceptions.title=Sample Exceptions
 portlet.exceptions.message=This portlet lets you see what uncaught exceptions will look like in your portlet.  Select one of the exceptions below in order to throw it.
+
+portlet.exceptions.credential=The portal can not retrieve your credentials.

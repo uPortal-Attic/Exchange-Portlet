@@ -8,6 +8,7 @@ import javax.portlet.RenderResponse;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.portlet.ModelAndView;
 
+import ca.uvic.portal.ecsPortlet.domain.DataAccessResourceFailureException;
 import ca.uvic.portal.ecsPortlet.service.InboxMessageService;
 
 /**
@@ -46,7 +47,7 @@ public class InboxMessageController extends MowaController {
     @Override
     public final ModelAndView handleRenderRequestInternal(
             final RenderRequest request, final RenderResponse response)
-            throws Exception {
+            throws Exception, ca.uvic.portal.ecsPortlet.domain.DataAccessResourceFailureException {
 
         //Check the special cases where initial login or no mowa account
         //return the appropriate view as needed
@@ -66,17 +67,14 @@ public class InboxMessageController extends MowaController {
             }
         }
         */
-        // Create the URL base to escape portlet context on the link generation
-        // in view.
-        URL gcfUrl = new URL(request.getScheme(), request.getServerName(),
-                request.getServerPort(), singleSignOnServletContextPath);
+        URL ssoUrl = new URL(singleSignOnUrl);
 
         // logical view name => inboxMessages
         // variable holding objects => messages
         //user and pass are set in checkOnMowaUser in super class.
         return new ModelAndView("inboxMessages", "messages",
                 inboxMessageService.getInboxMessages(user, pass)).addObject(
-                "gcfUrl", gcfUrl.toString());
+                "ssoUrl", ssoUrl.toString());
     }
 
     /**

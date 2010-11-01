@@ -35,3 +35,6 @@ ecs.mowaEntitlementAttributeValue=urn:mace:uvic.ca:university:usource:mowa_user
 #ecs.expirationCache=@ecs.expiration-cache@
 ecs.InboxMessageControllerCache=@ecs.InboxMessageController.cache@
 ecs.CalendarItemControllerCache=@ecs.CalendarItemController.cache@
+
+#The single sign on url
+ecs.ssoUrl=@ecs.ssourl@

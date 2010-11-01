@@ -144,13 +144,12 @@ public class CalendarItemController extends MowaController {
 
         //Create the URL base to escape portlet context on the link generation
         //in view.
-        URL gcfUrl = new URL(request.getScheme(), request.getServerName(),
-                request.getServerPort(), singleSignOnServletContextPath);
+        URL ssoUrl = new URL(singleSignOnUrl);
 
         //logical view name        => calendarItems
         //variable holding objects => calItems
         return new ModelAndView("calendarItems", model)
-            .addObject("gcfUrl", gcfUrl.toString());
+            .addObject("ssoUrl", ssoUrl.toString());
 
     }
 

@@ -12,8 +12,8 @@ log4j.appender.ecsPortlet.layout.ConversionPattern=%d{ABSOLUTE} [%t] %-5p %-30.3
 #log4j.logger.org.springframework.web.portlet=DEBUG
 
 # spring portlet mvc sample classes
-log4j.logger.ca.uvic.portal.ecsPortlet.service=DEBUG
-log4j.logger.ca.uvic.portal.ecsPortlet.portlet=DEBUG
+log4j.logger.ca.uvic.portal.ecsPortlet.service=@ecs.log4jLevel@
+log4j.logger.ca.uvic.portal.ecsPortlet.portlet=@ecs.log4jLevel@
 
 # pluto portlet
 #log4j.logger.org.apache.pluto=DEBUG

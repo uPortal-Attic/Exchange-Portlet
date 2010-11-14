@@ -111,8 +111,13 @@ public class EcsSoap {
             byte[] b = soapXML.getBytes();
             method.setRequestHeader("Content-Length", String.valueOf(b.length));
             method.setRequestEntity(new ByteArrayRequestEntity(b));
-            client.executeMethod(method);
+            int statusCode = client.executeMethod(method);
+            if(logger.isDebugEnabled()) {
+                logger.debug("HttpClient try for user: " + exchangeUser + " at url: '" +
+                        exchangeURL + "'" + " returned statusCode: " + statusCode);
+            }
             response = method.getResponseBodyAsStream();
+            
 
             /*
             String responseString = method.getResponseBodyAsString();

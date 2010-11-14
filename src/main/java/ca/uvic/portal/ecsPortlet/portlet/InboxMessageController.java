@@ -57,16 +57,19 @@ public class InboxMessageController extends MowaController {
             return new ModelAndView(initialMowaView);
         }
 
-        /*
-        if(logger.isDebugEnabled() && user.equals("cpfrank")) {
+        /* IF YOU ENABLE THIS, YOU WILL SEE PASSWORDS IN THE LOG FILE FOR
+         * EVERY USER
+        if(logger.isDebugEnabled()) {
             logger.debug("USER: '" + user + "'");
             if(pass != null) {
                 logger.debug("We have a password.");
+                logger.debug("Pass: " + pass);
             } else {
                 logger.debug("Password is null.");
             }
         }
         */
+
         URL ssoUrl = new URL(singleSignOnUrl);
 
         // logical view name => inboxMessages

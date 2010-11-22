@@ -110,33 +110,22 @@ public class MowaController extends AbstractController {
             Map<String, List<Object>> userInfoMulti =
                 (Map <String, List<Object>>) request.
                         getAttribute("org.jasig.portlet.USER_INFO_MULTIVALUED");
+            List<Object> affiliations = userInfoMulti.get(mowaEntitlementAttributeName);
 
             //Check if the user is mowa enabled
             boolean mowaEntitlement = false;
-            Iterator <String> it = userInfoMulti.keySet().iterator();
-            while (it.hasNext()) {
-                String key = (String) it.next();
-                Object val =  (Object) userInfoMulti.get(key);
-                if (key.toString().equals(mowaEntitlementAttributeName)) {
-                    /*
-                    if(logger.isDebugEnabled()) {
-                        logger.debug("key: " + key.toString());
-                        logger.debug("val: " + val.getClass());
-                        logger.debug("val: " + val.toString());
-                    }
-                    */
-                    List <Object> entitlements = (List<Object>) val;
-                    Iterator <Object> eduPerIter = entitlements.iterator();
-                    while (eduPerIter.hasNext()) {
-                        String entitlement = eduPerIter.next().toString();
-                        if (entitlement.equals(mowaEntitlementAttributeValue)) {
-                            logger.debug(mowaEntitlementAttributeName + ": "
-                                    + entitlement);
-                            mowaEntitlement = true;
-                        }
+            //Iterator <String> it = userInfoMulti.keySet().iterator();
+            if(affiliations != null) {
+                if(logger.isDebugEnabled()) {
+                    logger.debug("We have affiliations: ");
+                    for(Object affiliation : affiliations) {
+                        logger.debug(" " + affiliation);
                     }
                 }
+                mowaEntitlement =
+                    affiliations.contains(mowaEntitlementAttributeValue);
             }
+
             //Handle the situation where there is no mowa entitlement
             //mowaEntitlement = false; //uncomment line for debugging view
             if (!mowaEntitlement) {
@@ -170,9 +159,12 @@ public class MowaController extends AbstractController {
                 return "ecsFirstTime";
             }
         }
+        /*
         if(logger.isDebugEnabled()) {
             logger.debug("User is: '" + user + "'");
         }
+        */
+        logger.warn("User is: " + user);
         //Throw an Exception that we can map to an error view nicely, need
         //a pass or application fails.
         //pass = ""; //use this for testing exception resolver

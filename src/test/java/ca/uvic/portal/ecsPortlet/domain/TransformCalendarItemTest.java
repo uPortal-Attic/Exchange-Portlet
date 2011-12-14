@@ -146,6 +146,8 @@ public class TransformCalendarItemTest extends TestCase {
 
     public final void testTransformError() {
         //Un-balance the queues and test for thrown error.
+        //NOTE This will cause the logger in the TransformCalendarItem
+        //class to produce an error message in log4j.
         calendarItems.remove();
         TransformCalendarItem transIm =
             new TransformCalendarItem(calendarItems, altIds);

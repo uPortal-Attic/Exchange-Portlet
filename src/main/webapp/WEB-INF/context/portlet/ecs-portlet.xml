@@ -39,6 +39,7 @@
         <property name="loginIdPortletParamBackup" value="${ecs.portletRequest.userInfo.loginIdBackup}" />
         <property name="passwordPortletParam" value="${ecs.portletRequest.userInfo.password}" />
         <property name="cacheSeconds" value="${ecs.InboxMessageControllerCache}" />
+        <!-- Only use this if you have LDAP attribute entitlements to specify a user has access to Mowa -->
         <property name="checkMowaUser" value="true" />
         <!-- Only have to set these values if checkMowaUser is true -->
         <property name="mowaEntitlementAttributeName" value="${ecs.mowaEntitlementAttributeName}" />
@@ -53,6 +54,7 @@
         <property name="loginIdPortletParamBackup" value="${ecs.portletRequest.userInfo.loginIdBackup}" />
         <property name="passwordPortletParam" value="${ecs.portletRequest.userInfo.password}" />
         <property name="cacheSeconds" value="${ecs.CalendarItemControllerCache}" />
+        <!-- Only use this if you have LDAP attribute entitlements to specify a user has access to Mowa -->
         <property name="checkMowaUser" value="true" />
         <!-- Only have to set these values if checkMowaUser is true -->
         <property name="mowaEntitlementAttributeName" value="${ecs.mowaEntitlementAttributeName}" />

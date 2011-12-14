@@ -1,220 +1,260 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <parent>
-    <artifactId>portlet-parent</artifactId>
+    <modelVersion>4.0.0</modelVersion>
     <groupId>ca.uvic.portal</groupId>
+    <artifactId>exchangePortlet</artifactId>
+    <packaging>war</packaging>
     <version>0.0.1-SNAPSHOT</version>
-  </parent>
+    <name>${pom.artifactId}</name>
+    <description>
+    This is a Spring Portlet MVC JSR-168 Portlet,
+    developed at the University of Victoria.  The portlet
+    displays email and calendar information gathered via
+    a SOAP service for Exchange.
+    </description>
 
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>ca.uvic.portal</groupId>
-  <artifactId>jasig-ecsPortlet</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>${pom.artifactId}</name>
-  <description>
-    This is a starter spring portlet mvc shell for JSR-168 Portlets,
-    developed at the University of Victoria.
-  </description>
+    <organization>
+        <name>University of Victoria</name>
+        <url>http://www.uvic.ca</url>
+    </organization>
 
-  <!-- Dependency Version Properties -->
-  <properties>
-    <portlet-api-version>1.0</portlet-api-version>
-    <servlet-api-version>2.4</servlet-api-version>
-    <spring-version>2.5.5</spring-version>
-    <pluto-version>1.1.5</pluto-version>
-    <jstl-version>1.1.2</jstl-version>
-    <commons-io-version>1.4</commons-io-version>
-    <commons-fileupload-version>1.2.1</commons-fileupload-version>
-    <log4j-version>1.2.14</log4j-version>
-    <junit-version>3.8.1</junit-version>
-    <commons-logging-version>1.1</commons-logging-version>
-    <commons-codec-version>1.2</commons-codec-version>
-    <commons-httpclient-version>3.1</commons-httpclient-version>
-    <commons-digester-version>1.8.1</commons-digester-version>
-    <xerxes-xmlparserapis-version>2.6.2</xerxes-xmlparserapis-version>
-  </properties>
-  <dependencies>
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <version>${commons-codec-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
-      <version>${commons-httpclient-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>portlet-api</groupId>
-      <artifactId>portlet-api</artifactId>
-      <version>${portlet-api-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>${servlet-api-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit-version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.pluto</groupId>
-      <artifactId>pluto-util</artifactId>
-      <version>${pluto-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
-      <version>${jstl-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>taglibs</groupId>
-      <artifactId>standard</artifactId>
-      <version>${jstl-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <version>${commons-logging-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>${commons-io-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-fileupload</groupId>
-      <artifactId>commons-fileupload</artifactId>
-      <version>${commons-fileupload-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>${log4j-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring</artifactId>
-      <version>${spring-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-orm</artifactId>
-      <version>${spring-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-      <version>${spring-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-aop</artifactId>
-      <version>${spring-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc-portlet</artifactId>
-      <version>${spring-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <version>${spring-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-beans</artifactId>
-      <version>${spring-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-      <version>${spring-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xmlParserAPIs</artifactId>
-      <version>${xerxes-xmlparserapis-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-digester</groupId>
-      <artifactId>commons-digester</artifactId>
-      <version>${commons-digester-version}</version>
-    </dependency>
+    <developers>
+        <developer>
+            <name>Charles Frank</name>
+            <id>cpfrank</id>
+            <email>cpfrank AT uvic.ca</email>
+            <organization>University of Victoria Systems, Web Services</organization>
+            <organizationUrl>http://www.uvic.ca/systems</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
 
-  </dependencies>
-  <!-- Exclude these when we are pushing unfiltered to nexus -->
-  <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <excludes>
-          <exclude>**/*.example</exclude>
-        </excludes>
-      </resource>
-    </resources>
-  </build>
 
-  <profiles>
-    <profile>
-      <id>localdev</id>
-      <!-- Only use this profile when the property "localdev" is true -->
-      <activation>
-        <property>
-          <name>localdev</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <resources>
-          <resource>
-            <directory>src/main/resources</directory>
-            <filtering>true</filtering>
-            <!-- Exclude these in local development -->
-            <excludes>
-              <exclude>**/*.example</exclude>
-             </excludes>
-           </resource>
-         </resources>
-        <!-- 
-            The plugins below are inheriting information from
-            the pluginManagement element in the parent pom.xml
-        -->
-        <plugins>
-          <!-- Perform required pluto changes -->
-          <plugin>
+    <!-- Dependency Version Properties -->
+    <properties>
+        <portlet-api-version>1.0</portlet-api-version>
+        <servlet-api-version>2.4</servlet-api-version>
+        <spring-version>2.5.5</spring-version>
+        <pluto-version>1.1.5</pluto-version>
+        <jstl-version>1.1.2</jstl-version>
+        <commons-io-version>1.4</commons-io-version>
+        <commons-fileupload-version>1.2.1</commons-fileupload-version>
+        <log4j-version>1.2.14</log4j-version>
+        <junit-version>3.8.1</junit-version>
+        <commons-logging-version>1.1</commons-logging-version>
+        <commons-codec-version>1.2</commons-codec-version>
+        <commons-httpclient-version>3.1</commons-httpclient-version>
+        <commons-digester-version>1.8.1</commons-digester-version>
+        <xerxes-xmlparserapis-version>2.6.2</xerxes-xmlparserapis-version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>${commons-httpclient-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>portlet-api</groupId>
+            <artifactId>portlet-api</artifactId>
+            <version>${portlet-api-version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${servlet-api-version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apache.pluto</groupId>
-            <artifactId>maven-pluto-plugin</artifactId>
-          </plugin>
-          <plugin>
-            <groupId>org.jasig.portal</groupId>
-            <artifactId>maven-uportal-plugin</artifactId>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-          </plugin>
-          <!--  NOTE you declare the war plugin here, but you inherit
-                the filtering properties from the Portlet_Parent/pom.xml
-                in the localdevparent element -->
-          <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-war-plugin</artifactId>
-          </plugin>
+            <artifactId>pluto-util</artifactId>
+            <version>${pluto-version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>${jstl-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>${commons-logging-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons-fileupload-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc-portlet</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xmlParserAPIs</artifactId>
+            <version>${xerxes-xmlparserapis-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-digester</groupId>
+            <artifactId>commons-digester</artifactId>
+            <version>${commons-digester-version}</version>
+        </dependency>
+    </dependencies>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>surefire-report-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <links>
+                        <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+                        <link>http://java.sun.com/javaee/5/docs/api/</link>
+                        <link>http://portals.apache.org/pluto/multiproject/portlet-api/apidocs/</link>
+                        <link>http://portals.apache.org/pluto/pluto-container/apidocs/</link>
+                        <link>http://portals.apache.org/pluto/pluto-descriptor-api/apidocs/</link>
+                        <link>http://static.springframework.org/spring/docs/2.0.x/api/</link>
+                        <link>http://static.springframework.org/spring/docs/2.5.x/api/</link>
+                    </links>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <configuration>
+                    <tags>
+                        <tag>TODO</tag>
+                        <tag>@todo</tag>
+                        <tag>FIXME</tag>
+                    </tags>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <build>
+        <finalName>${pom.name}</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <!-- Exclude these in package -->
+                <excludes>
+                    <exclude>**/*.example</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <!-- configure to use Java 5 to compile -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+
+            <!-- for testing purposes, runs unit tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <workingDirectory>src/main/webapp</workingDirectory>
+                </configuration>
+            </plugin>
+
+            <!-- configure maven-war-plugin to use updated web.xml -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+            </plugin>
 
         </plugins>
-      </build>
-    </profile>
-  </profiles>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+
+    </build>
 
 </project>

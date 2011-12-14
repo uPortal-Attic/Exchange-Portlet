@@ -5,11 +5,11 @@
 
 <web-app>
 
-    <display-name>uPortal Spring Portlet MVC UVIC ecsPortlet Wrapper</display-name>
+    <display-name>Exchange Portlet Wrapper</display-name>
 
     <context-param>
         <param-name>webAppRootKey</param-name>
-        <param-value>ca.uvic.portal.ecsPortlet.portlet.root</param-value>
+        <param-value>ca.uvic.portal.exchangePortlet.portlet.root</param-value>
     </context-param>
 
     <context-param>

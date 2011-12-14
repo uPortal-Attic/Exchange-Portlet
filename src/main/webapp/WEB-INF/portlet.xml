@@ -9,7 +9,7 @@
         version="1.0">
 
         <portlet>
-            <portlet-name>ecsPortlet</portlet-name>
+            <portlet-name>exchangePortlet</portlet-name>
                 <portlet-class>
                    org.springframework.web.portlet.DispatcherPortlet
                 </portlet-class>
@@ -17,7 +17,8 @@
                         <name>contextConfigLocation</name>
                         <value>/WEB-INF/context/portlet/ecs-portlet.xml</value>
                 </init-param>
-                <expiration-cache>${ecs.expiration-cache}</expiration-cache>
+                <!-- Don't cache in dev, change for prod -->
+                <expiration-cache>0</expiration-cache>
                 <supports>
                         <mime-type>text/html</mime-type>
                         <portlet-mode>view</portlet-mode>
@@ -40,27 +41,24 @@
         </user-attribute>
         <user-attribute>
                 <description>User Login ID</description>
-                <!--name>${ecs.portletRequest.userInfo.loginId}</name-->
-                <!--name>urn:sungardhe:dir:loginId</name-->
                 <name>user.login.id</name>
         </user-attribute>
         <user-attribute>
                 <description>User Password</description>
                 <name>password</name>
-                <!--name>${ecs.portletRequest.userInfo.password}</name-->
         </user-attribute>
         <user-attribute>
                 <description>Netlink Id</description>
                 <name>uid</name>
-        </user-attribute>
-        <user-attribute>
-                <description>uvicEduPersonSpridenID</description>
-                <name>uvicEduPersonSpridenID</name>
         </user-attribute>
         <!-- This attribute is for looking up the mowa attribute, change
              this based on your institutions lookup, example LDAP -->
         <user-attribute>
                 <description>eduPersonEntitlement</description>
                 <name>eduPersonEntitlement</name>
+        </user-attribute>
+        <user-attribute>
+                <description>uvicEduPersonSpridenID</description>
+                <name>uvicEduPersonSpridenID</name>
         </user-attribute>
 </portlet-app>

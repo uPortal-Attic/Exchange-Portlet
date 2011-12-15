@@ -53,7 +53,7 @@
        </tbody>
     </table>
        <!-- Note, I took out the old mowa sso links before revision 317 -->
-       <c:url value="https://mail.uvic.ca/owa" var="calUrl">
+       <c:url value="${oUrl}" var="calUrl">
          <c:param name="ae" value="Folder" />
          <c:param name="t" value="IPF.Appointment" />
          <c:if test="${! empty calendarId }">

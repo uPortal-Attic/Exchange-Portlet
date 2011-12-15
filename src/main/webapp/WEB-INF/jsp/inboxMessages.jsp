@@ -24,7 +24,10 @@
        </tr>
           </c:when>
           <c:otherwise>
+          <!--
             <c:url value="https://mail.uvic.ca/owa" var="mowaBaseUrl" />
+              -->
+            <c:url value="${oUrl}" var="mowaBaseUrl" />
             <c:url value="${ssoUrl}" var="casBaseUrl" />
             <c:url value="${casBaseUrl}" var="combinedBaseUrl" >
                 <c:param name="destination" value="${mowaBaseUrl}"/>

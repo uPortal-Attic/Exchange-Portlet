@@ -71,13 +71,15 @@ public class InboxMessageController extends MowaController {
         */
 
         URL ssoUrl = new URL(singleSignOnUrl);
+        URL oUrl   = new URL(owaUrl);
 
         // logical view name => inboxMessages
         // variable holding objects => messages
         //user and pass are set in checkOnMowaUser in super class.
+//HERE ADD IN owaURL
         return new ModelAndView("inboxMessages", "messages",
                 inboxMessageService.getInboxMessages(user, pass)).addObject(
-                "ssoUrl", ssoUrl.toString());
+                "ssoUrl", ssoUrl.toString()).addObject("oUrl", oUrl.toString());
     }
 
     /**

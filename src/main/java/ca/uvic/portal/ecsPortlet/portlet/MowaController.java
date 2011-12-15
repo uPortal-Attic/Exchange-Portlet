@@ -44,6 +44,10 @@ public class MowaController extends AbstractController {
      */
     protected String singleSignOnUrl;
     /**
+     * protected The owa base URL.
+     */
+    protected String owaUrl;
+    /**
      * protected The login id backup field to use if loginIdPortletParam is not
      * available. This property will come from an application properties file,
      * through the applicationContext and portletContext.
@@ -281,13 +285,26 @@ public class MowaController extends AbstractController {
      * Set the single sign on resource url.
      *
      * @param ssoUrl
-     *            The login id portlet param.
+     *            The single sign on url portlet param.
      * @see portlet.xml, applicationContext.xml for more information on this
      *      deployment specific property.
      */
     @Required
     public final void setSingleSignOnUrl(final String ssoUrl) {
         this.singleSignOnUrl = ssoUrl;
+    }
+
+    /**
+     * Set the owa resource url.
+     *
+     * @param oUrl
+     *            The base url for the owa web service. 
+     * @see portlet.xml, applicationContext.xml for more information on this
+     *      deployment specific property.
+     */
+    @Required
+    public final void setOwaUrl(final String oUrl) {
+        this.owaUrl = oUrl;
     }
 
 }

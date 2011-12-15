@@ -45,6 +45,7 @@
         <property name="mowaEntitlementAttributeName" value="${ecs.mowaEntitlementAttributeName}" />
         <property name="mowaEntitlementAttributeValue" value="${ecs.mowaEntitlementAttributeValue}" />
         <property name="singleSignOnUrl" value="${ecs.ssoUrl}" />
+        <property name="owaUrl" value="${ecs.owaUrl}" />
     </bean>
     <bean id="calendarItemController" class="ca.uvic.portal.ecsPortlet.portlet.CalendarItemController" >
         <!-- See applicationContext.xml for service class wiring -->
@@ -60,6 +61,7 @@
         <property name="mowaEntitlementAttributeName" value="${ecs.mowaEntitlementAttributeName}" />
         <property name="mowaEntitlementAttributeValue" value="${ecs.mowaEntitlementAttributeValue}" />
         <property name="singleSignOnUrl" value="${ecs.ssoUrl}" />
+        <property name="owaUrl" value="${ecs.owaUrl}" />
     </bean>
 
     <!-- Handler Mapping -->

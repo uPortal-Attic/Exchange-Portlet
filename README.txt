@@ -11,7 +11,8 @@ exchange server.
 The *ControllerTest.java files reach out to the actual exchange server with some
 test credentials.  You will need to be able to adjust those test files to your
 own environment.  The live testing was the only way I could see to test the
-applicationContext.xml bean wiring.
+applicationContext.xml bean wiring.  You can skip these tests if you don't have
+a live server to test against.
 
 This portlet requires a way to get cached password credentials from the portal
 into the portlet (via portlet.xml), and ultimately to exchange (assuming your

@@ -7,34 +7,42 @@
 #############################################################################
 
 #Set the viewResolver bean, cache property in applicationContext.xml
-viewResCache=@mvcViewResolverCache@
+viewResCache=false
 
-#Portlet settings, customize to institutional needs
+#Used in the service classes to call the Exchange Web Services.  These
+#values are exchange specifice, the domain is an exchange domain.  These
+#properties are wired in the main applicationContext.xml file.
 ecsurl=https://mail.uvic.ca/ews/Exchange.asmx
 ecs.domain=uvic
 ecs.mailbox.domain=uvic.ca
 
-#These properties are specific to your portal deployment.
-#ecs.portletRequest.userInfo.loginId=urn:sungardhe:dir:loginId
+#These properties are specific to your portal deployment, and the
+#files declared in personDirectoryContext.xml.  These properties
+#are wired in the ecs-portlet.xml file.
 ecs.portletRequest.userInfo.loginId=user.login.id
 #Set this to something you know will be available if user.login.id is not.
 ecs.portletRequest.userInfo.loginIdBackup=uid
 
-
+#Used in conjuction with the portlet.xml fields specifications.
 ecs.portletRequest.userInfo.password=password
-#ecs.portletRequest.userInfo.givenName=urn:mace:dir:givenName
-#ecs.portletRequest.userInfo.familyName=urn:mace:dir:sn
 ecs.portletRequest.userInfo.givenName=user.name.given
 ecs.portletRequest.userInfo.familyName=user.name.family
-#Set this based on your institutions lookup for mowa entitlement (probably ldap
-#attribute.
+
+#Set this based on your institutions lookup for mowa entitlement 
+#(probably ldap attribute).  These properties are keyed off of the
+# checkMowaUser property wired in the controllers in ecs-portlet.xml.
+# if checkMowaUser is false, these properties aren't used.
 ecs.mowaEntitlementAttributeName=eduPersonEntitlement
 ecs.mowaEntitlementAttributeValue=urn:mace:uvic.ca:university:usource:mowa_user
 
-#Get these values from the filter-*.properties file
-#ecs.expirationCache=@ecs.expiration-cache@
-ecs.InboxMessageControllerCache=@ecs.InboxMessageController.cache@
-ecs.CalendarItemControllerCache=@ecs.CalendarItemController.cache@
+#Set this to 0 for dev, change for prod to enable Caching, these
+#properties are wired in the controllers in the ecs-portlet.xml file.
+ecs.InboxMessageControllerCache=0
+ecs.CalendarItemControllerCache=0
 
-#The single sign on url
-ecs.ssoUrl=@ecs.ssourl@
+#The single sign on url, used for link generation in jsp view layer.
+ecs.ssoUrl=https://www.uvic.ca:8443/email/owa.php
+
+#The owa base url, used for link generation along with ecs.ssoUrl in
+#the jsp view layer.
+ecs.owaUrl=https://mail.uvic.ca/owa

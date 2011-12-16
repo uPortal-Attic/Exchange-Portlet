@@ -1,17 +1,19 @@
-ecs.url=https://post.uvic.ca/EWS/Exchange.asmx
+#Your testing/dev Exchange instance
+ecs.url=http://atka.devad.uvic.ca/EWS/Exchange.asmx
 #domain for NTCredentials, different from email domain
-ecs.domain=devad
-ecs.user=someuser
-ecs.pass=somepass
+ecs.domain=some_domain
+ecs.user=some_user
+ecs.pass=some_pass
+#mailbox domain, not the NTCreds domain
 ecs.mailbox.domain=@devad.uvic.ca
 ecs.mailbox=someuser@devad.uvic.ca
 ecs.alternateIdRulesFile=/ecs_alternate_id-rules.xml
 ecs.messageRulesFile=/ecs_inbox_msgs-rules.xml
 ecs.messageLimit=10
-#ecs.portletRequest.userInfo.loginId=urn:sungardhe:dir:loginId
 ecs.portletRequest.userInfo.loginId=user.login.id
 ecs.portletRequest.userInfo.loginIdBackup=uid
 ecs.portletRequest.userInfo.password=password
+ecs.portletRequest.userInfo.userInfoMultiValue=org.jasig.portlet.USER_INFO_MULTIVALUED
 #This has to be a full url to work with both maven and eclipse
 # In order to have filtering in test resources, set it in the build block
 # of the pom.xml -> then you can do ${variable} templates
@@ -23,6 +25,6 @@ ecs.calendarItemRulesFile=/ecs_calendar_item-rules.xml
 ecs.calendarParentFolderId=calendar
 ecs.calendarListRulesFile=/ecs_calendar_list-rules.xml
 #Set this based on your institutions lookup for mowa entitlement (probably ldap
-#attribute.
+#attribute).
 ecs.mowaEntitlementAttributeName=eduPersonEntitlement
 ecs.mowaEntitlementAttributeValue=urn:mace:uvic.ca:university:usource:mowa_user
